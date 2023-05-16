@@ -1,0 +1,118 @@
+.sidebar {
+  background: #fff;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--morphShadow);
+  z-index: 9300;
+  transition: all 0.3s;
+}
+
+.sidebar .top {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 10px 15px;
+}
+.sidebar .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+.sidebar .logo img {
+  width: 25px;
+}
+.sidebar .logo h4 {
+  font-size: 17px;
+  color: #444;
+  font-weight: 700;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sidebar .menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  color: var(--grayText);
+}
+.sidebar .menu a i {
+  font-size: 16px;
+}
+.sidebar .menu a:hover,
+.sidebar .menu a.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.sidebar .top .appInput {
+  width: 100%;
+}
+.sidebar .top .appInput input {
+  height: 40px;
+}
+.sidebar .top .appInput i {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  color: var(--grayText);
+  font-size: 14px;
+}
+
+.sidebar .bottom {
+  padding: 10px 15px;
+  padding-bottom: 15px;
+}
+.sidebar .bottom button {
+  width: 100%;
+  padding: 10px;
+}
+
+.close-sidebar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 25px;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+
+.sidebar .appInput {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    opacity: 0;
+    visibility: hidden;
+    width: 300px;
+    box-shadow: 10px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .sidebar.show-mobile {
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+  .close-sidebar {
+    display: block;
+  }
+  .sidebar .appInput {
+    display: flex;
+  }
+}

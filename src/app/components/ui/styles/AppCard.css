@@ -1,0 +1,11 @@
+.app-card {
+  border-radius: 5px; 
+  background: #fff;
+  width: 100%;
+}
+.shadow {
+  box-shadow: var(--newCardShadow);
+}
+.app-card.with-border {
+  border: 1px solid var(--inputBorder);
+}

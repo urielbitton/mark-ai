@@ -1,0 +1,80 @@
+.app-tabs-bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--tableBorder);
+  border-radius: 5px 5px 0 0;
+  user-select: none;
+  z-index: 900;
+}
+.app-tabs-bar.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: -10px;
+  z-index: 100;
+}
+.app-tabs-bar.no-border {
+  border-bottom: none;
+}
+.app-tabs-bar.no-spread {
+  flex-wrap: wrap;
+}
+.app-tabs-bar.no-spread .tab-header,
+.app-tabs-bar.no-spread > a {
+  width: auto;
+}
+
+.app-tabs-bar > a,
+.app-tabs-bar > .tab-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--darkGrayText);
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  border-radius: 5px 5px 0 0;
+}
+.app-tabs-bar > a::after,
+.app-tabs-bar > .tab-item::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: all 0.3s;
+}
+.app-tabs-bar > a:hover::after,
+.app-tabs-bar > a.active::after,
+.app-tabs-bar > .tab-item:hover::after,
+.app-tabs-bar > .tab-item.active::after {
+  width: 100%;
+}
+.app-tabs-bar > a.active,
+.app-tabs-bar > .tab-item.active {
+  color: var(--primary);
+}
+.app-tabs-bar > a.not-active::after,
+.app-tabs-bar > .tab-item.not-active::after {
+  width: 0;
+}
+.app-tabs-bar > a.not-active:hover::after,
+.app-tabs-bar > a.not-active.active::after {
+  width: 100%;
+}
+.app-tabs-bar > a.not-active,
+.app-tabs-bar > .tab-item.not-active {
+  color: var(--darkGrayText);
+}
+
+.app-tabs-bar.full-space > a,
+.app-tabs-bar.full-space > .tab-item {
+  width: 100%;
+}

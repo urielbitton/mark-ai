@@ -1,0 +1,45 @@
+.app-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-height: 360px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: var(--newCardShadow);
+  overflow: hidden;
+}
+
+.app-chart .chart-container {
+  min-height: 300px;
+}
+
+.app-chart .title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+.app-chart .title-bar > h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--grayText);
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: column;
+}
+.app-chart .title-bar > h4 span {
+  color: var(--primary);
+  font-size: 14px;
+}
+
+.app-chart .area-chart .y-axis tspan,
+.app-chart .area-chart .x-axis tspan {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grayText);
+}

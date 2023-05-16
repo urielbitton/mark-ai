@@ -1,0 +1,70 @@
+.app-badge {
+  background: var(--primary);
+  padding: 3px 7px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.app-badge.light {
+  background: var(--extraLightPrimary);
+}
+.app-badge.light h6,
+.app-badge.light i {
+  color: var(--primary);
+}
+.app-badge h6 {
+  color: #fff;
+  font-weight: 600;
+}
+.app-badge i {
+  color: #fff;
+}
+.app-badge.clickable {
+  cursor: pointer;
+}
+
+.app-badge-select {
+  display: flex;
+  flex-direction: column;
+}
+.app-badge-select .dropdown-list {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  overflow: hidden;
+}
+.app-badge-select.open .dropdown-list {
+  visibility: visible;
+  opacity: 1;
+}
+.app-badge-select .dropdown-list .option-item {
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.app-badge-select .dropdown-list .option-item:hover {
+  background: var(--inputBg);
+}
+.app-badge-select .dropdown-list .option-item i {
+  color: var(--grayText);
+  font-size: 13px;
+}
+.app-badge-select .dropdown-list .option-item h6 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}

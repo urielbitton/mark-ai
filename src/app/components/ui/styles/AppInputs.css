@@ -1,0 +1,183 @@
+.appInput i {
+  position: absolute;
+  z-index: 10;
+}
+.appInput h6 {
+  cursor: auto;
+}
+.appInput.icon-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.appInput.icon-input .icon-container {
+  width: 36px;
+  height: 36px;
+  background: #d5dcee99;
+  border-radius: 5px 0 0 5px;
+  position: absolute;
+  top: 23px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.appInput.icon-input .icon-container i {
+  font-size: 12px;
+  color: var(--darkGrayText);
+}
+.appInput.icon-input .icon-container span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}
+.appInput.icon-input input {
+  padding-left: 42px;
+}
+.appInput.icon-input h6 {
+  font-size: 13px;
+}
+
+/* iOS Style Button */
+.form-switch {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent
+}
+.form-switch i {
+  position: relative;
+  display: inline-block;
+  margin-right: .5rem;
+  width: 46px;
+  height: 26px;
+  background-color: #e6e6e6;
+  border-radius: 23px;
+  vertical-align: text-bottom;
+  transition: all .3s linear
+}
+.form-switch i::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 42px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+  transition: all .25s linear
+}
+.form-switch i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
+  border-radius: 11px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .24);
+  transform: translate3d(2px, 2px, 0);
+  transition: all .2s ease-in-out
+}
+.form-switch:active i::after {
+  width: 28px;
+  transform: translate3d(2px, 2px, 0)
+}
+.form-switch:active input:checked+i::after {
+  transform: translate3d(16px, 2px, 0)
+}
+.form-switch input {
+  display: none
+}
+.form-switch input:checked+i {
+  background: var(--primary)
+}
+.form-switch input:checked+i::before {
+  transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+}
+.form-switch input:checked+i::after {
+  transform: translate3d(22px, 2px, 0)
+}
+
+.appSwitch.small .form-switch i {
+  width: 40px;
+  height: 20px;
+}
+.appSwitch.small .form-switch i::before {
+  width: 36px;
+  height: 16px;
+  border-radius: 8px;
+}
+.appSwitch.small .form-switch i::after {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+}
+
+.appCoverInput .input-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 100;
+}
+.appCoverInput .input-actions > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  background: var(--inputBg);
+  border: 1px solid var(--inputBorder);
+  box-shadow: var(--newCardShadow);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.appCoverInput .input-actions > div:hover {
+  background: var(--lightGrayText);
+}
+.appCoverInput .input-actions > div i {
+  font-size: 16px;
+  color: var(--grayText);
+}
+.appCoverInput .input-actions > div i.fa-times {
+  font-size: 19px;
+}
+
+.appCoverInput .loading-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.7);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+.appCoverInput .loading-cover i {
+  font-size: 16px;
+  color: var(--grayText);
+}
+.appCoverSelect {
+  z-index: 15;
+}
+
+.reactSelect .input-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reactSelect .input-placeholder i {
+  color: var(--grayText);
+}
+.reactSelect .input-placeholder h5 {
+  font-size: 14px;
+  color: var(--darkGrayText);
+  font-weight: 500;
+  text-transform: capitalize;
+}

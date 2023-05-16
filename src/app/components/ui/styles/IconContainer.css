@@ -1,0 +1,38 @@
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.icon-container.inverted:hover {
+  filter: none;
+  background: #f5f5f5;
+}
+.icon-container.no-hover:hover {
+  cursor: default;
+}
+.icon-container.round {
+  border-radius: 100%;
+}
+
+.icon-container .badge-container {
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-container .badge-container small {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+.icon-container i {
+  transition: all 0.2s;
+}

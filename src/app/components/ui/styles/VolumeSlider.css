@@ -1,0 +1,36 @@
+.volume-slider input {
+  top: -3px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--inputBg);
+  outline: none;
+  padding: 0;
+  z-index: 10;
+}
+.volume-slider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background: var(--primary);
+  cursor: pointer;
+}
+.volume-slider input::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: var(--primary);
+  cursor: pointer;
+}
+.volume-slider .slider-min {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  background: var(--primary);
+  height: 4px;
+  border-radius: 10px;
+  z-index: 10;
+}

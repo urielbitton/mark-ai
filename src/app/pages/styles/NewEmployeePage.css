@@ -1,0 +1,44 @@
+.new-employee-page .app-card {
+  width: 100%;
+  max-width: var(--maxPageWidth);
+}
+.new-employee-page form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+.new-employee-page form .commonInput {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.new-employee-page form .commonInput h6 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}
+.new-employee-page form .avatar-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  grid-column: 1/-1;
+}
+.new-employee-page form .avatar-row .left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.new-employee-page form .avatar-row .left > h6 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}
+
+.new-employee-page .btn-group {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}

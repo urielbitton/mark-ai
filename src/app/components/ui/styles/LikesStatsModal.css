@@ -1,0 +1,23 @@
+.likes-stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.likes-stats .like-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+.likes-stats .like-row .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.likes-stats .like-row .left h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}

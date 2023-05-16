@@ -1,0 +1,12 @@
+.page-icon {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3px;
+}
+.page-icon hr {
+  height: 3px;
+  background: #fff;
+  border-radius: 5px;
+}

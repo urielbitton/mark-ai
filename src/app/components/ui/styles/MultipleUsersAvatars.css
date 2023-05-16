@@ -1,0 +1,19 @@
+.multiple-users-avatars {
+  display: flex;
+  align-items: center;
+}
+.multiple-users-avatars .avatar-container {
+  margin-right: -5px;
+  cursor: pointer;
+}
+.multiple-users-avatars .more-avatars-circle {
+  background-color: var(--lightGrayText);
+  color: var(--darkGrayText);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  margin-right: -5px;
+  border: 2px solid #fff;
+}

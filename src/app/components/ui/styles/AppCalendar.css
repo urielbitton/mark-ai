@@ -1,0 +1,154 @@
+.app-calendar .headerToolbar {
+  width: 100%;
+  padding: 20px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.app-calendar .headerToolbar .centerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  width: 460px;
+}
+.app-calendar .headerToolbar .centerBar h4 {
+  font-size: 18px;
+  color: #444;
+}
+.app-calendar .headerToolbar .centerBar .iconContainer {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  border-radius: 10px;
+}
+.app-calendar .headerToolbar .centerBar .iconContainer:hover {
+  background: var(--lightPrimary);
+}
+.app-calendar .headerToolbar .centerBar .iconContainer i {
+  color: var(--primary);
+  font-size: 30px;
+}
+.app-calendar .headerToolbar .leftBar .iconsContainer {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background: var(--lightGrayText);
+  overflow: hidden;
+}
+.app-calendar .headerToolbar .leftBar .iconsContainer > div {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.app-calendar .headerToolbar .leftBar .iconsContainer i {
+  font-size: 19px;
+  color: #444;
+  transition: all 0.2s;
+}
+.app-calendar .headerToolbar .leftBar .iconsContainer > div:hover,
+.app-calendar .headerToolbar .leftBar .iconsContainer > div.active {
+  background: var(--primary);
+}
+.app-calendar .headerToolbar .leftBar .iconsContainer > div:hover i,
+.app-calendar .headerToolbar .leftBar .iconsContainer > div.active i {
+  color: #fff;
+  font-weight: 400;
+}
+.app-calendar .fc-timegrid-slot:hover,
+.app-calendar .fc .fc-daygrid-day-frame:hover {
+  background: var(--extraLightPrimary);
+}
+.app-calendar .fc-daygrid-dot-event {
+  color: #fff;
+}
+.app-calendar .fc-daygrid-dot-event .fc-daygrid-event-dot {
+  border-color: #fff;
+}
+.app-calendar .fc-daygrid-block-event {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/* RIghtbar calendar CSS */
+.rightbar .app-calendar .fc .fc-scroller-liquid-absolute {
+  overflow-y: hidden !important;
+}
+.rightbar .app-calendar .fc-day-today .fc-timegrid-slot:hover ,
+.rightbar .app-calendar .fc-day-today .fc-daygrid-day-frame:hover {
+  background: var(--primary);
+}
+.rightbar .app-calendar .headerToolbar {
+  padding: 20px 0;
+}
+.rightbar .app-calendar .headerToolbar .centerBar {
+  width: 100%;
+  gap: 10px;
+}
+.rightbar .app-calendar .headerToolbar .centerBar .iconContainer {
+  height: 30px;
+  width: 30px;
+}
+.rightbar .app-calendar .headerToolbar .centerBar .iconContainer i {
+  font-size: 25px;
+}
+.rightbar .app-calendar .headerToolbar h4 {
+  font-size: 14px;
+  color: var(--darkGrayText);
+}
+.rightbar .fc-theme-standard td, 
+.rightbar .fc-theme-standard th,
+.rightbar .fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+.rightbar .fc-day-today .fc-daygrid-day-frame {
+  border-radius: 5px;
+  background:var(--primary);
+  box-shadow: var(--primaryShadow);
+}
+.rightbar .fc-day:hover .fc-day-today {
+  background:var(--primary);
+}
+.rightbar .fc-day-today .fc-daygrid-day-frame a {
+  color: #fff;
+}
+.rightbar .fc-daygrid-day-number {
+  font-size: 11px;
+  pointer-events: none;
+  margin: auto;
+}
+.rightbar .fc-col-header-cell-cushion {
+  font-size: 13px;
+}
+.rightbar .app-calendar .event-dots-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  text-align: center;
+  top: -5px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.rightbar .app-calendar .event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background: var(--primary);
+}
+.rightbar .fc-day-today .fc-daygrid-day-frame .event-dot {
+  background: #fff;
+}

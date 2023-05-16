@@ -1,0 +1,25 @@
+.report-post-modal .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.report-post-modal .form textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 200px;
+}
+.report-post-modal .reported-content {
+  background: #fafafa;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: var(--darkGrayText);
+}
+.report-post-modal .reported-content h5 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.report-post-modal .reported-content q {
+  font-weight: 600;
+}

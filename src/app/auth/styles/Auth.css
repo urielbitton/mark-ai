@@ -1,0 +1,306 @@
+.login-page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100vh;
+  width: 100vw;
+  background: #fff;
+  padding: 8px;
+}
+
+.login-page .login-info {
+  padding: 10px 20px;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.login-page .auth-titles {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.login-page .auth-titles h4 {
+  font-size: 20px;
+  color: #333;
+}
+.login-page .auth-titles .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.login-page .auth-titles .logo-container img {
+  width: 33px;
+}
+
+.login-page .login-info .container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px 40px;
+  width: 500px;
+}
+.login-page .social-logins {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.login-page .social-logins .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: calc(50% - 15px);
+  gap: 10px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.login-page .social-logins .btn:hover {
+  background: var(--primary);
+}
+.login-page .social-logins .btn span {
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.login-page .social-logins .btn:hover span {
+  color: #fff;
+}
+.login-page .social-logins .btn img {
+  width: 20px;
+}
+.login-page .login-info .sep-alt {
+  margin: 25px 0;
+  color: var(--grayText);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.login-page .login-info .sep-alt span {
+  white-space: nowrap;
+}
+.login-page .login-info .sep-alt hr {
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+}
+.login-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.login-page .auth-title {
+  color: #333;
+  font-size: 20px;
+}
+.login-page form label h6 {
+  font-size: 13px;
+  color: var(--grayText);
+}
+.login-page .login-info .email-error {
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+}
+.login-page .login-info .appInput {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.login-page .login-info .appInput h6 {
+  font-size: 12px;
+  color: var(--darkGrayText);
+}
+.login-page .login-info .password-input input {
+  padding-right: 30px;
+}
+.login-page .login-info .password-input i {
+  position: absolute;
+  top: 33px;
+  right: 10px;
+  color: var(--grayText);
+  cursor: pointer;
+}
+.login-page .login-info input {
+  height: 40px;
+  border: 1px solid var(--inputBorder);
+  border-radius: 5px;
+}
+.login-page .login-info input:focus {
+  border-color: var(--primary);
+}
+.login-page .login-info input[type="checkbox"] {
+  border: none;
+  height: 15px;
+}
+.login-page .login-info .login-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.login-page .login-info .login-options label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.login-page .login-info .login-options label input {
+  width: 30px;
+}
+.login-page .login-info .login-options label span {
+  font-size: 14px;
+  color: #555;
+}
+.login-page .login-info .login-options a {
+  font-size: 14px;
+  color: #555;
+}
+.login-page .login-info button.submit-btn {
+  padding: 15px;
+  font-size: 16px;
+  box-shadow: var(--primaryShadow);
+}
+.login-page .login-info button.submit-btn i {
+  transition: all 0.3s;
+  left: 5px;
+}
+.login-page .login-info button.submit-btn:hover i {
+  left: 15px;
+}
+.login-page .login-info h6.no-account-text {
+  font-size: 13px;
+  color: var(--darkGrayText);
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 90px;
+}
+.login-page .login-info .no-account-text a {
+  color: var(--primary);
+}
+.login-page .login-info .no-account-text a:hover {
+  text-decoration: underline;
+}
+
+.login-page .double-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 15px;
+}
+
+.back-home-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--grayText);
+  margin-top: 20px;
+}
+.back-home-link:hover,
+.back-home-link:hover a {
+  color: #111;
+  text-decoration: underline;
+}
+.back-home-link a {
+  color: var(--grayText);
+}
+.back-home-link i {
+  margin-right: 10px;
+}
+
+.login-page .login-cover {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='700' height='900' preserveAspectRatio='none' viewBox='0 0 700 900'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1008%26quot%3b)' fill='none'%3e%3crect width='700' height='900' x='0' y='0' fill='rgba(124%2c 194%2c 68%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c313.29C79.843%2c323.326%2c164.654%2c405.037%2c231.743%2c360.6C299.162%2c315.944%2c263.877%2c207.105%2c279.961%2c127.854C291.894%2c69.055%2c313.151%2c14.832%2c314.089%2c-45.159C315.177%2c-114.718%2c317.1%2c-185.529%2c285.833%2c-247.675C249.392%2c-320.105%2c201.95%2c-399.988%2c124.125%2c-422.731C46.306%2c-445.472%2c-29.299%2c-387.428%2c-106.378%2c-362.292C-180.848%2c-338.007%2c-275.513%2c-341.841%2c-320.517%2c-277.73C-365.619%2c-213.479%2c-318.057%2c-125.021%2c-327.631%2c-47.106C-336.923%2c28.509%2c-402.101%2c100.116%2c-375.732%2c171.591C-349.357%2c243.081%2c-268.399%2c279.807%2c-197.101%2c306.696C-134.321%2c330.372%2c-66.572%2c304.922%2c0%2c313.29' fill='%2372b63b'%3e%3c/path%3e%3cpath d='M700 1193.782C755.717 1187.3609999999999 807.025 1169.536 857.484 1145.05 914.23 1117.513 986.9970000000001 1100.3899999999999 1011.886 1042.433 1036.783 984.458 1003.852 918.157 980.008 859.741 960.3009999999999 811.462 919.968 778.34 887.448 737.576 853.2529999999999 694.712 835.248 633.443 783.974 614.011 732.186 594.384 675.514 620.115 622.865 637.3009999999999 571.623 654.028 524.837 677.896 483.241 712.178 434.903 752.016 377.392 790.591 362.924 851.5360000000001 348.186 913.621 380.015 975.984 406.875 1033.865 433.597 1091.449 461.59299999999996 1153.851 517.321 1184.254 571.955 1214.06 638.173 1200.908 700 1193.782' fill='%2387c754'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1008'%3e%3crect width='700' height='900' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.login-page .register-cover {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='700' height='900' preserveAspectRatio='none' viewBox='0 0 700 900'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1008%26quot%3b)' fill='none'%3e%3crect width='700' height='900' x='0' y='0' fill='rgba(124%2c 194%2c 68%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c313.29C79.843%2c323.326%2c164.654%2c405.037%2c231.743%2c360.6C299.162%2c315.944%2c263.877%2c207.105%2c279.961%2c127.854C291.894%2c69.055%2c313.151%2c14.832%2c314.089%2c-45.159C315.177%2c-114.718%2c317.1%2c-185.529%2c285.833%2c-247.675C249.392%2c-320.105%2c201.95%2c-399.988%2c124.125%2c-422.731C46.306%2c-445.472%2c-29.299%2c-387.428%2c-106.378%2c-362.292C-180.848%2c-338.007%2c-275.513%2c-341.841%2c-320.517%2c-277.73C-365.619%2c-213.479%2c-318.057%2c-125.021%2c-327.631%2c-47.106C-336.923%2c28.509%2c-402.101%2c100.116%2c-375.732%2c171.591C-349.357%2c243.081%2c-268.399%2c279.807%2c-197.101%2c306.696C-134.321%2c330.372%2c-66.572%2c304.922%2c0%2c313.29' fill='%2372b63b'%3e%3c/path%3e%3cpath d='M700 1193.782C755.717 1187.3609999999999 807.025 1169.536 857.484 1145.05 914.23 1117.513 986.9970000000001 1100.3899999999999 1011.886 1042.433 1036.783 984.458 1003.852 918.157 980.008 859.741 960.3009999999999 811.462 919.968 778.34 887.448 737.576 853.2529999999999 694.712 835.248 633.443 783.974 614.011 732.186 594.384 675.514 620.115 622.865 637.3009999999999 571.623 654.028 524.837 677.896 483.241 712.178 434.903 752.016 377.392 790.591 362.924 851.5360000000001 348.186 913.621 380.015 975.984 406.875 1033.865 433.597 1091.449 461.59299999999996 1153.851 517.321 1184.254 571.955 1214.06 638.173 1200.908 700 1193.782' fill='%2387c754'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1008'%3e%3crect width='700' height='900' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+}
+.login-page .login-cover img {
+  width: 350px;
+}
+.login-page .login-cover h5 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+}
+.login-page .login-cover p {
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+  line-height: 1.8;
+  text-align: center;
+  width: 500px;
+}
+
+
+
+@media (max-width: 1080px) {
+  .login-page {
+    grid-template-columns: 100%;
+  }
+  .login-page .login-cover {
+    display: none;
+  }
+  .login-page .login-info {
+    width: 100%;
+  }
+  
+}
+
+@media (max-width: 550px) {
+  .login-page {
+    height: auto;
+  }
+  .login-page .login-info {
+    padding: 10px;
+  }
+  .login-page .login-info .container {
+    width: 100%;
+    padding: 15px;
+  }
+  .login-page .double-row {
+    grid-template-columns: auto;
+    grid-gap: 20px 0px;
+  }
+  .login-page .login-info h6.no-account-text {
+    margin-bottom: 60px;
+    top: 60px;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-page .login-info .container {
+    padding: 10px;
+  }
+  .login-page .social-logins {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .login-page .social-logins .btn {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,28 @@
+.slide-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.slide-container .slide-element {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s;
+  z-index: 0;
+  width: 100%;
+}
+.slide-container .slide-element.prev {
+  z-index: -1;
+}
+.slide-container .slide-element.next {
+  z-index: -1;
+}
+.slide-container .slide-element.active {
+  width: 100%;
+  opacity: 1;
+  visibility: visible;
+  z-index: 100;
+}
+.slide-container .slide-element.hide {
+  display: none;
+}

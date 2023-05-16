@@ -1,0 +1,53 @@
+.employees-page {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+.employees-content {
+  width: 100%;
+  margin-top: 30px;
+}
+.employees-page .search-mode-icon {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.employees-content .employees-list .app-table {
+  padding-bottom: 10px;
+}
+.employees-content .employees-list .app-table .headers {
+  padding: 0 10px;
+}
+.employees-content .employees-list .pagination-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.employees-content .show-more-btn {
+  padding: 10px;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.employees-content .no-results {
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.employees-content .no-results img {
+  width: 220px;
+}
+.employees-content .no-results h5 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--grayText);
+}

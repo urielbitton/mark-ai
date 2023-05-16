@@ -1,0 +1,40 @@
+.avatar-picker .picker-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar-picker .picker-content > h6 {
+  font-size: 13px;
+  color: var(--darkGrayText);
+  font-weight: 600;
+}
+
+.avatar-picker .picker-content .avatar-container {
+  border: 1px solid var(--inputBorder);
+  border-radius: 5px;
+  padding: 3px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.avatar-picker .picker-content .avatar-container:hover {
+  filter: brightness(0.9);
+  background: var(--lightInputBg);
+}
+.avatar-picker .picker-content .appButton:hover {
+  color: var(--grayText);
+}
+
+.avatar-picker-modal .avatars-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 15px
+}
+.avatar-picker-modal .avatars-list .avatar-item {
+  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 3px;
+}
+.avatar-picker-modal .avatars-list .avatar-item:hover,
+.avatar-picker-modal .avatars-list .avatar-item.active {
+  border: 2px solid var(--primary);
+}
