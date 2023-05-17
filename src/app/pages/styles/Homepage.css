@@ -1,0 +1,38 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 700px;
+  max-width: 100%;
+  margin: 100px auto;
+}
+.hero-section h1 {
+  color: var(--darkGrayText);
+  font-size: 50px;
+}
+.hero-section h1 span {
+  background: var(--primaryGradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: center;
+}
+.hero-section h5 {
+  color: var(--grayText);
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.hero-section .ai-searchbar {
+  margin-top: 50px;
+}
+
+.homepage .home-grid {
+  margin-top: 20px;
+}

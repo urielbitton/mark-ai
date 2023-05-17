@@ -1,8 +1,0 @@
-.projects-page {
-  display: grid;
-  grid-template-columns: 220px calc(100% - 220px);
-  height: 100%;
-}
-.projects-page.minimized {
-  grid-template-columns: 50px calc(100% - 50px);
-}

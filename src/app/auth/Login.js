@@ -7,11 +7,12 @@ import googleIcon from 'app/assets/images/google-icon.png'
 import facebookIcon from 'app/assets/images/facebook-icon.png'
 import { auth } from 'app/firebase/fire'
 import { clearAuthState } from "app/services/CrudDB"
-import loginCover from 'app/assets/images/login-cover.png'
 import logo from 'app/assets/images/logo.png'
 import AppButton from "app/components/ui/AppButton"
-import { createAccountOnLoginService, 
-  facebookAuthService, googleAuthService } from "app/services/authServices"
+import {
+  createAccountOnLoginService,
+  facebookAuthService, googleAuthService
+} from "app/services/authServices"
 import { infoToast } from "app/data/toastsTemplates"
 import { signInWithEmailAndPassword } from "firebase/auth"
 
@@ -34,21 +35,10 @@ export default function Login() {
     setLoading(true)
     clearErrors()
     signInWithEmailAndPassword(auth, email.replaceAll(' ', ''), password.replaceAll(' ', ''))
-      .then((userCredential) => {
-        if (!createAccount || !userID) {
-          setLoading(false)
-          navigate('/')
-        }
-        else {
-          const user = userCredential.user
-          if (user.uid !== userID) return setToasts(infoToast('Unauthorized login. Please try again'))
-          createAccountOnLoginService(user, setLoading, setToasts)
-            .then(() => {
-              setLoading(false)
-              navigate('/')
-            })
-            .catch((error) => console.log(error))
-        }
+      .then((user) => {
+        setLoading(false)
+        setLoading(false)
+        navigate('/')
       })
       .catch(err => {
         setLoading(false)
@@ -92,14 +82,15 @@ export default function Login() {
   }
 
   return (
-    <div className="login-page">
+    <div className="login-container">
+      <div className="auth-cover" />
       <div className="login-info">
         <div className="container">
           <div className="auth-titles">
+            <h4>Sign In</h4>
             <div className="logo-container">
               <img src={logo} className="logo" alt="logo" />
             </div>
-            <h4>Sign In</h4>
           </div>
           <div className="social-logins">
             <div
@@ -124,7 +115,7 @@ export default function Login() {
               placeholder="james@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
             />
-            { emailError && <h6 className="email-error">{emailError}</h6> }
+            {emailError && <h6 className="email-error">{emailError}</h6>}
             <AppInput
               label="Password"
               placeholder="5 characters or more"
@@ -138,7 +129,7 @@ export default function Login() {
                 />
               }
             />
-            { passError && <h6 className="email-error">{passError}</h6>}
+            {passError && <h6 className="email-error">{passError}</h6>}
             <div className="login-options">
               <label>
                 <input
@@ -162,14 +153,9 @@ export default function Login() {
           </form>
           <h6 className="no-account-text">
             Don't have an account yet?&nbsp;
-            <Link to="/register">Join Workable</Link>
+            <Link to="/register">Join MarkAI</Link>
           </h6>
         </div>
-      </div>
-      <div className="login-cover">
-        <img src={loginCover} alt="login-cover" />
-        <h5></h5>
-        <p></p>
       </div>
     </div>
   )

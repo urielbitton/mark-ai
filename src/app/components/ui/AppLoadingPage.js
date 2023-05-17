@@ -1,16 +1,18 @@
 import React from 'react'
 import './styles/AppLoadingPage.css'
-import logo from 'app/assets/images/logo2.png'
+import logo from 'app/assets/images/logo.png'
 
 export default function AppLoadingPage() {
   return (
     <div className="app-loading-page">
-      <div className="top"/>
+      <div className="top" />
       <div className="middle">
-        <div className="logo-container">
-          <img src={logo} alt="logo" />
+        <div className="animation-bubbles">
+          <div className="bubble bubble-3" />
+          <div className="bubble bubble-2" />
+          <div className="bubble bubble-1" />
         </div>
-        <i className="fal fa-spinner-third fa-spin" />
+        <img src={logo} alt="logo" />
       </div>
       <div className="bottom">
         <h5>Mark AI</h5>

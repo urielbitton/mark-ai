@@ -1,10 +1,12 @@
 import { signOut } from "app/services/CrudDB"
-import React, { } from 'react'
+import React, { useContext } from 'react'
 import { Link } from "react-router-dom"
 import IconContainer from "../ui/IconContainer"
+import { StoreContext } from "app/store/store"
 
 export default function ProfileDropdown(props) {
 
+  const { isAdmin } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
 
   return (
@@ -30,6 +32,13 @@ export default function ProfileDropdown(props) {
           <i className="fas fa-user-circle" />
           <span>My Account</span>
         </Link>
+        {
+          isAdmin &&
+          <Link to="/admin">
+            <i className="fas fa-user-shield" />
+            <span>Admin</span>
+          </Link>
+        }
         <Link to="help-and-support">
           <i className="fas fa-question-circle" />
           <span>Help & Support</span>

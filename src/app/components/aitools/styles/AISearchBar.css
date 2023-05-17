@@ -1,0 +1,21 @@
+.ai-searchbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.ai-searchbar input {
+  width: 100%;
+  border-radius: 40px;
+  padding: 17px 15px;
+  font-size: 16px;
+  padding-left: 20px;
+  padding-right: 120px;
+}
+.ai-searchbar .appButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+  padding: 10px 20px;
+  font-size: 15px;
+}

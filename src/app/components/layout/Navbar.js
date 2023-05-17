@@ -9,6 +9,7 @@ import ProfileDropdown from "./ProfileDropdown"
 import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
 import { Link } from "react-router-dom"
+import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
 
@@ -35,7 +36,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="topbar site-grid">
         <div className="left">
-          <Link 
+          <Link
             to="/"
             className="logo"
           >
@@ -74,11 +75,20 @@ export default function Navbar() {
             setShowDropdown={setShowMenu}
             itemsRender={notificationsList}
           />
-          <ProfileDropdown
-            showMenu={showMenu}
-            setShowMenu={setShowMenu}
-            avatarDimensions="27px"
-          />
+          {
+            myUserID ?
+              <ProfileDropdown
+                showMenu={showMenu}
+                setShowMenu={setShowMenu}
+                avatarDimensions="27px"
+              /> :
+              <AppButton
+                label="Login"
+                buttonType="whiteBtn"
+                leftIcon="far fa-sign-in"
+                url="/login"
+              />
+          }
         </div>
       </div>
       <div className="shapes-container">

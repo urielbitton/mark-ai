@@ -18,14 +18,15 @@ const StoreContextProvider = ({children}) => {
   const myUserName = `${myUser?.firstName} ${myUser?.lastName}`
   const myMemberType = myUser?.memberType
   const myOrgID = myUser?.activeOrgID
-  const photoURLPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/deskable-bb146.appspot.com/o/admin%2Fimages%2FphotoURLPlaceholder.png?alt=media&token=e920fe83-3762-4093-ad42-abf85dfc8e2d'
+  const photoURLPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/mark-ai-5d4aa.appspot.com/o/resources%2Fimages%2FphotoURLPlaceholder.png?alt=media&token=af309860-be92-419d-ad9b-5f8bd35eb5b3'
+  const photoPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/mark-ai-5d4aa.appspot.com/o/resources%2Fimages%2FphotoPlaceholder.jpg?alt=media&token=be84157d-15f2-481a-9c38-b6331d4efd4a'
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
   const [showMobileSidebar, setShowMobileSidebar] = useState(false)
   const [toasts, setToasts] = useState([])
   const [newEventModal, setNewEventModal] = useState({open: false, eventObject: null})
   const [hideRightBar, setHideRightBar] = useState(false)
   const [showProjectsSidebar, setShowProjectsSidebar] = useState(localStorage.getItem('showProjectsSidebar') === "true")
-  const tinymceAPIKey = process.env.REACT_APP_TINYMCEKEY
+  const isAdmin = myUser?.userType === "admin"
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
@@ -33,7 +34,7 @@ const StoreContextProvider = ({children}) => {
         getUserByID(user.uid, setMyUser)
       }
       else {
-        setMyUser({})
+        setMyUser(undefined)
       }
     })
   },[user])
@@ -49,12 +50,12 @@ const StoreContextProvider = ({children}) => {
     darkMode, setDarkMode,
     percentFormat,
     contentScrollBottom, setContentScrollBottom, 
-    photoURLPlaceholder,
+    photoURLPlaceholder, photoPlaceholder,
     showMobileSidebar, setShowMobileSidebar,
     toasts, setToasts,
     newEventModal, setNewEventModal,
     hideRightBar, setHideRightBar, showProjectsSidebar, setShowProjectsSidebar,
-    tinymceAPIKey
+    isAdmin
   }}>
     {children}
   </StoreContext.Provider>

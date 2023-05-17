@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #fff;
+  background: var(--primary);
   z-index: 99990;
   display: flex;
   justify-content: space-between;
@@ -18,23 +18,75 @@
   align-items: center;
   gap: 5px;
 }
-.app-loading-page .logo-container {
-  width: 150px;
-  height: 150px;
-  border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.app-loading-page img {
+  height: 120px;
+}
+
+.app-loading-page .animation-bubbles .bubble {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  border-radius: 100%;
   background: #fff;
-  box-shadow: var(--morphShadow);
-  overflow: hidden;
+  opacity: 0;
 }
-.app-loading-page .logo-container img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-  opacity: 0.9;
+.app-loading-page .animation-bubbles .bubble-1 {
+  width: 18px;
+  height: 18px;
+  animation: bubble1 1.5s infinite;
 }
+.app-loading-page .animation-bubbles .bubble-2 {
+  width: 13px;
+  height: 13px;
+  animation: bubble2 1.5s infinite;
+  animation-delay: 1s;
+}
+.app-loading-page .animation-bubbles .bubble-3 {
+  width: 7px;
+  height: 7px;
+  animation: bubble3 2s infinite;
+  animation-delay: 0.5s;
+}
+@keyframes bubble1 {
+  0% {
+    transform: translate(3px, 0);
+    opacity: 0;
+  }
+  90% {
+    transform: translate(5px, -30px) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(5px, -30px) scale(0.5);
+  }
+}
+@keyframes bubble2 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  90% {
+    transform: translate(-4px, -45px) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-4px, -45px) scale(0.2);
+  }
+}
+@keyframes bubble3 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  90% {
+    transform: translate(5px, -55px) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(5px, -55px) scale(0.15);
+  }
+}
+
 
 .app-loading-page .bottom {
   display: flex;
@@ -44,11 +96,11 @@
 }
 .app-loading-page .bottom h5 {
   font-size: 21px;
-  color: var(--primary)
+  color: #fff;
 }
 .app-loading-page .bottom small {
   font-size: 14px;
-  color: var(--grayText);
+  color: #eee;
   font-weight: 600;
   opacity: 0.8;
 }

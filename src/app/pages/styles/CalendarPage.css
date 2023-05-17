@@ -1,6 +1,0 @@
-.calendar-page .app-calendar .fc-media-screen {
-  box-shadow: var(--shadow);
-  max-height: calc(100vh - 175px);
-  padding: 10px;
-  background: #fff;
-}

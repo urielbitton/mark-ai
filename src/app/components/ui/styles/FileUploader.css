@@ -11,13 +11,13 @@
   width: 100%;
   background: #fff;
   border: 1px solid var(--inputBorder);
-  padding: 10px;
+  padding: 15px 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .app-file-uploader .upload-container:hover {
-  background: var(--extraLightPrimary);
+  background: var(--inputBg);
 }
 .app-file-uploader .upload-container input {
   position: absolute;
@@ -38,7 +38,7 @@
   color: var(--darkGrayText);
 }
 .app-file-uploader .upload-container > h5 {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--darkGrayText);
   font-weight: 600;
 }

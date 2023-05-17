@@ -1,9 +1,17 @@
+.commonInput {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 .appInput i {
   position: absolute;
   z-index: 10;
 }
-.appInput h6 {
+.commonInput h6 {
   cursor: auto;
+  font-size: 500;
+  font-size: 13px;
+  color: var(--darkGrayText);
 }
 .appInput.icon-input {
   display: flex;

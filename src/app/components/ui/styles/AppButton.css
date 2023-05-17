@@ -77,6 +77,11 @@
   color: #fff;
 }
 
+.appButton.whiteBtn {
+  background: #fff;
+  color: var(--primary);
+}
+
 .appButton.outlineWhiteBtn {
   border: 1px solid #fff;
   color: #fff;

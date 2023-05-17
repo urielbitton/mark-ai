@@ -24,6 +24,6 @@ export const successToast = (message, keep) => {
     icon: 'fas fa-check-circle',
     toastID: Date.now(),
     keep,
-    color: 'var(--primaryToast)'
+    color: 'var(--primary)'
   }]
 }
