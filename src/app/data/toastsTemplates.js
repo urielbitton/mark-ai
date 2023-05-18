@@ -4,7 +4,7 @@ export const infoToast = (message, keep) => {
     icon: 'fas fa-exclamation-circle',
     toastID: Date.now(),
     keep,
-    color: 'var(--blue)'
+    color: 'var(--orange)'
   }]
 }
 

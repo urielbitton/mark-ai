@@ -4,7 +4,7 @@ export const addLeadingZeros = (number) => {
 }
 
 export const noWhiteSpaceChars = (text) => {
-  return text?.replace(/\s/g, '').length
+  return text?.replace(/\s/g, '').length 
 }
 
 export const truncateText = (text, charsNum) => {
@@ -233,4 +233,19 @@ export const areArraysEqual = (arr1, arr2) => {
 
 export const generateRoomID = () => {
   return `${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}`
+}
+
+export const beautifyUrl = (url) => {
+  if (url.endsWith('/')) {
+    url = url.slice(0, -1)
+  }
+  if (url) {
+    if (url.startsWith('http://')) {
+      return url.replace('http://', '')
+    } else if (url.startsWith('https://')) {
+      return url.replace('https://', '')
+    } else {
+      return url
+    }
+  }
 }

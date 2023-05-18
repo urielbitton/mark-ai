@@ -1,3 +1,4 @@
+import Compressor from 'compressorjs'
 import { infoToast } from "app/data/toastsTemplates"
 
 function setLoadingDef(num) { }
@@ -198,3 +199,25 @@ export const blobToBase64 = (blob) => {
   })
 }
 
+export const compressImages = (files, quality=0.4) => {
+  if(!files.length) {
+    return Promise.resolve([])
+  } 
+  return Promise.all(
+    files
+    .filter(file => file?.type && file?.type?.includes('image'))
+    .map((image) => {
+      return new Promise((resolve) => {
+        new Compressor(image, {
+          quality,
+          success(result) {
+            resolve(result)
+          },
+          error(err) {
+            console.log(err.message)
+          }
+        })
+      })
+    })
+  )
+}

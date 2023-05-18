@@ -50,8 +50,9 @@
 .ai-card .info-content p {
   font-size: 14px;
   color: var(--grayText);
-  font-weight: 600;
+  font-weight: 500;
   height: 40px;
+  margin-top: 2px;
 }
 .ai-card .bottom-bar {
   display: flex;

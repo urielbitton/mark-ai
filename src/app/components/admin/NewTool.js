@@ -8,7 +8,7 @@ import FileUploader from "../ui/FileUploader"
 import AppButton from "../ui/AppButton"
 import { addNewToolService } from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
-import AICard from "../aitools/AICard"
+import AIToolCard from "../aitools/AIToolCard"
 import logoImg from "app/assets/images/logo.png"
 import { useNavigate } from "react-router-dom"
 
@@ -83,6 +83,12 @@ export default function NewTool() {
             onChange={(e) => setTitle(e.target.value)}
           />
           <AppInput
+            label="URL"
+            placeholder="Enter a URL"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+          <AppInput
             label="Tagline"
             placeholder="Enter a tagline"
             value={tagline}
@@ -138,12 +144,6 @@ export default function NewTool() {
               />
             </div>
           </div>
-          <AppInput
-            label="URL"
-            placeholder="Enter a URL"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
           <AppInput
             label="Tags"
             placeholder="Enter tags separated by commas"
@@ -214,7 +214,7 @@ export default function NewTool() {
         </div>
         <div className="right">
           <h4>Preview</h4>
-          <AICard
+          <AIToolCard
             tool={{
               title,
               tagline,

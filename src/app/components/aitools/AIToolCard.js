@@ -1,10 +1,10 @@
 import React from 'react'
-import './styles/AICard.css'
+import './styles/AIToolCard.css'
 import { Link } from "react-router-dom"
 import Avatar from "../ui/Avatar"
-import { truncateText } from "app/utils/generalUtils"
+import { beautifyUrl, truncateText } from "app/utils/generalUtils"
 
-export default function AICard(props) {
+export default function AIToolCard(props) {
 
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category } = props.tool
@@ -15,7 +15,8 @@ export default function AICard(props) {
       className="ai-card"
       key={toolID}
     >
-      <div
+      <Link
+        to={!isPreview ? `/ai-tools/${toolID}` : ''}
         className="img-container"
         style={{ backgroundImage: `url(${mainImg})` }}
       />
@@ -41,7 +42,7 @@ export default function AICard(props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {truncateText(url, 30)}
+              {truncateText(beautifyUrl(url), 30)}
             </a>
           </small>
           <div className="right">

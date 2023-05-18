@@ -1,11 +1,12 @@
 import React from 'react'
-import AICard from "./AICard"
+import AIToolCard from "./AIToolCard"
 import './styles/AIToolsGrid.css'
+import AILoader from "../ui/AILoader"
 
-export default function AIToolsGrid({tools}) {
+export default function AIToolsGrid({tools, loading}) {
 
   const toolsGrid = tools?.map((tool, index) => {
-    return <AICard
+    return <AIToolCard
       key={index}
       tool={tool}
     />
@@ -13,7 +14,11 @@ export default function AIToolsGrid({tools}) {
 
   return (
     <div className="ai-tools-grid">
-      {toolsGrid}
+      {
+        !loading ?
+        toolsGrid :
+        <AILoader />
+    }
     </div>
   )
 }

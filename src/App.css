@@ -11,6 +11,7 @@ html, body {
   --secondary: #E384FF;
   --ternary: #191825;
   --red: #ff4d4d;
+  --orange: #ff9f1a;
   --lightRed: #ffe2e2;
   --bg: #f8f8ff;
   --grayText: #696e93;
@@ -28,7 +29,7 @@ html, body {
   --darkBg: #22272B;
   --inputPlaceholderColor: #c5cee1;
   --shadow: 0 5px 10px rgba(0,0,0,0.1);
-  --cardShadow: 0 0px 2px rgba(0,0,0,0.06);
+  --cardShadow: 0 0px 2px rgba(0,0,0,0.1);
   --cardShadowHover: 0 2px 4px 1px rgba(0,0,0,0.1);
   --newCardShadow: 0 0 3px 1px #e4ecfb;
   --navbarHeight: 60px;
@@ -165,16 +166,6 @@ hr {
   100% { background: #f1f1f1; }
 }
 
-em-emoji-picker {
-  position: absolute;
-}
-.rsw-toolbar {
-  background: var(--inputBg)!important;
-}
-.rsw-toolbar button:hover {
-  background: var(--darkInputBg);
-}
-
 .error-boundary {
   width: 100%;
   height: 100vh;
@@ -208,52 +199,6 @@ em-emoji-picker {
   margin-right: 8px;
 }
 
-/* Full Calendar CSS */
-.fc .fc-toolbar.fc-header-toolbar {
-  padding: 20px;
-  margin-bottom: 0 !important;
-}
-.fc .fc-toolbar-title {
-  font-size: 22px !important;
-  color: #444;
-  font-weight: 600;
-}
-.fc .fc-day-today .fc-daygrid-day-frame {
-  background: #f7f7f7;
-}
-.fc-day-today {
-  background: #f7f7f7 !important;
-}
-.fc .fc-timegrid-axis-cushion {
-  max-width: 100px !important;
-}
-.fc .fc-timegrid-event {
-  background: var(--primary);
-  border: none;
-  padding: 5px;
-}
-.fc .fc-daygrid-dot-event {
-  background: var(--primary) !important;
-}
-.fc .fc-daygrid-dot-event i {
-  color: #fff;
-}
-.fc .fc-scrollgrid-liquid {
-  background: #fff;
-}
-.fc .fc-event.fc-event-draggable {
-  cursor: all-scroll;
-}
-#calendar {
-  overflow-x:auto;
-}
-
-/* TinyMCE styles */
-.tox .tox-tbtn:hover,
-.tox .tox-tbtn--enabled,
-.tox .tox-tbtn:active {
-  background: var(--darkInputBg)!important;
-}
 
 
 @media (max-width: 1370px) {

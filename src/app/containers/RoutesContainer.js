@@ -8,6 +8,9 @@ import RegisterPage from "app/pages/RegisterPage"
 import { StoreContext } from "app/store/store"
 import MyAccountPage from "app/pages/MyAccountPage"
 import AdminPage from "app/pages/AdminPage"
+import MyCollectionPage from "app/pages/MyCollectionPage"
+import SearchPage from "app/pages/SearchPage"
+import AIToolPage from "app/pages/AIToolPage"
 
 export default function RoutesContainer() {
 
@@ -18,13 +21,18 @@ export default function RoutesContainer() {
       <div className="site-grid">
         <Routes>
           <Route index element={<HomePage />} />
-          <Route path="my-account" element={<MyAccountPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/ai-tools/:toolID" element={<AIToolPage />} />
           {
-            !user &&
-            <>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-            </>
+            user ?
+              <>
+                <Route path="my-account" element={<MyAccountPage />} />
+                <Route path="my-collection" element={<MyCollectionPage />} />
+              </> :
+              <>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+              </>
           }
           <Route path="/admin/*" element={<AdminPage />} />
           <Route path="*" element={<ErrorPage />} />

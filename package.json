@@ -6,6 +6,8 @@
     "@sendgrid/mail": "^7.7.0",
     "@types/react": "^18.0.9",
     "algoliasearch": "^4.11.0",
+    "browser-image-compression": "^2.0.2",
+    "compressorjs": "^1.2.1",
     "firebase": "^9.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

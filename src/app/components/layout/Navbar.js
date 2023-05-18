@@ -8,7 +8,7 @@ import NotificationElement from "./NotificationElement"
 import ProfileDropdown from "./ProfileDropdown"
 import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
@@ -17,6 +17,7 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
   const notifications = useAllNotifications(myUserID, 5)
+  const navigate = useNavigate()
 
   const notificationsList = notifications?.map((notif, index) => {
     return <NotificationElement
@@ -52,6 +53,30 @@ export default function Navbar() {
           </div>
         </div>
         <div className="right">
+        <IconContainer
+            icon="fas fa-home-alt"
+            inverted
+            iconColor="#fff"
+            iconSize="16px"
+            dimensions="30px"
+            tooltip="Collection"
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate('/')
+            }}
+          />
+          <IconContainer
+            icon="fas fa-bookmark"
+            inverted
+            iconColor="#fff"
+            iconSize="16px"
+            dimensions="30px"
+            tooltip="Collection"
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate('/my-collection')
+            }}
+          />
           <IconContainer
             icon="fas fa-bell"
             inverted

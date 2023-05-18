@@ -1,0 +1,38 @@
+.search-page {
+  display: flex;
+  flex-direction: column;
+}
+.search-page .search-section {
+  margin-bottom: 40px;
+}
+.search-page .search-section .ai-searchbar {
+  width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.search-page .tools-search-hits {
+  margin: 20px 0;
+}
+
+.search-page .app-pagination {
+  margin-top: 20px;
+}
+
+.search-page .no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+  flex-direction: column;
+}
+.search-page .no-results img {
+  width: 200px;
+  margin-bottom: 30px;
+}
+.search-page .no-results h5 {
+  font-size: 20px;
+  color: var(--ternary);
+  font-weight: 600;
+}

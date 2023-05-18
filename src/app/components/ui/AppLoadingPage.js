@@ -1,18 +1,17 @@
 import React from 'react'
 import './styles/AppLoadingPage.css'
-import logo from 'app/assets/images/logo.png'
+import AILoader from "./AILoader"
 
 export default function AppLoadingPage() {
   return (
     <div className="app-loading-page">
       <div className="top" />
       <div className="middle">
-        <div className="animation-bubbles">
-          <div className="bubble bubble-3" />
-          <div className="bubble bubble-2" />
-          <div className="bubble bubble-1" />
-        </div>
-        <img src={logo} alt="logo" />
+        <AILoader 
+          whiteImg 
+          colored={false}
+          imgHeight={120}
+        />
       </div>
       <div className="bottom">
         <h5>Mark AI</h5>

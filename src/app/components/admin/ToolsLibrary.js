@@ -7,7 +7,8 @@ export default function ToolsLibrary() {
 
   const limitsNum = 50
   const [toolsLimit, setToolsLimit] = useState(limitsNum)
-  const aitools = useAiTools(toolsLimit)
+  const [loading, setLoading] = useState(true)
+  const aitools = useAiTools(toolsLimit, setLoading)
 
   return (
     <div className="tools-library">
@@ -19,6 +20,7 @@ export default function ToolsLibrary() {
       <br/><br/>
       <AIToolsGrid 
         tools={aitools}
+        loading={loading}
       />
     </div>
   )
