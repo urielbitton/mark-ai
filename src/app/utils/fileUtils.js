@@ -1,4 +1,4 @@
-import Compressor from 'compressorjs'
+import { blobToURL, fromBlob } from 'image-resize-compress'
 import { infoToast } from "app/data/toastsTemplates"
 
 function setLoadingDef(num) { }
@@ -199,25 +199,33 @@ export const blobToBase64 = (blob) => {
   })
 }
 
-export const compressImages = (files, quality=0.4) => {
-  if(!files.length) {
-    return Promise.resolve([])
-  } 
-  return Promise.all(
-    files
-    .filter(file => file?.type && file?.type?.includes('image'))
-    .map((image) => {
-      return new Promise((resolve) => {
-        new Compressor(image, {
-          quality,
-          success(result) {
-            resolve(result)
-          },
-          error(err) {
-            console.log(err.message)
-          }
-        })
+export const compressImageService = (file, quality=50, format='webp') => {
+  if(!file) return Promise.resolve([])
+  fromBlob(file, quality, 0, 0, format)
+  .then((blob) => {
+    console.log('blob' , blob)
+    return blob
+  })
+  .catch((err) => console.log(err))
+}
+
+export const compressImagesService = (files, quality=50, format='webp') => {
+  if(files.length === 0) return Promise.resolve([])
+  return Promise.all(files.map((file, i) => {
+    return new Promise((resolve, reject) => {
+      fromBlob(file, quality, 0, 0, format)
+      .then((blob) => {
+        const blobFile = new File([blob], file.name, { type: blob.type })
+        resolve(blobFile)
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err)
       })
     })
-  )
+  }))
+  .then((blobs) => {
+    return blobs
+  })
+  .catch((err) => console.log(err))
 }

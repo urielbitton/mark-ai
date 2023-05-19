@@ -13,7 +13,7 @@ import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
 
-  const { myUserID, setShowMobileSidebar } = useContext(StoreContext)
+  const { myUserID, setShowMobileSidebar, isAdmin } = useContext(StoreContext)
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
   const notifications = useAllNotifications(myUserID, 5)
@@ -53,18 +53,33 @@ export default function Navbar() {
           </div>
         </div>
         <div className="right">
-        <IconContainer
+          <IconContainer
             icon="fas fa-home-alt"
             inverted
             iconColor="#fff"
             iconSize="16px"
             dimensions="30px"
-            tooltip="Collection"
+            tooltip="Home"
             onClick={(e) => {
               e.stopPropagation()
               navigate('/')
             }}
           />
+          {
+            isAdmin &&
+            <IconContainer
+              icon="fas fa-plus"
+              inverted
+              iconColor="#fff"
+              iconSize="16px"
+              dimensions="30px"
+              tooltip="Add new"
+              onClick={(e) => {
+                e.stopPropagation() 
+                navigate('/admin/add-new-tool')
+              }}
+            />
+          }
           <IconContainer
             icon="fas fa-bookmark"
             inverted

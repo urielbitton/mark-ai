@@ -1,19 +1,40 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './styles/AIToolPage.css'
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 import AILoader from "app/components/ui/AILoader"
 import { convertClassicDate } from "app/utils/dateUtils"
 import { beautifyUrl } from "app/utils/generalUtils"
 import PhotoModal from "app/components/ui/PhotoModal"
+import Ratings from "app/components/ui/Ratings"
+import { StoreContext } from "app/store/store"
+import AppButton from "app/components/ui/AppButton"
+import StarRate from "app/components/ui/StarRate"
+import {
+  addUserToolRatingService,
+  checkUserToolRatingService,
+  deleteAIToolService,
+  updateUserToolRatingService
+} from "app/services/aitoolsServices"
+import { errorToast, successToast } from "app/data/toastsTemplates"
+import { useDocsCount } from "app/hooks/userHooks"
+import ItemNotFound from "app/components/ui/ItemNotFound"
+import notFoundImg from "app/assets/images/item-not-found.png"
 
 export default function AIToolPage() {
 
+  const { myUser, myUserID, setToasts, isAdmin } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
+  const [showRatingModal, setShowRatingModal] = useState(false)
+  const [selectedRating, setSelectedRating] = useState(0)
+  const [ratingLoading, setRatingLoading] = useState(false)
   const toolID = useParams().toolID
   const aitool = useAITool(toolID, setLoading)
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
+  const ratingsCount = useDocsCount(`aitools/${toolID}/ratings`)
+  const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
+  const navigate = useNavigate()
 
   const imgsList = allImages?.map((img, index) => {
     return <img
@@ -24,7 +45,67 @@ export default function AIToolPage() {
     />
   })
 
-  return !loading ? (
+  const tagsList = aitool?.tags?.map((tag, index) => {
+    return <small
+      key={index}
+      className="tag"
+      onClick={() => navigate(`/search?q=${tag}`)}
+    >
+      {index === 0 ? tag : `, ${tag}`}
+    </small>
+  })
+
+  const submitRating = () => {
+    setRatingLoading(true)
+    checkUserToolRatingService(aitool.toolID, myUserID)
+      .then((userRating) => {
+        if (userRating) {
+          updateUserToolRatingService(aitool.toolID, myUserID, userRating.rating, selectedRating)
+            .then(() => {
+              setRatingLoading(false)
+              setToasts(successToast("Rating updated successfully"))
+              setShowRatingModal(false)
+            })
+            .catch((error) => {
+              console.log(error)
+              setRatingLoading(false)
+              setToasts(errorToast("Error updating rating"))
+            })
+        }
+        else {
+          addUserToolRatingService(aitool.toolID, myUserID, selectedRating)
+            .then(() => {
+              setRatingLoading(false)
+              setToasts(successToast("Rating added successfully"))
+              setShowRatingModal(false)
+            })
+            .catch((error) => {
+              console.log(error)
+              setRatingLoading(false)
+              setToasts(errorToast("Error adding rating"))
+            })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        setRatingLoading(false)
+      })
+  }
+
+  const handleEditTool = () => {
+    navigate(`/admin/add-new-tool?toolID=${toolID}&edit=true`)
+  }
+
+  const handleDeleteTool = () => {
+    const confirm = window.confirm("Are you sure you want to delete this tool?")
+    if(!confirm) return
+    deleteAIToolService(toolID, setLoading, setToasts)
+    .then(() => {
+      navigate("/admin/library")
+    })
+  }
+
+  return !loading && aitool ? (
     <div className="aitool-page">
       <div className="tool-container">
         <div
@@ -41,15 +122,29 @@ export default function AIToolPage() {
               />
               <h1>{aitool.title}</h1>
             </div>
-            <div className="colors">
-              <div
-                className="color-item"
-                style={{ backgroundColor: aitool.color1 }}
-              />
-              <div
-                className="color-item"
-                style={{ backgroundColor: aitool.color2 }}
-              />
+            <div className="ratings-colors row-item">
+              <div className="ratings">
+                <big>{toolRating.toFixed(1)}</big>
+                <Ratings rating={toolRating} />
+                {
+                  myUser &&
+                  <AppButton
+                    label="Rate"
+                    buttonType="lightBtn"
+                    onClick={() => setShowRatingModal(true)}
+                  />
+                }
+              </div>
+              <div className="colors">
+                <div
+                  className="color-item"
+                  style={{ backgroundColor: aitool.color1 }}
+                />
+                <div
+                  className="color-item"
+                  style={{ backgroundColor: aitool.color2 }}
+                />
+              </div>
             </div>
           </div>
           <div className="row">
@@ -85,7 +180,7 @@ export default function AIToolPage() {
             </div>
             <div className="row-item">
               <h6>Tags</h6>
-              <p>{aitool.tags.join(', ')}</p>
+              <p>{tagsList}</p>
             </div>
           </div>
           <div className="row">
@@ -109,9 +204,52 @@ export default function AIToolPage() {
         onClose={() => setSelectedImg(null)}
         showModal={selectedImg !== null}
       />
+      <div className={`ratings-modal ${showRatingModal ? 'show' : ''}`}>
+        <i
+          className="fal fa-times"
+          onClick={() => setShowRatingModal(false)}
+        />
+        <div className="big-star">
+          <i className="fas fa-star" />
+          <big>{selectedRating}</big>
+        </div>
+        <h4>Rate {aitool.title}</h4>
+        <StarRate
+          rating={selectedRating}
+          setRating={setSelectedRating}
+          numOfStars={5}
+        />
+        <AppButton
+          label="Submit"
+          onClick={submitRating}
+          loading={ratingLoading}
+        />
+      </div>
+      {
+        isAdmin &&
+        <div className="btn-group">
+          <AppButton
+            label="Edit Tool"
+            onClick={handleEditTool}
+          />
+          <AppButton
+            label="Delete Tool"
+            buttonType="outlineRedBtn"
+            onClick={handleDeleteTool}
+          />
+        </div>
+      }
     </div>
   ) :
-    <div className="aitool-page loading">
-      <AILoader />
-    </div>
+    loading ?
+      <div className="aitool-page loading">
+        <AILoader />
+      </div> :
+      <ItemNotFound
+        img={notFoundImg}
+        label="Tool not found"
+        sublabel="The tool or website you are looking for does not exist."
+        btnLabel="All Tools"
+        btnLink="/"
+      />
 }

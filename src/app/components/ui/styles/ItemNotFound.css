@@ -1,4 +1,4 @@
-.empty-page {
+.item-not-found {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,21 +7,22 @@
   padding: 20px;
   min-height: 500px;
 }
-.empty-page img {
+.item-not-found img {
   width: 200px;
 }
-.empty-page h5 {
+.item-not-found h5 {
   margin-top: 20px;
-  font-size: 17px;
   color: var(--darkGrayText);
   text-transform: capitalize;
+  font-size: 21px;
 }
-.empty-page p {
-  margin-top: 5px;
-  font-size: 15px;
+.item-not-found p {
+  margin-top: 10px;
+  font-size: 16px;
   color: var(--grayText);
 }
-.empty-page .appButton {
+.item-not-found .appButton {
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 15px;
+  padding: 12px 20px;
 }

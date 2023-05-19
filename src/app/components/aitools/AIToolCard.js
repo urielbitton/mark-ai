@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './styles/AIToolCard.css'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Avatar from "../ui/Avatar"
 import { beautifyUrl, truncateText } from "app/utils/generalUtils"
+import { StoreContext } from "app/store/store"
 
 export default function AIToolCard(props) {
 
+  const { isAdmin } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category } = props.tool
   const { isPreview } = props
+  const navigate = useNavigate()
 
   return (
     <div
@@ -46,6 +49,13 @@ export default function AIToolCard(props) {
             </a>
           </small>
           <div className="right">
+            {
+              isAdmin && !isPreview &&
+              <i 
+                className="fas fa-pen" 
+                onClick={() => navigate(`/admin/add-new-tool?toolID=${toolID}&edit=true`)}
+              />
+            }
             <i className="far fa-bookmark" />
           </div>
         </div>

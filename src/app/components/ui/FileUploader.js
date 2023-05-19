@@ -15,12 +15,14 @@ export default function FileUploader(props) {
   const { inputRef, isDragging, setIsDragging, uploadedFiles,
     setUploadedFiles, maxFileSize, icon, text,
     accept = "image/*, application/*", truncateFilenameAmount = 25,
-    label, className = "", maxFilesNum = 20, multiple=false } = props
+    label, className = "", maxFilesNum = 20, multiple=false,
+    displayMode, overwrite } = props
   const [loading, setLoading] = useState(false)
   const preventClose = !!uploadedFiles?.length || loading
 
   const uploadedFilesRender = uploadedFiles
-  ?.filter(file => file?.file)
+  ?.filter(file => !displayMode ? file?.file : true)
+  .slice(overwrite ? uploadedFiles?.length - 1 : 0)
   .map((file, i) => {
     const isMedia = file?.file?.type.includes("image") || file?.file?.type.includes("video")
     return <div
@@ -29,7 +31,7 @@ export default function FileUploader(props) {
     >
       <div className="text">
         {
-          !isMedia &&
+          !isMedia && !displayMode &&
           <IconContainer
             icon={fileTypeConverter(file?.file?.type)?.icon}
             iconColor={fileTypeConverter(file?.file?.type)?.color}
@@ -40,14 +42,16 @@ export default function FileUploader(props) {
           />
         }
         {
+          displayMode ? 
+          <img src={file?.src} /> :
           file?.file?.type.includes("image") ?
             <img src={file?.src} /> :
             file?.file?.type.includes('video') &&
             <video autoPlay src={file?.src} />
         }
         <h6 title={file?.file?.name}>
-          <span>{truncateText(file?.file?.name, truncateFilenameAmount)}</span>
-          <small>{convertBytesToKbMbGb(file?.file?.size, 0)}</small>
+          { file?.file?.name && <span>{truncateText(file?.file?.name, truncateFilenameAmount)}</span> }
+          { file?.file?.size && <small>{convertBytesToKbMbGb(file?.file?.size, 0)}</small> }
         </h6>
       </div>
       <i
@@ -81,7 +85,7 @@ export default function FileUploader(props) {
           {uploadedFilesRender}
         </div>
       }
-      <PreventTabClose preventClose={preventClose} />
+      {/* <PreventTabClose preventClose={preventClose} /> */}
     </div>
   )
 }

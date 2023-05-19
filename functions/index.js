@@ -36,12 +36,34 @@ exports.updateIndexAitools = functions
 exports.deleteFromIndexAitools = functions
 .region('northamerica-northeast1')
 .firestore.document('aitools/{aitoolID}')
-.onDelete((snapshot) => aitoolsIndex.deleteObject(snapshot.id))
+.onDelete((snapshot) => {
+  return recursivelyDeleteDocument('aitools', snapshot.id)
+  .then(() => {
+    return deleteStorageFolder(`aitools/${snapshot.id}/images`)
+  })
+  .then(() => {
+    return aitoolsIndex.deleteObject(snapshot.id)
+  })
+  .catch((err) => console.log(err))
+})
 
 
 
+// Cleanup firebase functions
+function recursivelyDeleteDocument(path, docID) {
+  return firebase.firestore().recursiveDelete(firebase.firestore().doc(`${path}/${docID}`))
+}
 
-// Reusable Functions
+function deleteStorageFolder(path) {
+  const bucket = firebase.storage().bucket()
+  return bucket.deleteFiles({
+    prefix: path
+  })
+}
+
+
+
+// Utility Functions
 
 function createNotification(userID, title, text, icon, url) {
   const notifPath = `users/${userID}/notifications`

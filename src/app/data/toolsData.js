@@ -49,6 +49,12 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
+    label: 'Entertainment',
+    value: 'entertainment',
+    icon: 'fas fa-gamepad',
+    iconColor: 'var(--primary)'
+  },
+  {
     label: 'Other',
     value: 'other',
     icon: 'fas fa-circle',

@@ -2,11 +2,11 @@ import React from 'react'
 
 export default function Ratings(props) {
 
-  const {rating, color="var(--orange)", ratingNumber} = props
+  const { rating, color="var(--orange)", ratingNumber } = props
   const highestRate = 5
  
   return ( 
-    <div className="ratingscont" title={`Rating: ${rating}/${highestRate} stars`}>
+    <div className="ratings-container" title={`Rating: ${rating}/${highestRate} stars`}>
       { Array.apply(null, { length: Math.floor(rating) }).map((el,i) => <i className="fas fa-star" style={{color}} key={i}></i> ) } 
       { 
         rating % 1 > 0?
@@ -18,7 +18,7 @@ export default function Ratings(props) {
       }
       { 
         ratingNumber ?
-        <small>({rating.toFixed(1)})</small> :
+        <small>({rating?.toFixed(1)})</small> :
         <></>
       }
     </div>

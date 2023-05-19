@@ -8,7 +8,7 @@ export const infoToast = (message, keep) => {
   }]
 }
 
-export const errorToast = (message, keep) => {
+export const errorToast = (message, keep=false) => {
   return prev => [...prev, {
     message,
     icon: 'fas fa-times-circle',

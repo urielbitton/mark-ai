@@ -21,6 +21,15 @@
   filter: brightness(105%);
 }
 
+.appButton.lightBtn {
+  background: var(--extraLightPrimary);
+  color: var(--primary);
+}
+.appButton.lightBtn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
 .appButton.secondaryBtn:hover,
 .appButton.gradientBtn:hover {
   filter: brightness(110%);

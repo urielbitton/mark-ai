@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/NewTool.css'
 import {
   AppInput, AppReactSelect, AppTextarea
@@ -6,11 +6,12 @@ import {
 import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import FileUploader from "../ui/FileUploader"
 import AppButton from "../ui/AppButton"
-import { addNewToolService } from "app/services/aitoolsServices"
+import { addNewToolService, updateAIToolService } from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 import AIToolCard from "../aitools/AIToolCard"
 import logoImg from "app/assets/images/logo.png"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { useAITool } from "app/hooks/aitoolsHooks"
 
 export default function NewTool() {
 
@@ -30,6 +31,10 @@ export default function NewTool() {
   const [isDragging, setIsDragging] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const editMode = searchParams.get("edit") === "true"
+  const editToolID = searchParams.get("toolID")
+  const editTool = useAITool(editToolID, () => { })
   const maxFileSize = 5 * 1024 * 1024
 
   const validateForm = () => {
@@ -71,11 +76,56 @@ export default function NewTool() {
       })
   }
 
+  const handleSaveTool = () => {
+    if (!validateForm) return
+    return updateAIToolService(
+      {
+        title,
+        tagline,
+        shortDescription,
+        category,
+        color1,
+        color2,
+        url,
+        tags: tags.split(",").map((tag) => tag.trim()),
+        type,
+      },
+      editToolID,
+      {
+        mainImg,
+        logo,
+        images
+      },
+      setLoading,
+      setToasts
+    )
+      .then(() => {
+        navigate(`/ai-tools/${editToolID}`)
+      })
+  }
+
+  useEffect(() => {
+    if (editTool && editMode) {
+      setTitle(editTool.title)
+      setTagline(editTool.tagline)
+      setShortDescription(editTool.shortDescription)
+      setCategory(editTool.category)
+      setColor1(editTool.color1)
+      setColor2(editTool.color2)
+      setUrl(editTool.url)
+      setTags(editTool.tags.join(", "))
+      setType(editTool.type)
+      setMainImg([{ src: editTool.mainImg }])
+      setLogo([{ src: editTool.logo }])
+      setImages(editTool.images.map((img) => ({ src: img })))
+    }
+  }, [editTool])
+
   return (
     <div className="new-tool-page">
       <div className="new-card">
         <div className="left">
-          <h2>Add New Tool</h2>
+          <h2>{!editMode ? 'Add New Tool' : 'Update Tool'}</h2>
           <AppInput
             label="Title"
             placeholder="Enter a title"
@@ -174,6 +224,8 @@ export default function NewTool() {
             icon="fas fa-cloud-upload-alt"
             text="Drop files here or click to browse"
             className="commonInput"
+            displayMode={editMode}
+            overwrite
           />
           <FileUploader
             label="Logo"
@@ -187,6 +239,8 @@ export default function NewTool() {
             icon="fas fa-cloud-upload-alt"
             text="Drop files here or click to browse"
             className="commonInput"
+            displayMode={editMode}
+            overwrite
           />
           <FileUploader
             label="Additional Images"
@@ -201,15 +255,31 @@ export default function NewTool() {
             icon="fas fa-cloud-upload-alt"
             text="Drop files here or click to browse"
             className="commonInput"
+            displayMode={editMode}
           />
           <div className="btn-group">
-            <AppButton
-              label="Add Tool"
-              onClick={handleAddTool}
-              loading={loading}
-              rightIcon="far fa-arrow-right"
-              disabled={!validateForm()}
-            />
+            {
+              !editMode ?
+                <AppButton
+                  label="Add Tool"
+                  onClick={handleAddTool}
+                  loading={loading}
+                  rightIcon="far fa-arrow-right"
+                  disabled={!validateForm()}
+                /> :
+                <>
+                  <AppButton
+                    label="Save Changes"
+                    onClick={handleSaveTool}
+                    loading={loading}
+                  />
+                  <AppButton
+                    label="Cancel"
+                    onClick={() => navigate(`/ai-tools/${editToolID}`)}
+                    buttonType="outlineBtn"
+                  />
+                </>
+            }
           </div>
         </div>
         <div className="right">

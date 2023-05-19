@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default function StarRate({number, rating, starNum, setRating}) {
+export default function StarRate({numOfStars, rating, setRating}) {
 
-  return (
-    <i 
-      className={
-        starNum >= rating && Math.ceil(rating) >= starNum && rating % 1 !== 0 ? "fas fa-star-half-alt" :
-        Math.round(rating) < starNum ? "fal fa-star" : "fas fa-star"
-      }
-      onClick={() => setRating(number)}
-    ></i>
-  )
+  const [hoveredStar, setHoveredStar] = useState(null)
+
+  const starsRender = Array.from({length: numOfStars}).map((star, index) => {
+    const starNum = index + 1
+    return (
+      <i
+        key={index}
+        className={`fa-star ${hoveredStar ? hoveredStar >= starNum ? 'fas' : 'fal' : Math.round(rating) < starNum ? 'fal' : 'fas'}`}
+        onClick={() => setRating(starNum)}
+        onMouseEnter={() => setHoveredStar(starNum)}
+        onMouseLeave={() => setHoveredStar(null)}
+      />
+    )
+  })
+
+  return <div className="star-rate">
+    {starsRender}
+  </div>
 }

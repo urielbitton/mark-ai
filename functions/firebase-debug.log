@@ -1,0 +1,15 @@
+[debug] [2023-05-19T00:53:39.872Z] ----------------------------------------------------------------------
+[debug] [2023-05-19T00:53:39.873Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\uriel\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2023-05-19T00:53:39.873Z] CLI Version:   11.19.0
+[debug] [2023-05-19T00:53:39.873Z] Platform:      win32
+[debug] [2023-05-19T00:53:39.874Z] Node Version:  v18.9.1
+[debug] [2023-05-19T00:53:39.874Z] Time:          Thu May 18 2023 20:53:39 GMT-0400 (Eastern Daylight Saving Time)
+[debug] [2023-05-19T00:53:39.874Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-05-19T00:53:39.876Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-05-19T00:53:39.941Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-05-19T00:53:39.941Z] > authorizing via signed-in user (atomicsdigital@gmail.com)
+[debug] [2023-05-19T00:53:39.941Z] [iam] checking project mark-ai-5d4aa for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-05-19T00:53:39.945Z] > refreshing access token with scopes: []
+[debug] [2023-05-19T00:53:39.946Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-05-19T00:53:39.946Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]

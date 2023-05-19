@@ -79,8 +79,16 @@
   font-size: 14px;
   color: var(--primary);
 }
+.ai-card .bottom-bar .right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 .ai-card .bottom-bar .right i {
   color: var(--primary);
   font-size: 18px;
   cursor: pointer;
+}
+.ai-card .bottom-bar .right i.fa-pen {
+  font-size: 16px;
 }

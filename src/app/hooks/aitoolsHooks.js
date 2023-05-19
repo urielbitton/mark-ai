@@ -24,6 +24,7 @@ export const useAITool = (toolID, setLoading) => {
   const [tool, setTool] = useState(null)
 
   useEffect(() => {
+    if(!toolID) return
     getAITool(toolID)
     .then((tool) => {
       setLoading(false)

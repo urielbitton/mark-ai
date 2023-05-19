@@ -74,6 +74,16 @@
 .app-file-uploader .uploaded-files-container .file-item img {
   height: 50px;
   border-radius: 5px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.app-file-uploader .uploaded-files-container .file-item img:hover {
+  filter: brightness(0.8);
+}
+.app-file-uploader .uploaded-files-container .file-item img:active {
+  height: 300px;
+  object-fit: contain;
+  filter: brightness(1);
 }
 .app-file-uploader .uploaded-files-container .file-item .text h6 {
   font-size: 13px;
