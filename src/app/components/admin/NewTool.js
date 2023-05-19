@@ -9,8 +9,8 @@ import AppButton from "../ui/AppButton"
 import { addNewToolService, updateAIToolService } from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 import AIToolCard from "../aitools/AIToolCard"
-import logoImg from "app/assets/images/logo.png"
-import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import logoImg from "app/assets/images/logo-filled.png"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 
 export default function NewTool() {

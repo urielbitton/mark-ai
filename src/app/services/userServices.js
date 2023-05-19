@@ -98,14 +98,9 @@ export const createUserDocService = (user, res, authMode, setLoading) => {
     })
 }
 
-export const pastUserYearsOptions = (dateJoined) => {
-  const currentYear = new Date().getFullYear()
-  const years = []
-  for (let i = currentYear; i <= dateJoined; i++) {
-    years.push({
-      label: i,
-      value: i
-    })
-  }
-  return years
+export const getToolsBookmarksByUserID = (userID, setBookmarks) => {
+  const query = doc(db, `users/${userID}/bookmarks`, 'tools')
+  onSnapshot(query, (doc) => {
+    setBookmarks(doc.data()?.bookmarks || [])
+  })
 }

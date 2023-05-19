@@ -3,7 +3,7 @@ import {
   collection, doc, getDoc, getDocs, limit,
   onSnapshot, orderBy, query, where
 } from "firebase/firestore"
-import { deleteDB, firebaseArrayAdd, firebaseIncrement, getRandomDocID, setDB, updateDB } from "./CrudDB"
+import { deleteDB, firebaseArrayAdd, firebaseArrayRemove, firebaseIncrement, getRandomDocID, setDB, updateDB } from "./CrudDB"
 import { errorToast, successToast } from "app/data/toastsTemplates"
 import { uploadMultipleFilesToFireStorage } from "./storageServices"
 import { removeNullOrUndefined } from "app/utils/generalUtils"
@@ -175,4 +175,16 @@ export const updateAIToolService = async (tool, toolID, images, setLoading, setT
       return docID
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const toggleBookmarkToolService = (toolID, userID, isBookmarked, setToasts) => {
+  return setDB(`users/${userID}/bookmarks`, 'tools', {
+    bookmarks: isBookmarked ? firebaseArrayRemove(toolID) : firebaseArrayAdd(toolID)
+  })
+  .then(() => {
+    setToasts(successToast(isBookmarked ? "Bookmark removed successfully" : "Bookmark added successfully"))
+  })
+  .catch((err) => {
+    setToasts(errorToast("Error adding bookmark. Please try again."))
+  })
 }

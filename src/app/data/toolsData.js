@@ -7,6 +7,12 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
+    label: 'Media',
+    value: 'media',
+    icon: 'fas fa-photo-video',
+    iconColor: 'var(--primary)'
+  },
+  {
     label: 'Copywriting',
     value: 'copywriting',
     icon: 'fas fa-pencil-alt',

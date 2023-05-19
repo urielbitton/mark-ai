@@ -23,7 +23,8 @@ import notFoundImg from "app/assets/images/item-not-found.png"
 
 export default function AIToolPage() {
 
-  const { myUser, myUserID, setToasts, isAdmin } = useContext(StoreContext)
+  const { myUser, myUserID, setToasts, isAdmin, 
+    setPageLoading } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
   const [showRatingModal, setShowRatingModal] = useState(false)
@@ -99,7 +100,7 @@ export default function AIToolPage() {
   const handleDeleteTool = () => {
     const confirm = window.confirm("Are you sure you want to delete this tool?")
     if(!confirm) return
-    deleteAIToolService(toolID, setLoading, setToasts)
+    deleteAIToolService(toolID, setPageLoading, setToasts)
     .then(() => {
       navigate("/admin/library")
     })

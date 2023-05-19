@@ -1,12 +1,12 @@
 import { signOut } from "app/services/CrudDB"
 import React, { useContext } from 'react'
 import { Link } from "react-router-dom"
-import IconContainer from "../ui/IconContainer"
 import { StoreContext } from "app/store/store"
+import Avatar from "../ui/Avatar"
 
 export default function ProfileDropdown(props) {
 
-  const { isAdmin } = useContext(StoreContext)
+  const { isAdmin, myUserImg } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
 
   return (
@@ -18,12 +18,11 @@ export default function ProfileDropdown(props) {
           setShowMenu(prev => prev === 'profile' ? null : 'profile')
         }}
       >
-        <IconContainer
-          icon="fas fa-th"
+        <Avatar
+          src={myUserImg}
           dimensions={28}
-          iconSize={15}
-          bgColor="#fff"
-          iconColor="var(--primary)"
+          alt="me"
+          border="1px solid #fff"
         />
         <i className="fal fa-angle-down" />
       </div>

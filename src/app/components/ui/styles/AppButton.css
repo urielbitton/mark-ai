@@ -30,6 +30,10 @@
   color: #fff;
 }
 
+.appButton.gradientBtn {
+  background: var(--primaryGradient);
+  color: #fff;
+}
 .appButton.secondaryBtn:hover,
 .appButton.gradientBtn:hover {
   filter: brightness(110%);

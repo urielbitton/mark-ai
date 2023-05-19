@@ -1,0 +1,13 @@
+.tools-library {
+  display: flex;
+  flex-direction: column;
+}
+.tools-library .title-bar {
+  margin-top: 10px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}

@@ -23,6 +23,7 @@ export default function AISearchBar({placeholder, value, onChange, onKeyUp,
       <AppButton
         label={btnLabel}
         onClick={onSubmit}
+        buttonType="gradientBtn"
       />
     </div>
   )

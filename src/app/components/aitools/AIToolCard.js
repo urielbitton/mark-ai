@@ -4,14 +4,43 @@ import { Link, useNavigate } from "react-router-dom"
 import Avatar from "../ui/Avatar"
 import { beautifyUrl, truncateText } from "app/utils/generalUtils"
 import { StoreContext } from "app/store/store"
+import { toggleBookmarkToolService } from "app/services/aitoolsServices"
+import { infoToast } from "app/data/toastsTemplates"
+import { useUserBookmarks } from "app/hooks/userHooks"
 
 export default function AIToolCard(props) {
 
-  const { isAdmin } = useContext(StoreContext)
+  const { isAdmin, myUser, myUserID,setToasts } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category } = props.tool
   const { isPreview } = props
   const navigate = useNavigate()
+  const userBookmarks = useUserBookmarks(myUserID)
+  const isBookmarked = userBookmarks.includes(toolID)
+
+  const Image = React.memo(() => {
+    return <img
+      src={mainImg}
+      alt={title}
+      width="100%"
+      height={150}
+    />
+  })
+
+  const handleBookmarkClick = () => {
+    if(myUser) {
+      toggleBookmarkToolService(
+        toolID, 
+        myUserID, 
+        isBookmarked, 
+        setToasts
+      )
+    }
+    else {
+      navigate('/login')
+      setToasts(infoToast("Please login to bookmark tools"))
+    }
+  }
 
   return (
     <div
@@ -21,8 +50,9 @@ export default function AIToolCard(props) {
       <Link
         to={!isPreview ? `/ai-tools/${toolID}` : ''}
         className="img-container"
-        style={{ backgroundImage: `url(${mainImg})` }}
-      />
+      >
+        <Image />
+      </Link>
       <div className="info-content">
         <div className="top-row">
           <Avatar
@@ -51,12 +81,15 @@ export default function AIToolCard(props) {
           <div className="right">
             {
               isAdmin && !isPreview &&
-              <i 
-                className="fas fa-pen" 
+              <i
+                className="fas fa-pen"
                 onClick={() => navigate(`/admin/add-new-tool?toolID=${toolID}&edit=true`)}
               />
             }
-            <i className="far fa-bookmark" />
+            <i 
+              className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+              onClick={handleBookmarkClick}
+            />
           </div>
         </div>
       </div>

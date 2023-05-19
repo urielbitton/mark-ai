@@ -8,6 +8,7 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
   margin-top: 20px;
+  top: 0;
 }
 .new-tool-page .new-card .left {
   display: flex;
@@ -33,6 +34,10 @@
   height: 35px;
 }
 
+.new-tool-page .right .ai-card {
+  position: sticky;
+  top: 10px;
+}
 .new-tool-page .right h4 {
   color: var(--ternary);
   margin-bottom: 15px;
