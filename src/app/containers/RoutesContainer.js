@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import './styles/RoutesContainer.css'
 import ErrorPage from "app/pages/ErrorPage"
 import HomePage from 'app/pages/HomePage'
@@ -11,18 +12,31 @@ import AdminPage from "app/pages/AdminPage"
 import MyCollectionPage from "app/pages/MyCollectionPage"
 import SearchPage from "app/pages/SearchPage"
 import AIToolPage from "app/pages/AIToolPage"
+import PromptPage from "app/pages/PromptPage"
 
 export default function RoutesContainer() {
 
   const { user } = useContext(StoreContext)
+  const scrollRef = useRef(null)
+  const location = useLocation()
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0
+    }
+  }, [location])
 
   return (
-    <div className={`routes-container`}>
+    <div
+      className="routes-container"
+      ref={scrollRef}
+    >
       <div className="site-grid">
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/ai-tools/:toolID" element={<AIToolPage />} />
+          <Route path="/prompts/:promptID" element={<PromptPage />} />
           {
             user ?
               <>

@@ -1,0 +1,44 @@
+.tab-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background: var(--grayBg);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.tab-switcher:hover {
+  border: 1px solid var(--inputBorder);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.03);
+}
+.tab-switcher .tab-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 45px;
+  border-radius: 40px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.tab-switcher .tab-item:hover {
+  background: rgba(255,255,255,0.35);
+}
+.tab-switcher .tab-item h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}
+.tab-switcher .tab-indicator {
+  position: absolute;
+  width: 120px;
+  height: 100%;
+  border-radius: 40px;
+  padding: 5px;
+  background: var(--darkGrayBg);
+  transition: all 0.3s;
+  z-index: 0;
+}

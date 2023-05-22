@@ -182,6 +182,10 @@ export const displayGreeting = () => {
   }
 }
 
+export const copyToClipboard = (text) => {
+  return navigator.clipboard.writeText(text)
+}
+
 //convert object to array of objects with key as property
 export const objectToArray = (obj, keyLabel) => {
   if (obj) {

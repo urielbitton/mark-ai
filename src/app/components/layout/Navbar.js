@@ -5,7 +5,7 @@ import IconContainer from "../ui/IconContainer"
 import NavDropdown from "./NavDropdown"
 import NavSearch from "./NavSearch"
 import NotificationElement from "./NotificationElement"
-import ProfileDropdown from "./ProfileDropdown"
+import MenuDropdown from "./MenuDropdown"
 import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
 import { Link, useNavigate } from "react-router-dom"
@@ -41,8 +41,8 @@ export default function Navbar() {
             to="/"
             className="logo"
           >
-            <h4>Mark<span>AI</span></h4>
             <img src={navLogo} alt="Mark Logo" />
+            <h4>Mark<span>AI</span></h4>
           </Link>
           <NavSearch />
           <div
@@ -75,7 +75,7 @@ export default function Navbar() {
               dimensions="30px"
               tooltip="Add new"
               onClick={(e) => {
-                e.stopPropagation() 
+                e.stopPropagation()
                 navigate('/admin/add-new-tool')
               }}
             />
@@ -115,19 +115,19 @@ export default function Navbar() {
             setShowDropdown={setShowMenu}
             itemsRender={notificationsList}
           />
+          <MenuDropdown
+            showMenu={showMenu}
+            setShowMenu={setShowMenu}
+            avatarDimensions="27px"
+          />
           {
-            myUserID ?
-              <ProfileDropdown
-                showMenu={showMenu}
-                setShowMenu={setShowMenu}
-                avatarDimensions="27px"
-              /> :
-              <AppButton
-                label="Login"
-                buttonType="whiteBtn"
-                leftIcon="far fa-sign-in"
-                url="/login"
-              />
+            !myUserID &&
+            <AppButton
+              label="Login"
+              buttonType="whiteBtn"
+              leftIcon="far fa-sign-in"
+              url="/login"
+            />
           }
         </div>
       </div>

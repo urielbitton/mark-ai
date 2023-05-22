@@ -5,7 +5,7 @@
   margin-bottom: 30px;
 }
 
-.hero-section {
+.homepage .hero-section {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -14,27 +14,49 @@
   max-width: 100%;
   margin: 100px auto;
 }
-.hero-section h1 {
+.homepage .hero-section h1 {
   color: var(--darkGrayText);
   font-size: 50px;
 }
-.hero-section h1 span {
+.homepage .hero-section h1 span {
   background: var(--primaryGradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   text-align: center;
 }
-.hero-section h5 {
+.homepage .hero-section h5 {
   color: var(--grayText);
   font-size: 20px;
   font-weight: 600;
   margin-top: 10px;
 }
-.hero-section .ai-searchbar {
+.homepage .hero-section .ai-searchbar {
   margin-top: 50px;
+}
+
+.homepage .tabs-section {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .homepage .home-grid {
   margin-top: 20px;
+}
+.homepage .home-grid button {
+  margin-top: 40px;
+}
+.homepage .home-grid small.end-of-list {
+  margin-top: 50px;
+  display: block;
+  font-size: 14px;
+  color: var(--ternary);
+  font-weight: 600;
+}
+.homepage .home-grid .end-div {
+  width: 100px;
+  height: 20px;
 }

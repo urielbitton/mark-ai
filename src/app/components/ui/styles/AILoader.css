@@ -16,19 +16,19 @@
   background: var(--primary);
 }
 .ai-loader .animation-bubbles .bubble-1 {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   animation: bubble1 1.5s infinite;
 }
 .ai-loader .animation-bubbles .bubble-2 {
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
   animation: bubble2 1.5s infinite;
   animation-delay: 1s;
 }
 .ai-loader .animation-bubbles .bubble-3 {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   animation: bubble3 2s infinite;
   animation-delay: 0.5s;
 }

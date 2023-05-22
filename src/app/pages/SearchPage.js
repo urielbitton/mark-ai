@@ -50,6 +50,13 @@ export default function SearchPage() {
           onSubmit={submitSearch}
           onClear={clearInput}
         />
+        {
+          searchQuery.length > 0 &&
+          <div className="search-stats">
+            <h4>Search: <span>"{searchQuery}"</span></h4>
+            <h5>{numOfHits} results found</h5>
+          </div>
+        }
       </div>
       <AIToolsSearchHits
         query={searchQuery}
@@ -64,20 +71,20 @@ export default function SearchPage() {
       {
         noResults ?
           <div className="no-results">
-            <img 
-              src={noDataImg} 
-              alt="No results found" 
+            <img
+              src={noDataImg}
+              alt="No results found"
             />
             <h5>No results found for "{searchQuery}"</h5>
           </div> :
           numOfHits > 0 ?
-          <AppPagination
-            pageNum={pageNum}
-            setPageNum={setPageNum}
-            numOfPages={numOfPages}
-            dimensions="30px"
-          /> :
-          null
+            <AppPagination
+              pageNum={pageNum}
+              setPageNum={setPageNum}
+              numOfPages={numOfPages}
+              dimensions="30px"
+            /> :
+            null
       }
     </div>
   )

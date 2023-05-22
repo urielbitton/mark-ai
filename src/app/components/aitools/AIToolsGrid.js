@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react'
 import AIToolCard from "./AIToolCard"
 import './styles/AIToolsGrid.css'
@@ -17,7 +16,9 @@ export default function AIToolsGrid({ tools, loading }) {
     <div className="ai-tools-grid">
       {
         !loading ?
-          toolsGrid :
+          <div className="content">
+            {toolsGrid}
+          </div> :
           <AILoader />
       }
     </div>

@@ -27,7 +27,7 @@
   gap: 5px;
 }
 .navbar .logo img {
-  width: 27px;
+  width: 20px;
   top: -2px;
 }
 .navbar .logo h4 {
@@ -273,7 +273,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: all 0.2s;
   padding: 2px 5px;
   border-radius: 40px;
@@ -292,8 +291,8 @@
 .navbar .profile-container .clickable-profile i {
   color: #fff
 }
-.navbar .profile-dropdown {
-  min-width: 220px;
+.navbar .menu-dropdown {
+  width: 700px;
   background: #fff;
   border-radius: 5px;
   box-shadow: var(--shadow);
@@ -301,65 +300,62 @@
   position: absolute;
   top: calc(100% + 5px);
   right: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 25px;
   visibility: hidden;
   opacity: 0;
-  padding: 5px;
+  padding: 20px;
   transition: all 0.2s;
 }
-.navbar .profile-dropdown.show {
+.navbar .menu-dropdown.show {
   visibility: visible;
   opacity: 1;
   top: 40px;
 }
-.navbar .profile-dropdown a,
-.navbar .profile-dropdown h6 {
+.navbar .menu-dropdown .column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.navbar .menu-dropdown .column > h5 {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--ternary);
+  margin-bottom: 20px;
+}
+.navbar .menu-dropdown a,
+.navbar .menu-dropdown h6 {
   border-radius: 5px;
-  padding: 10px;
+  padding: 10px 7px;
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
   color: var(--grayText);
   font-weight: 600;
   transition: all 0.2s;
 }
-.navbar .profile-dropdown a i,
-.navbar .profile-dropdown h6 i {
+.navbar .menu-dropdown a i,
+.navbar .menu-dropdown h6 i {
   color: var(--grayText);
 }
-.navbar .profile-dropdown a:hover,
-.navbar .profile-dropdown h6:hover {
-  background: var(--primary);
-  color: #fff;
+.navbar .menu-dropdown a:hover,
+.navbar .menu-dropdown h6:hover {
+  background: var(--extraLightPrimary);
+  color: var(--primary);
 }
-.navbar .profile-dropdown a:hover i,
-.navbar .profile-dropdown h6:hover i {
-  color: #fff;
+.navbar .menu-dropdown a:hover i,
+.navbar .menu-dropdown h6:hover i {
+  color: var(--primary);
 }
-.navbar .profile-dropdown hr {
+.navbar .menu-dropdown hr {
   width: 90%;
   height: 1px;
   align-self: center;
   margin: 3px 0;
   background: #eee;
-}
-.navbar .profile-dropdown .info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 7px 10px;
-  cursor: default;
-}
-.navbar .profile-dropdown .info span.value {
-  font-size: 12px;
-  font-weight: 700;
-}
-.navbar .profile-dropdown .info span {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--grayText);
 }
 
 

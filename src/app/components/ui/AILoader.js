@@ -3,7 +3,7 @@ import whiteLogo from 'app/assets/images/logo.png'
 import colorLogo from 'app/assets/images/logo-color.png'
 import './styles/AILoader.css'
 
-export default function AILoader({whiteImg=false, imgHeight=70, colored=true }) {
+export default function AILoader({whiteImg=false, imgHeight=60, colored=true }) {
   return (
     <div className="ai-loader">
       <div className={`animation-bubbles ${colored ? 'colored' : ''}`}>

@@ -35,9 +35,15 @@
   font-size: 12px;
   font-weight: 600;
   padding: 2px 4px;
-  border-radius: 3px;
+  border-radius: 4px;
   background: var(--extraLightPrimary);
   color: var(--primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ai-card .info-content .top-row small:hover {
+  background: var(--primary);
+  color: #fff;
 }
 .ai-card .info-content h5 {
   font-size: 19px;
@@ -60,7 +66,7 @@
   justify-content: space-between;
   gap: 15px;
   flex-wrap: wrap;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 .ai-card .bottom-bar small {
   display: flex;

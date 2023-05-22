@@ -15,6 +15,8 @@ html, body {
   --lightRed: #ffe2e2;
   --bg: #f8f8ff;
   --grayText: #696e93;
+  --grayBg: #edf2fa;
+  --darkGrayBg: #cfd8e7;
   --darkGrayText: #3c4160;
   --lightGrayText: #D5D7E5;
   --inputBg: #f0f2f5;
@@ -30,7 +32,7 @@ html, body {
   --inputPlaceholderColor: #c5cee1;
   --shadow: 0 5px 10px rgba(0,0,0,0.1);
   --cardShadow: 0 0px 2px rgba(0,0,0,0.1);
-  --cardShadowHover: 0 2px 4px 1px rgba(0,0,0,0.1);
+  --cardShadowHover: 0 5px 7px 1px rgba(0,0,0,0.12);
   --newCardShadow: 0 0 3px 1px #e4ecfb;
   --navbarHeight: 60px;
   --siteGridWidth: 1350px;
@@ -44,6 +46,10 @@ html, body {
   margin: 0;
   box-sizing: border-box;
   outline: none;
+}
+::selection {
+  background: var(--primary);
+  color: #fff;
 }
 
 .site-grid {

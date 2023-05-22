@@ -6,7 +6,7 @@ export default function AppButton(props) {
 
   const { url, leftIcon, rightIcon, onClick, className,
     buttonType, disabled, style, label, round, title, iconBtn,
-    useATag, externalLink, id, loading } = props
+    useATag, externalLink, id, loading, btnRef } = props
 
   const button = <button
     id={id}
@@ -20,6 +20,7 @@ export default function AppButton(props) {
     onClick={(e) => onClick && onClick(e)}
     style={style}
     title={title}
+    ref={btnRef}
   >
     { leftIcon && <i className={`${leftIcon} leftIcon  ${!label?.length && 'no-text'}`}></i> }
     {label}

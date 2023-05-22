@@ -1,9 +1,16 @@
 .ai-tools-grid {
+  display: flex;
+  flex-direction: column;
+}
+.ai-tools-grid .content {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px 20px;
 }
+.prompts-grid .content {
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+} 
 .ai-tools-grid .ai-loader {
   margin: 20px auto;
   grid-column: 1/-1;

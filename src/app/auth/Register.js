@@ -14,7 +14,7 @@ import { infoToast } from "app/data/toastsTemplates"
 
 export default function Register() {
 
-  const { setMyUser, setToasts } = useContext(StoreContext)
+  const { setMyUser, setToasts, photoURLPlaceholder } = useContext(StoreContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -33,14 +33,14 @@ export default function Register() {
   }
 
   const googleAuth = () => {
-    googleAuthService(setMyUser, setLoading, setToasts)
+    googleAuthService(photoURLPlaceholder, setMyUser, setLoading, setToasts)
       .then(() => {
         navigate('/')
       })
   }
 
   const facebookAuth = () => {
-    facebookAuthService(setLoading, setToasts)
+    facebookAuthService(photoURLPlaceholder, setLoading, setToasts)
       .then(() => {
         navigate('/')
       })
@@ -56,6 +56,7 @@ export default function Register() {
       lastName,
       email,
       password,
+      photoURLPlaceholder,
       setLoading,
       setEmailError,
       setPassError

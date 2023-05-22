@@ -76,9 +76,15 @@ export const toolsTypesData = [
     iconColor: 'var(--primary)'
   },
   {
-    label: 'Tool',
+    label: 'Tools',
     value: 'tool',
-    icon: 'fas fa-browser',
+    icon: 'fas fa-flask',
     iconColor: 'var(--primary)'
   },
+  {
+    label: 'Prompts',
+    value: 'prompt',
+    icon: 'fas fa-comment',
+    iconColor: 'var(--primary)'
+  }
 ]

@@ -8,13 +8,12 @@ import {
   signInWithPopup, updateProfile
 } from "firebase/auth"
 
-export const completeRegistrationService = (user, authMode, res, userName, setLoading) => {
-  const photoURLPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/your-app.appspot.com/o/placeholder.png?alt=media&token=your-token'
+export const completeRegistrationService = (user, authMode, res, userName, photoURL, setLoading) => {
   updateProfile(user, {
     displayName: authMode === 'plain' ? `${userName.firstName} ${userName.lastName}` : authMode === 'google' ? res.additionalUserInfo.profile.name : res.name,
-    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURLPlaceholder
+    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURL
   })
-  return createUserDocService(user, res, authMode, setLoading)
+  return createUserDocService(user, res, authMode, photoURL, setLoading)
     .then(() => {
       setLoading(false)
     })
@@ -24,14 +23,14 @@ export const completeRegistrationService = (user, authMode, res, userName, setLo
     })
 }
 
-export const plainAuthService = (firstName, lastName, email, password, setLoading, setEmailError, setPassError) => {
+export const plainAuthService = (firstName, lastName, email, password, photoURL, setLoading, setEmailError, setPassError) => {
   const userName = { firstName, lastName }
   setLoading(true)
   return createUserWithEmailAndPassword(auth, email.replaceAll(' ', ''), password.replaceAll(' ', ''))
     .then(() => {
       return onAuthStateChanged(auth, user => {
         if (user) {
-          return completeRegistrationService(user, 'plain', null, userName, setLoading)
+          return completeRegistrationService(user, 'plain', null, userName, photoURL, setLoading)
         }
         else {
           setLoading(false)
@@ -52,7 +51,7 @@ export const plainAuthService = (firstName, lastName, email, password, setLoadin
     })
 }
 
-export const googleAuthService = (setMyUser, setLoading, setToasts) => {
+export const googleAuthService = (photoURL, setMyUser, setLoading, setToasts) => {
   setLoading(true)
   const provider = new firebase.auth.GoogleAuthProvider()
   provider.addScope('email')
@@ -60,7 +59,7 @@ export const googleAuthService = (setMyUser, setLoading, setToasts) => {
     .then((res) => {
       // @ts-ignore
       if (res.additionalUserInfo.isNewUser) {
-        return completeRegistrationService(res.user, 'google', res, null, setLoading)
+        return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
       }
       else {
         setMyUser(res.user)
@@ -77,7 +76,7 @@ export const googleAuthService = (setMyUser, setLoading, setToasts) => {
     })
 }
 
-export const facebookAuthService = (setLoading, setToasts) => {
+export const facebookAuthService = (photoURL, setLoading, setToasts) => {
   setLoading(true)
   const provider = new firebase.auth.FacebookAuthProvider()
   return firebase.auth().signInWithPopup(provider)
@@ -90,7 +89,7 @@ export const facebookAuthService = (setLoading, setToasts) => {
         .then(fbRes => fbRes.json())
         .then(fbRes => {
           console.log(fbRes)
-          return completeRegistrationService(user, 'facebook', fbRes, null, setLoading)
+          return completeRegistrationService(user, 'facebook', fbRes, null, photoURL, setLoading)
         })
         .catch(err => {
           console.log(err)
@@ -108,11 +107,11 @@ export const facebookAuthService = (setLoading, setToasts) => {
     })
 }
 
-export const createAccountOnLoginService = (loggedInUser, setLoading, setToasts) => {
+export const createAccountOnLoginService = (loggedInUser, photoURL, setLoading, setToasts) => {
   return doGetUserByID(loggedInUser.uid)
     .then((user) => {
       if (!user) {
-        return createUserDocService(loggedInUser, null, 'plain', setLoading)
+        return createUserDocService(loggedInUser, null, 'plain', photoURL, setLoading)
       }
       else return setToasts(infoToast('User already exists.'))
     })

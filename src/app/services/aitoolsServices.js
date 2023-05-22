@@ -31,6 +31,47 @@ export const getAITools = (setTools, lim) => {
     })
 }
 
+export const getAllTools = (setTools, lim) => {
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      setTools(snapshot.docs.map((doc) => doc.data()))
+    })
+}
+
+export const getToolsByType = (type, setTools, lim) => {
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    where('type', '==', type),  
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      setTools(snapshot.docs.map((doc) => doc.data()))
+    })
+}
+
+export const getNonAITools = (setTools, lim) => {
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    where('type', '==', 'tool'),
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      setTools(snapshot.docs.map((doc) => doc.data()))
+    })
+}
+
 export const getAITool = (toolID) => {
   const toolRef = doc(db, 'aitools', toolID)
   return getDoc(toolRef)
@@ -38,6 +79,28 @@ export const getAITool = (toolID) => {
       return snapshot.data()
     })
 }
+
+export const getChatPrompts = (setPrompts, lim) => {
+  const promptsRef = collection(db, 'prompts')
+  const q = query(
+    promptsRef,
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      setPrompts(snapshot.docs.map((doc) => doc.data()))
+    })
+}
+
+export const getChatPrompt = (promptID) => {
+  const promptRef = doc(db, 'prompts', promptID)
+  return getDoc(promptRef)
+    .then((snapshot) => {
+      return snapshot.data()
+    })
+}
+
 
 
 

@@ -37,3 +37,25 @@
   color: var(--ternary);
   font-weight: 600;
 }
+
+.search-page .search-stats {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  margin-top: 20px;
+}
+.search-page .search-stats h4 {
+  font-size: 24px;
+  color: var(--ternary);
+}
+.search-page .search-stats h4 span {
+  color: var(--primary);
+}
+.search-page .search-stats h5 {
+  color: var(--grayText);
+  font-size: 17px;
+  font-weight: 600;
+}

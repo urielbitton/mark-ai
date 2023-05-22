@@ -59,14 +59,16 @@ export default function AIToolCard(props) {
             src={logo}
             dimensions={27}
           />
-          <small>{category}</small>
+          <small onClick={() => navigate(`/search?q=${category}`)}>
+            {category}
+          </small>
         </div>
         <h5>
           <Link to={!isPreview ? `/ai-tools/${toolID}` : ''}>
             {truncateText(title, 25)}
           </Link>
         </h5>
-        <p>{truncateText(tagline, 100)}</p>
+        <p>{truncateText(tagline, 73)}</p>
         <div className="bottom-bar">
           <small>
             <i className="fas fa-external-link-alt" />

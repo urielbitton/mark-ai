@@ -54,15 +54,14 @@ export const saveAccountInfoService = (userID, data, uploadedImg, contactStorage
     })
 } 
 
-export const createUserDocService = (user, res, authMode, setLoading) => {
+export const createUserDocService = (user, res, authMode, photoURL, setLoading) => {
   const firstName = user?.displayName?.split(' ')[0] || ''
   const lastName = user?.displayName?.split(' ')[1] || ''
-  const photoURLPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/deskable-bb146.appspot.com/o/admin%2Fimages%2FphotoURLPlaceholder.png?alt=media&token=e920fe83-3762-4093-ad42-abf85dfc8e2d'
   return setDB('users', user.uid, {
     firstName: authMode === 'plain' ? firstName : authMode === 'google' ? res.additionalUserInfo.profile.given_name : res.first_name,
     lastName: authMode === 'plain' ? lastName : authMode === 'google' ? res.additionalUserInfo.profile.family_name : res.last_name,
     email: authMode === 'plain' ? user.email : authMode === 'google' ? res.additionalUserInfo.profile.email : res.email,
-    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURLPlaceholder,
+    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURL,
     address: '',
     phone: '',
     city: '',
