@@ -6,7 +6,7 @@ export default function AppSearchBar({placeholder, value, onChange, onKeyUp,
   onSubmit, btnLabel, onClear, btnIcon=null}) {
 
   return (
-    <div className="ai-searchbar">
+    <div className="app-searchbar">
       <input
         placeholder={placeholder}
         value={value}

@@ -29,7 +29,7 @@ export default function PromptsCategoryPage() {
 
   const submitSearch = () => {
     if (noWhiteSpaceChars(searchQuery) < 1) return
-    navigate(`/search/prompts?q=${searchQuery}`)
+    navigate(`/search/prompts?q=${searchQuery}&category=${category}`)
   }
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function PromptsCategoryPage() {
       </div>
       <div className="search-section">
         <AppSearchBar
-          placeholder="Search prompts in this category"
+          placeholder={`Search ${category} prompts`}
           btnLabel="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}

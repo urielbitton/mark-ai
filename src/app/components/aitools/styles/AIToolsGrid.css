@@ -1,6 +1,7 @@
 .ai-tools-grid {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .ai-tools-grid .content {
   width: 100%;

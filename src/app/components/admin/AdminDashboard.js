@@ -6,7 +6,11 @@ export default function AdminDashboard() {
     <div>
       <AppButton
         label="Add New Tool"
-        url="/admin/add-new-tool"
+        url="/admin/add-new/tool"
+      />
+      <AppButton
+        label="Add New Prompt"
+        url="/admin/add-new/prompt"
       />
       <AppButton
         label="Tools Library"

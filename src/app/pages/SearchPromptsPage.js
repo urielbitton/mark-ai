@@ -6,12 +6,12 @@ import './styles/SearchPage.css'
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import noDataImg from "app/assets/images/no-data.png"
 import PromptsSearchHits from "app/components/aitools/PromptsSearchHits"
+import AppButton from "app/components/ui/AppButton"
 
 export default function SearchPromptsPage() {
 
   const [searchString, setSearchString] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
-  const filters = ''
   const [numOfHits, setNumOfHits] = useState(0)
   const [numOfPages, setNumOfPages] = useState(0)
   const [pageNum, setPageNum] = useState(0)
@@ -19,8 +19,10 @@ export default function SearchPromptsPage() {
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const urlQuery = searchParams.get('q')
+  const categoryMode = searchParams.get('category')
+  const filters = !categoryMode ? '' : `category: ${categoryMode}`
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
-
+  
   const submitSearch = () => {
     setSearchQuery(searchString)
   }
@@ -29,6 +31,11 @@ export default function SearchPromptsPage() {
     setSearchString('')
     setSearchQuery('')
     setSearchParams({})
+  }
+
+  const clearCategory = () => {
+    setSearchParams({})
+    setSearchQuery(searchString)
   }
 
   useEffect(() => {
@@ -54,7 +61,21 @@ export default function SearchPromptsPage() {
           searchQuery.length > 0 &&
           <div className="search-stats">
             <h4>Search: <span>"{searchQuery}"</span></h4>
-            <h5>{numOfHits} results found</h5>
+            <h5>
+              {numOfHits} result{numOfHits !== 1 ? 's' : ''} found
+              {
+                categoryMode ?
+                  <span> in <span className="category">{categoryMode}</span></span> :
+                  null
+              }
+            </h5>
+            {
+               categoryMode &&
+               <AppButton
+                  label="Clear category"
+                  onClick={() => clearCategory()}
+               />
+            }
           </div>
         }
       </div>

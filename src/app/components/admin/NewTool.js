@@ -42,13 +42,26 @@ export default function NewTool() {
       && tagline
       && shortDescription
       && category
-      && color1
-      && color2
       && url
       && tags
       && mainImg?.length
       && logo?.length
       && images?.length > 0
+  }
+
+  const clearForm = () => {
+    setTitle("")
+    setTagline("")
+    setShortDescription("")
+    setCategory(toolsCategoriesData[0].value)
+    setColor1("#865DFF")
+    setColor2("#E384FF")
+    setType(toolsTypesData[0].value)
+    setUrl("")
+    setTags("")
+    setMainImg([])
+    setLogo([])
+    setImages([])
   }
 
   const handleAddTool = () => {
@@ -100,7 +113,7 @@ export default function NewTool() {
       setToasts
     )
       .then(() => {
-        navigate(`/ai-tools/${editToolID}`)
+        clearForm()
       })
   }
 
@@ -155,6 +168,7 @@ export default function NewTool() {
             value={category}
             onChange={(val) => setCategory(val.value)}
             options={toolsCategoriesData}
+            searchable
             placeholder={
               <div className="input-placeholder">
                 <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon}></i>
@@ -260,13 +274,16 @@ export default function NewTool() {
           <div className="btn-group">
             {
               !editMode ?
-                <AppButton
-                  label="Add Tool"
-                  onClick={handleAddTool}
-                  loading={loading}
-                  rightIcon="far fa-arrow-right"
-                  disabled={!validateForm()}
-                /> :
+                <>
+                  <AppButton
+                    label="Add Tool"
+                    onClick={handleAddTool}
+                    loading={loading}
+                    rightIcon="far fa-arrow-right"
+                    disabled={!validateForm()}
+                  />
+                </> 
+                :
                 <>
                   <AppButton
                     label="Save Changes"

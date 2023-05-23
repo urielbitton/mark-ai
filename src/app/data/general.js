@@ -51,3 +51,8 @@ export const supportIssuesOptions = [
   }
 ]
 
+export const homeTypewriteTexts = [
+  "AI Tools",
+  "Online Tools",
+  "Prompts"
+]

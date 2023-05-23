@@ -30,6 +30,13 @@ export default function NewPrompt() {
       && category
   }
 
+  const clearForm = () => {
+    setText("")
+    setCategory(toolsCategoriesData[0].value)
+    setShort("")
+    setTags("")
+  }
+
   const handleAddPrompt = () => {
     if (!validateForm) return
     addNewPromptService(
@@ -43,7 +50,7 @@ export default function NewPrompt() {
       setToasts
     )
       .then(() => {
-        navigate('/admin/library/prompts')
+        clearForm()
       })
   }
 
@@ -96,6 +103,7 @@ export default function NewPrompt() {
             value={category}
             onChange={(val) => setCategory(val.value)}
             options={toolsCategoriesData}
+            searchable
             placeholder={
               <div className="input-placeholder">
                 <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon}></i>

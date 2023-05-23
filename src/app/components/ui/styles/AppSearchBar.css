@@ -1,9 +1,9 @@
-.ai-searchbar {
+.app-searchbar {
   display: flex;
   align-items: center;
   width: 100%;
 }
-.ai-searchbar input {
+.app-searchbar input {
   width: 100%;
   border-radius: 40px;
   padding: 17px 15px;
@@ -11,7 +11,7 @@
   padding-left: 20px;
   padding-right: 120px;
 }
-.ai-searchbar i.fa-times {
+.app-searchbar i.fa-times {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -22,7 +22,7 @@
   z-index: 10;
   cursor: pointer;
 }
-.ai-searchbar .appButton {
+.app-searchbar .appButton {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

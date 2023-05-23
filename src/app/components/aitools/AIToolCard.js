@@ -85,7 +85,7 @@ export default function AIToolCard(props) {
               isAdmin && !isPreview &&
               <i
                 className="fas fa-pen"
-                onClick={() => navigate(`/admin/add-new-tool?toolID=${toolID}&edit=true`)}
+                onClick={() => navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)}
               />
             }
             <i 

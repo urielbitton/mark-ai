@@ -31,8 +31,22 @@
   font-weight: 600;
   margin-top: 10px;
 }
-.homepage .hero-section .ai-searchbar {
+.homepage .hero-section .app-searchbar {
   margin-top: 50px;
+}
+
+.typewrite {
+  animation: typewrite 1s steps(40) infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid var(--darkGrayText);
+}
+.typewrite.done {
+  border-color: transparent;
+}
+@keyframes typewrite {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 .homepage .tabs-section {

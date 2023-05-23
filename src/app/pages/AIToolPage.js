@@ -20,6 +20,7 @@ import { errorToast, successToast } from "app/data/toastsTemplates"
 import { useDocsCount } from "app/hooks/userHooks"
 import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
+import { toolsTypesData } from "app/data/toolsData"
 
 export default function AIToolPage() {
 
@@ -94,7 +95,7 @@ export default function AIToolPage() {
   }
 
   const handleEditTool = () => {
-    navigate(`/admin/add-new-tool?toolID=${toolID}&edit=true`)
+    navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)
   }
 
   const handleDeleteTool = () => {
@@ -177,7 +178,10 @@ export default function AIToolPage() {
           <div className="row">
             <div className="row-item">
               <h6>Type</h6>
-              <p className="cap">{aitool.type}</p>
+              <p className="cap">
+                <i className={toolsTypesData.find((type) => type.value === aitool.type).icon} />&nbsp;&nbsp;
+                {aitool.type === 'ai' ? 'AI' : aitool.type}
+              </p>
             </div>
             <div className="row-item">
               <h6>Tags</h6>

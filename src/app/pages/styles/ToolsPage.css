@@ -1,8 +1,55 @@
 .tools-page {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .tools-page .titles {
   display: flex;
   flex-direction: column;
+  align-items: center; 
+  text-align: center;
+  padding-top: 20px;
+}
+.tools-page .titles h1 {
+  color: var(--darkGrayText);
+  font-size: 50px;
+}
+.tools-page .titles h1 span {
+  background: var(--primaryGradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: center;
+}
+.tools-page .titles h5 {
+  color: var(--grayText);
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.tools-page .search-section {
+  margin: 30px auto;
+  padding: 10px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: -10px;
+  z-index: 100;
+  background: var(--bg);
+}
+.tools-page .search-section .app-searchbar {
+  width: 700px;
+  max-width: 100%;
+}
+
+.tools-page .prompts-grid {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+.tools-page .ai-tools-grid {
+  margin-top: 40px;
+  margin-bottom: 30px;
 }

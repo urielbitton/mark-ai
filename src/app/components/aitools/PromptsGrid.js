@@ -9,9 +9,7 @@ export default function PromptsGrid({ categories }) {
 
   const limitsNum = 7
 
-  const promptsCategoryRender = categories
-    .sort((a, b) => a.label < b.label ? -1 : 1)
-    .map((category, index) => {
+  const promptsCategoryRender = categories?.map((category, index) => {
       return <PromptsCategoryColumn
         category={category}
         limit={limitsNum}

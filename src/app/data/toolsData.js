@@ -1,15 +1,9 @@
 
 export const toolsCategoriesData = [
   {
-    label: 'Marketing',
-    value: 'marketing',
-    icon: 'fas fa-bullhorn',
-    iconColor: 'var(--primary)'
-  },
-  {
-    label: 'Media',
-    value: 'media',
-    icon: 'fas fa-photo-video',
+    label: 'Business',
+    value: 'business',
+    icon: 'fas fa-user-tie',
     iconColor: 'var(--primary)'
   },
   {
@@ -31,27 +25,9 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
-    label: 'Finance',
-    value: 'finance',
-    icon: 'fas fa-chart-line',
-    iconColor: 'var(--primary)'
-  },
-  {
-    label: 'Business',
-    value: 'business',
-    icon: 'fas fa-briefcase',
-    iconColor: 'var(--primary)'
-  },
-  {
-    label: 'Social',
-    value: 'social',
-    icon: 'fas fa-users',
-    iconColor: 'var(--primary)'
-  },
-  {
-    label: 'Productivity',
-    value: 'productivity',
-    icon: 'fas fa-tasks',
+    label: 'Education',
+    value: 'education',
+    icon: 'fas fa-book',
     iconColor: 'var(--primary)'
   },
   {
@@ -61,9 +37,45 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
-    label: 'Education',
-    value: 'education',
-    icon: 'fas fa-graduation-cap',
+    label: 'Finance',
+    value: 'finance',
+    icon: 'fas fa-chart-line',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Legal',
+    value: 'legal',
+    icon: 'fas fa-balance-scale',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Marketing',
+    value: 'marketing',
+    icon: 'fas fa-bullhorn',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Media',
+    value: 'media',
+    icon: 'fas fa-photo-video',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Online Content',
+    value: 'content',
+    icon: 'fas fa-browser',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Productivity',
+    value: 'productivity',
+    icon: 'fas fa-tasks',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Social',
+    value: 'social',
+    icon: 'fas fa-users',
     iconColor: 'var(--primary)'
   },
   {

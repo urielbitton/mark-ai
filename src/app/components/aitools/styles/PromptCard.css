@@ -10,7 +10,7 @@
 }
 .prompt-card:hover {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px 45px 45px 10px;
+  border-radius: 20px 45px 45px 20px;
 }
 .prompt-card .left-side {
   height: 100%;
@@ -26,7 +26,7 @@
 .prompt-card .main-icon-container:hover .fa-copy {
   display: block;
 }
-.prompt-card .main-icon-container:hover .fa-comment-dots {
+.prompt-card .main-icon-container:hover .main-icon {
   display: none;
 }
 .prompt-card .main-icon-container:hover {
@@ -44,7 +44,7 @@
   transition: all 0.3s;
 }
 .prompt-card .main-icon-container i {
-  font-size: 25px;
+  font-size: 20px;
   color: #fff;
 }
 .prompt-card .bookmark-icon {

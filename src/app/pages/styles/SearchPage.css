@@ -65,3 +65,6 @@
   font-size: 17px;
   font-weight: 600;
 }
+.search-page .search-stats h5 span.category {
+  color: var(--primary);
+}

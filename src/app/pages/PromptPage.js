@@ -10,6 +10,7 @@ import { StoreContext } from "app/store/store"
 import AppButton from "app/components/ui/AppButton"
 import { deletePromptService, toggleBookmarkPromptService } from "app/services/aitoolsServices"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
+import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptPage() {
 
@@ -24,6 +25,7 @@ export default function PromptPage() {
   const isBookmarked = userBookmarks.includes(promptID)
   const isProMember = myUserType === "pro" || myUserType === "admin"
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isProMember
+  const categoryIcon = toolsCategoriesData?.find(cat => cat.value === prompt?.category)?.icon
 
   const handleCopyText = () => {
     setIconClicked(true)
@@ -54,7 +56,7 @@ export default function PromptPage() {
   return prompt && !loading ? (
     <div className="prompt-page">
       <IconContainer
-        icon={iconClicked ? "fas fa-check" : !iconHover ? "fas fa-comment-dots" : "fas fa-copy"}
+        icon={iconClicked ? "fas fa-check" : !iconHover ? categoryIcon : "fas fa-copy"}
         dimensions={100}
         iconSize={32}
         bgColor="var(--primaryGradient)"

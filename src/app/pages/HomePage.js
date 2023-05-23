@@ -9,6 +9,8 @@ import { useViewportObserver } from "app/hooks/generalHooks"
 import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import TabSwitcher from "app/components/ui/TabSwitcher"
 import PromptsGrid from "app/components/aitools/PromptsGrid"
+import TypewriteText from "app/components/ui/TypewriteText"
+import { homeTypewriteTexts } from "app/data/general"
 
 export default function HomePage() {
 
@@ -25,7 +27,7 @@ export default function HomePage() {
 
   const btnIconRender = activeType.type === 'ai' ? "fas fa-robot" :
     activeType.type === 'tool' ? "fas fa-flask" :
-      activeType.type === 'prompt' ? "fas fa-comment-dots" : ''
+    activeType.type === 'prompt' ? "fas fa-comment-dots" : ''
 
   const submitSearch = () => {
     if (noWhiteSpaceChars(searchQuery) < 1) return
@@ -60,7 +62,14 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <div className="hero-section">
-        <h1>Your <span>AI</span> tools in one place</h1>
+        <h1>
+          Your&nbsp;
+          <TypewriteText 
+            textArray={homeTypewriteTexts} 
+            maxLoops={4}
+          />
+          &nbsp;in one place
+        </h1>
         <h5>Search the latest AI resources and tools</h5>
         <AppSearchBar
           placeholder={activeType.type !== 'prompt' ? "Search by name, category, or tag..." : 'Search by prompt or category'}

@@ -6,6 +6,7 @@ import { StoreContext } from "app/store/store"
 import { successToast } from "app/data/toastsTemplates"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toggleBookmarkPromptService } from "app/services/aitoolsServices"
+import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptCard(props) {
 
@@ -17,6 +18,7 @@ export default function PromptCard(props) {
   const isProMember = myUserType === "pro" || myUserType === "admin"
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isProMember
   const navigate = useNavigate()
+  const categoryIcon = toolsCategoriesData?.find(cat => cat.value === category)?.icon
 
   const onPromptClick = (e) => {
     copyToClipboard(text)
@@ -43,7 +45,7 @@ export default function PromptCard(props) {
           className="main-icon-container"
           onClick={onPromptClick}
         >
-          <i className="fas fa-comment-dots" />
+          <i className={`${categoryIcon} main-icon`} />
           <i className="fas fa-copy" />
         </div>
         {
@@ -58,8 +60,7 @@ export default function PromptCard(props) {
         to={!isPreview ? `/prompts/${promptID}` : ''}
         className="text-content"
       >
-        <h5>{category}</h5>
-        <p>{truncateText(text, 140)}</p>
+        <p>{truncateText(text, 150)}</p>
       </Link>
     </div>
   )
