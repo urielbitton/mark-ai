@@ -11,6 +11,7 @@ export default function AppToast(props) {
   const { title, message, icon, url, onClick, btnLabel = 'View',
     toastID, color } = props.toast
   const [markClosing, setMarkClosing] = useState([])
+  const timeout = 5000
 
   const closeToast = (id) => {
     setMarkClosing(prev => [...prev, id])
@@ -25,7 +26,7 @@ export default function AppToast(props) {
         if (!toast.keep) {
           setTimeout(() => {
             closeToast(toast.toastID)
-          }, 5000)
+          }, timeout)
         }
       })
     }

@@ -103,3 +103,10 @@ export const getToolsBookmarksByUserID = (userID, setBookmarks) => {
     setBookmarks(doc.data()?.bookmarks || [])
   })
 }
+
+export const getPromptsBookmarksByUserID = (userID, setBookmarks) => {
+  const query = doc(db, `users/${userID}/bookmarks`, 'prompts')
+  onSnapshot(query, (doc) => {
+    setBookmarks(doc.data()?.bookmarks || [])
+  })
+}

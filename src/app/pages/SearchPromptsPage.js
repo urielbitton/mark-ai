@@ -1,13 +1,13 @@
 import AppSearchBar from "app/components/ui/AppSearchBar"
-import AIToolsSearchHits from "app/components/aitools/AIToolsSearchHits"
 import AppPagination from "app/components/ui/AppPagination"
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from "react-router-dom"
 import './styles/SearchPage.css'
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import noDataImg from "app/assets/images/no-data.png"
+import PromptsSearchHits from "app/components/aitools/PromptsSearchHits"
 
-export default function SearchPage() {
+export default function SearchPromptsPage() {
 
   const [searchString, setSearchString] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,10 +39,10 @@ export default function SearchPage() {
   }, [])
 
   return (
-    <div className="search-page">
+    <div className="search-page search-prompts-page">
       <div className="search-section">
         <AppSearchBar
-          placeholder="Search by name, category, or tag..."
+          placeholder="Search by prompt, category, or tag..."
           btnLabel="Search"
           onChange={(e) => setSearchString(e.target.value)}
           value={searchString}
@@ -58,7 +58,7 @@ export default function SearchPage() {
           </div>
         }
       </div>
-      <AIToolsSearchHits
+      <PromptsSearchHits
         query={searchQuery}
         filters={filters}
         setNumOfHits={setNumOfHits}

@@ -1,41 +1,66 @@
 import React, { useContext } from 'react'
 import './styles/PromptCard.css'
 import { copyToClipboard, truncateText } from "app/utils/generalUtils"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { StoreContext } from "app/store/store"
 import { successToast } from "app/data/toastsTemplates"
+import { useUserPromptsBookmarks } from "app/hooks/userHooks"
+import { toggleBookmarkPromptService } from "app/services/aitoolsServices"
 
 export default function PromptCard(props) {
 
-  const { setToasts } = useContext(StoreContext)
-  const { prompt, category, promptID } = props.prompt
+  const { setToasts, myUserID, myUser, myUserType } = useContext(StoreContext)
+  const { text, category, promptID } = props.prompt
+  const { isPreview } = props
+  const userBookmarks = useUserPromptsBookmarks(myUserID)
+  const isBookmarked = userBookmarks.includes(promptID)
+  const isProMember = myUserType === "pro" || myUserType === "admin"
+  const reachedBookmarkLimit = userBookmarks.length >= 50 && !isProMember
+  const navigate = useNavigate()
 
   const onPromptClick = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    copyToClipboard(prompt)
-    .then(() => {
-      setToasts(successToast('Prompt copied to clipboard!'))
-    })
+    copyToClipboard(text)
+      .then(() => {
+        setToasts(successToast('Prompt copied to clipboard!'))
+      })
+  }
+
+  const toggleBookmarkPrompt = () => {
+    if (!isBookmarked && reachedBookmarkLimit) {
+      setToasts("You can bookmark up to 50 prompts. Upgrade your account to unlock unlimited bookmarking.")
+      return navigate("/my-account/upgrade")
+    }
+    toggleBookmarkPromptService(promptID, myUserID, isBookmarked, setToasts)
   }
 
   return (
-    <Link
-      to={`/prompts/${promptID}`}
+    <div
       className="prompt-card"
       key={promptID}
     >
-      <div
-        className="icon-content"
-        onClick={onPromptClick}
+      <div className="left-side">
+        <div
+          className="main-icon-container"
+          onClick={onPromptClick}
+        >
+          <i className="fas fa-comment-dots" />
+          <i className="fas fa-copy" />
+        </div>
+        {
+          myUser &&
+          <i
+            className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark bookmark-icon`}
+            onClick={toggleBookmarkPrompt}
+          />
+        }
+      </div>
+      <Link
+        to={!isPreview ? `/prompts/${promptID}` : ''}
+        className="text-content"
       >
-        <i className="fas fa-comment-dots" />
-        <i className="fas fa-copy" />
-      </div>
-      <div className="text-content">
         <h5>{category}</h5>
-        <p>{truncateText(prompt, 140)}</p>
-      </div>
-    </Link>
+        <p>{truncateText(text, 140)}</p>
+      </Link>
+    </div>
   )
 }

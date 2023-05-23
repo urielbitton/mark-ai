@@ -12,6 +12,10 @@ export default function AdminDashboard() {
         label="Tools Library"
         url="/admin/library"
       />
+      <AppButton
+        label="Prompts Library"
+        url="/admin/library/prompts"
+      />
     </div>
   )
 }

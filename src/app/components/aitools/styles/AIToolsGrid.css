@@ -10,8 +10,35 @@
 }
 .prompts-grid .content {
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 80px 50px;
 } 
 .ai-tools-grid .ai-loader {
   margin: 20px auto;
   grid-column: 1/-1;
+}
+
+.ai-tools-grid .prompts-category-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.ai-tools-grid .prompts-category-column > h4 {
+  font-size: 16px;
+  color: var(--darkGrayText);
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--tableBorder);
+}
+.ai-tools-grid .prompts-category-column > h4 i {
+  margin-right: 10px;
+}
+.ai-tools-grid .prompts-category-column .prompts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ai-tools-grid .prompts-category-column .prompts-list > small {
+  font-size: 14px;
+  color: var(--darkGrayText);
+  font-weight: 500;
 }

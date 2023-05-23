@@ -12,6 +12,7 @@ const API_KEY = functions.config().algolia.key
 // @ts-ignore
 const client = algoliasearch(APP_ID, API_KEY)
 const aitoolsIndex = client.initIndex('aitools_index')
+const promptsIndex = client.initIndex('prompts_index')
 
 
 // Algolia functions
@@ -45,6 +46,31 @@ exports.deleteFromIndexAitools = functions
     return aitoolsIndex.deleteObject(snapshot.id)
   })
   .catch((err) => console.log(err))
+})
+
+exports.addToIndexPrompts = functions
+.region('northamerica-northeast1')
+.firestore.document('prompts/{promptID}')
+.onCreate((snapshot) => {
+  const data = snapshot.data()
+  const objectID = snapshot.id
+  return promptsIndex.saveObject({ ...data, objectID })
+})
+
+exports.updateIndexPrompts = functions
+.region('northamerica-northeast1')
+.firestore.document('prompts/{promptID}')
+.onUpdate((change) => {
+  const newData = change.after.data()
+  const objectID = change.after.id
+  return promptsIndex.saveObject({ ...newData, objectID })
+})
+
+exports.deleteFromIndexPrompts = functions
+.region('northamerica-northeast1')  
+.firestore.document('prompts/{promptID}')
+.onDelete((snapshot) => {
+  return promptsIndex.deleteObject(snapshot.id)
 })
 
 

@@ -1,5 +1,5 @@
 import { getDocsCount } from "app/services/CrudDB"
-import { doGetUserByID, getToolsBookmarksByUserID, getUserByID } from "app/services/userServices"
+import { doGetUserByID, getPromptsBookmarksByUserID, getToolsBookmarksByUserID, getUserByID } from "app/services/userServices"
 import React, { useEffect, useState } from 'react'
 
 export default function useUser(userID) {
@@ -50,7 +50,7 @@ export const useDocsCount = (path, updateTrigger) => {
   return count
 }
 
-export const useUserBookmarks = (userID) => {
+export const useUserToolsBookmarks = (userID) => {
 
   const [bookmarks, setBookmarks] = useState([])
 
@@ -62,3 +62,16 @@ export const useUserBookmarks = (userID) => {
 
   return bookmarks
 }
+
+export const useUserPromptsBookmarks = (userID) => {
+  
+    const [bookmarks, setBookmarks] = useState([])
+  
+    useEffect(() => {
+      if(userID) {
+        getPromptsBookmarksByUserID(userID, setBookmarks)
+      }
+    },[userID])
+  
+    return bookmarks
+  }

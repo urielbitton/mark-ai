@@ -1,9 +1,9 @@
 import React from 'react'
-import AppButton from "../ui/AppButton"
-import './styles/AISearchBar.css'
+import AppButton from "./AppButton"
+import './styles/AppSearchBar.css'
 
-export default function AISearchBar({placeholder, value, onChange, onKeyUp, 
-  onSubmit, btnLabel, onClear}) {
+export default function AppSearchBar({placeholder, value, onChange, onKeyUp, 
+  onSubmit, btnLabel, onClear, btnIcon=null}) {
 
   return (
     <div className="ai-searchbar">
@@ -24,6 +24,7 @@ export default function AISearchBar({placeholder, value, onChange, onKeyUp,
         label={btnLabel}
         onClick={onSubmit}
         buttonType="gradientBtn"
+        rightIcon={btnIcon}
       />
     </div>
   )

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './styles/Homepage.css'
 import AIToolsGrid from "app/components/aitools/AIToolsGrid"
-import { useChatPrompts, useToolsByType } from "app/hooks/aitoolsHooks"
-import AISearchBar from "app/components/aitools/AISearchBar"
+import { useToolsByType } from "app/hooks/aitoolsHooks"
+import AppSearchBar from "app/components/ui/AppSearchBar"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import { useViewportObserver } from "app/hooks/generalHooks"
-import { toolsTypesData } from "app/data/toolsData"
+import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import TabSwitcher from "app/components/ui/TabSwitcher"
 import PromptsGrid from "app/components/aitools/PromptsGrid"
 
@@ -19,14 +19,22 @@ export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeType, setActiveType] = useState({ type: toolsTypesData[0].value, index: 0 })
   const aitools = useToolsByType(activeType.type, toolsLimit, setToolsLoading)
-  const prompts = useChatPrompts(limitsNum, setToolsLoading)
   const navigate = useNavigate()
   const endRef = useRef(null)
   const reachedEndOfList = useViewportObserver(endRef)
 
+  const btnIconRender = activeType.type === 'ai' ? "fas fa-robot" :
+    activeType.type === 'tool' ? "fas fa-flask" :
+      activeType.type === 'prompt' ? "fas fa-comment-dots" : ''
+
   const submitSearch = () => {
     if (noWhiteSpaceChars(searchQuery) < 1) return
-    navigate(`/search?q=${searchQuery}`)
+    if(activeType.type !== 'prompt') {
+      navigate(`/search?q=${searchQuery}`)
+    }
+    else {
+      navigate(`/search/prompts?q=${searchQuery}`)
+    }
   }
 
   const onTabClick = (tab, index) => {
@@ -54,14 +62,15 @@ export default function HomePage() {
       <div className="hero-section">
         <h1>Your <span>AI</span> tools in one place</h1>
         <h5>Search the latest AI resources and tools</h5>
-        <AISearchBar
-          placeholder="Search by name, category, or tag..."
+        <AppSearchBar
+          placeholder={activeType.type !== 'prompt' ? "Search by name, category, or tag..." : 'Search by prompt or category'}
           btnLabel="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}
           onKeyUp={(e) => e.key === 'Enter' && submitSearch()}
           onSubmit={submitSearch}
           onClear={() => setSearchQuery('')}
+          btnIcon={btnIconRender}
         />
         <div className="tabs-section">
           <TabSwitcher
@@ -77,11 +86,10 @@ export default function HomePage() {
             <AIToolsGrid
               tools={aitools}
               loading={toolsLoading}
-            /> 
+            />
             :
             <PromptsGrid
-              prompts={prompts}
-              loading={toolsLoading}
+              categories={toolsCategoriesData}
             />
         }
         <div

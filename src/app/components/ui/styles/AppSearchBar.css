@@ -11,7 +11,7 @@
   padding-left: 20px;
   padding-right: 120px;
 }
-.ai-searchbar i {
+.ai-searchbar i.fa-times {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -27,7 +27,7 @@
   top: 50%;
   transform: translateY(-50%);
   right: 12px;
-  padding: 10px 20px;
+  padding: 10px 15px;
   font-size: 15px;
   z-index: 10;
 }

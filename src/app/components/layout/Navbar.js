@@ -13,7 +13,7 @@ import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
 
-  const { myUserID, setShowMobileSidebar, isAdmin } = useContext(StoreContext)
+  const { myUser, myUserID, setShowMobileSidebar, isAdmin } = useContext(StoreContext)
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
   const notifications = useAllNotifications(myUserID, 5)
@@ -37,13 +37,12 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="topbar site-grid">
         <div className="left">
-          <Link
-            to="/"
+          <div
             className="logo"
           >
             <img src={navLogo} alt="Mark Logo" />
             <h4>Mark<span>AI</span></h4>
-          </Link>
+          </div>
           <NavSearch />
           <div
             className="mobile-btn"
@@ -53,68 +52,87 @@ export default function Navbar() {
           </div>
         </div>
         <div className="right">
-          <IconContainer
-            icon="fas fa-home-alt"
-            inverted
-            iconColor="#fff"
-            iconSize="16px"
-            dimensions="30px"
-            tooltip="Home"
-            onClick={(e) => {
-              e.stopPropagation()
-              navigate('/')
-            }}
-          />
+          <div className="menu">
+            <Link to="/">
+              Home
+            </Link>
+            <Link to="ai-tools">
+              AI Tools
+            </Link>
+            <Link to="online-tools">
+              Online Tools
+            </Link>
+            <Link to="prompts">
+              Prompts
+            </Link>
+          </div>
           {
-            isAdmin &&
-            <IconContainer
-              icon="fas fa-plus"
-              inverted
-              iconColor="#fff"
-              iconSize="16px"
-              dimensions="30px"
-              tooltip="Add new"
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate('/admin/add-new-tool')
-              }}
-            />
+            myUser &&
+            <>
+              {
+                isAdmin &&
+                <div>
+                  <IconContainer
+                    icon="fas fa-plus"
+                    inverted
+                    iconColor="#fff"
+                    iconSize="16px"
+                    dimensions="30px"
+                    tooltip="Add new"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setShowMenu(showMenu === 'addNew' ? null : 'addNew')
+                    }}
+                  />
+                  <div className={`add-new-dropdown ${showMenu === 'addNew' ? 'show' : ''}`}>
+                    <Link to="/admin/add-new/tool">
+                      <i className="fas fa-flask" />
+                      New Tool
+                    </Link>
+                    <Link to="/admin/add-new/prompt">
+                      <i className="fas fa-comment-dots" />
+                      New Prompt
+                    </Link>
+                  </div>
+                </div>
+              }
+              <IconContainer
+                icon="fas fa-bookmark"
+                inverted
+                iconColor="#fff"
+                iconSize="16px"
+                dimensions="30px"
+                tooltip="Collection"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/my-bookmarks')
+                }}
+              />
+              <IconContainer
+                icon="fas fa-bell"
+                inverted
+                iconColor="#fff"
+                iconSize="16px"
+                dimensions="30px"
+                tooltip="Notifications"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowMenu(showMenu === 'notifications' ? null : 'notifications')
+                }}
+                badgeValue={unreadNotifications.length}
+                badgeBgColor="#fff"
+                badgeTextColor="var(--darkGrayText)"
+              />
+              <NavDropdown
+                label="Notifications"
+                viewAllURL="/notifications"
+                menuName="notifications"
+                showDropdown={showMenu}
+                setShowDropdown={setShowMenu}
+                itemsRender={notificationsList}
+              />
+            </>
           }
-          <IconContainer
-            icon="fas fa-bookmark"
-            inverted
-            iconColor="#fff"
-            iconSize="16px"
-            dimensions="30px"
-            tooltip="Collection"
-            onClick={(e) => {
-              e.stopPropagation()
-              navigate('/my-collection')
-            }}
-          />
-          <IconContainer
-            icon="fas fa-bell"
-            inverted
-            iconColor="#fff"
-            iconSize="16px"
-            dimensions="30px"
-            tooltip="Notifications"
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowMenu(showMenu === 'notifications' ? null : 'notifications')
-            }}
-            badgeValue={unreadNotifications.length}
-            badgeBgColor="#fff"
-            badgeTextColor="var(--darkGrayText)"
-          />
-          <NavDropdown
-            label="Notifications"
-            viewAllURL="/notifications"
-            menuName="notifications"
-            showDropdown={showMenu}
-            setShowDropdown={setShowMenu}
-            itemsRender={notificationsList}
-          />
           <MenuDropdown
             showMenu={showMenu}
             setShowMenu={setShowMenu}

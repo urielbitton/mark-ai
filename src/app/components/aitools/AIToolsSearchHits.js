@@ -1,7 +1,6 @@
 import { aitoolsIndex } from "app/algolia"
 import { useInstantSearch } from "app/hooks/searchHooks"
 import React from 'react'
-import AICard from "./AIToolCard"
 import AIToolsGrid from "./AIToolsGrid"
 
 export default function AIToolsSearchHits(props) {
@@ -9,7 +8,7 @@ export default function AIToolsSearchHits(props) {
   const { query, filters, setNumOfHits, setNumOfPages, 
     pageNum, hitsPerPage, loading, setLoading, showAll=false } = props
 
-  const allAITools = useInstantSearch(
+  const toolsResults = useInstantSearch(
     query,
     aitoolsIndex,
     filters,
@@ -24,7 +23,7 @@ export default function AIToolsSearchHits(props) {
   return (
     <div className="tools-search-hits">
       <AIToolsGrid
-        tools={allAITools}
+        tools={toolsResults}
         loading={loading}
       />
     </div>

@@ -1,0 +1,8 @@
+.tools-page {
+  display: flex;
+  flex-direction: column;
+}
+.tools-page .titles {
+  display: flex;
+  flex-direction: column;
+}

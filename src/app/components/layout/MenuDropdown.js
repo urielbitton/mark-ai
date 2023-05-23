@@ -45,39 +45,51 @@ export default function ProfileDropdown(props) {
             <span>AI Tools</span>
           </Link>
           <Link to="/tools">
-            <i className="fas fa-tools" />
-            <span>Tools</span>
+            <i className="fas fa-flask" />
+            <span>Online Tools</span>
           </Link>
-          <Link to="/chatgpt-prompts">
+          <Link to="/prompts">
             <i className="fas fa-comment-dots" />
             <span>Chat Prompts</span>
           </Link>
         </div>
-        {
-          myUser &&
-          <div className="column">
-            <h5>Account</h5>
-            <Link to="/my-account">
-              <i className="fas fa-user-circle" />
-              <span>My Account</span>
+        <div className="column">
+          <h5>Account</h5>
+          {
+            isAdmin &&
+            <Link to="/admin">
+              <i className="fas fa-user-shield" />
+              <span>Admin</span>
             </Link>
-            {
-              isAdmin &&
-              <Link to="/admin">
-                <i className="fas fa-user-shield" />
-                <span>Admin</span>
+          }
+          {
+            myUser ?
+            <>
+              <Link to="/my-account">
+                <i className="fas fa-user-circle" />
+                <span>My Account</span>
               </Link>
-            }
-            <Link to="/settings">
-              <i className="fas fa-cog" />
-              <span>Settings</span>
-            </Link>
-            <h6 onClick={() => signOut()}>
-              <i className="fas fa-sign-out" />
-              <span>Sign Out</span>
-            </h6>
-          </div>
-        }
+              <Link to="/upgrade">
+                <i className="fas fa-rocket" />
+                <span>Upgrade To Pro</span>
+              </Link>
+              <h6 onClick={() => signOut()}>
+                <i className="fas fa-sign-out" />
+                <span>Sign Out</span>
+              </h6>
+            </> :
+            <>
+              <Link to="/login">
+                <i className="fas fa-sign-in" />
+                <span>Sign In</span>
+              </Link>
+              <Link to="/register">
+                <i className="fas fa-user-plus" />
+                <span>Register</span>
+              </Link>
+            </>
+          }
+        </div>
         <div className="column">
           <h5>Support</h5>
           <Link to="help-and-support">

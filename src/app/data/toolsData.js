@@ -61,6 +61,12 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
+    label: 'Education',
+    value: 'education',
+    icon: 'fas fa-graduation-cap',
+    iconColor: 'var(--primary)'
+  },
+  {
     label: 'Other',
     value: 'other',
     icon: 'fas fa-circle',

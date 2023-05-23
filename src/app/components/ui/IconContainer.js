@@ -6,14 +6,16 @@ export default function IconContainer(props) {
   const { bgColor, icon, iconColor, iconSize="16px",
     dimensions="35px", round=true, noHover,
     inverted, onClick, tooltip, badgeValue, badgeBgColor,
-    badgeTextColor, style, className='' } = props
+    badgeTextColor, style, className='', onHover } = props
 
   return (
     <div
       className={`icon-container ${className} ${round ? "round" : ""} ${noHover ? "no-hover" : ""} ${inverted ? "inverted" : ""}`}
       onClick={(e) => onClick && onClick(e)}
       title={tooltip}
-      style={{ backgroundColor: bgColor, width: dimensions, height: dimensions, ...style }}
+      style={{ background: bgColor, width: dimensions, height: dimensions, ...style }}
+      onMouseEnter={() => onHover && onHover(true)}
+      onMouseLeave={() => onHover && onHover(false)}
     >
       <i
         className={icon}

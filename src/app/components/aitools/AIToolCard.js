@@ -6,7 +6,7 @@ import { beautifyUrl, truncateText } from "app/utils/generalUtils"
 import { StoreContext } from "app/store/store"
 import { toggleBookmarkToolService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
-import { useUserBookmarks } from "app/hooks/userHooks"
+import { useUserToolsBookmarks } from "app/hooks/userHooks"
 
 export default function AIToolCard(props) {
 
@@ -15,7 +15,7 @@ export default function AIToolCard(props) {
     url, category } = props.tool
   const { isPreview } = props
   const navigate = useNavigate()
-  const userBookmarks = useUserBookmarks(myUserID)
+  const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
 
   const Image = React.memo(() => {

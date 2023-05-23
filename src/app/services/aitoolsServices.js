@@ -101,7 +101,19 @@ export const getChatPrompt = (promptID) => {
     })
 }
 
-
+export const getPromptsByCategory = (category, lim) => {
+  const promptsRef = collection(db, 'prompts')
+  const q = query(
+    promptsRef,
+    where('category', '==', category),
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
 
 
 // Write operations
@@ -249,5 +261,59 @@ export const toggleBookmarkToolService = (toolID, userID, isBookmarked, setToast
   })
   .catch((err) => {
     setToasts(errorToast("Error adding bookmark. Please try again."))
+  })
+}
+
+export const addNewPromptService = (prompt, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'prompts'
+  const docID = getRandomDocID(path)
+  return setDB(path, docID, {
+    ...prompt,
+    promptID: docID,
+    dateAdded: new Date()
+  })
+  .then(() => {
+    setLoading(false)
+    setToasts(successToast("Prompt added successfully"))
+    return docID
+  })
+  .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const updatePromptService = (prompt, promptID, setLoading, setToasts) => {
+  setLoading(true)
+  return updateDB('prompts', promptID, {
+    ...prompt
+  })
+  .then(() => {
+    setLoading(false)
+    setToasts(successToast("Prompt saved successfully"))
+  })
+  .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const deletePromptService = (promptID, setLoading, setToasts) => {
+  setLoading(true)
+  return deleteDB('prompts', promptID)
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt deleted successfully"))
+    })
+    .catch((err) => {
+      setLoading(false)
+      setToasts(errorToast("Error deleting prompt. Please try again."))
+    })
+}
+
+export const toggleBookmarkPromptService = (promptID, userID, isBookmarked, setToasts) => {
+  return setDB(`users/${userID}/bookmarks`, 'prompts', {
+    bookmarks: isBookmarked ? firebaseArrayRemove(promptID) : firebaseArrayAdd(promptID)
+  })
+  .then(() => {
+    setToasts(successToast(isBookmarked ? "Prompt bookmark removed" : "Prompt bookmark added"))
+  })
+  .catch((err) => {
+    setToasts(errorToast("Error adding prompt to bookmarks. Please try again."))
   })
 }

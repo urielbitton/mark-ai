@@ -9,3 +9,4 @@ export const algoliaSearchClient = algoliasearch(
 )
 
 export const aitoolsIndex = algoliaSearchClient.initIndex('aitools_index')
+export const promptsIndex = algoliaSearchClient.initIndex('prompts_index')

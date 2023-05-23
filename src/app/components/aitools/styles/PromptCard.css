@@ -1,49 +1,65 @@
 .prompt-card {
   padding: 10px;
-  border-radius: 40px;
+  border-radius: 45px;
   background: var(--grayBg);
   box-shadow: var(--cardShadow);
   transition: all 0.2s;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 .prompt-card:hover {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px 45px 45px 10px;
 }
-.prompt-card .fa-copy {
+.prompt-card .left-side {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.prompt-card .main-icon-container .fa-copy {
   display: none;
 }
-.prompt-card:hover .fa-copy {
+.prompt-card .main-icon-container:hover .fa-copy {
   display: block;
 }
-.prompt-card:hover .fa-comment-dots {
+.prompt-card .main-icon-container:hover .fa-comment-dots {
   display: none;
 }
-.prompt-card .icon-content:hover {
+.prompt-card .main-icon-container:hover {
   filter: brightness(1.1);
 }
-.prompt-card .icon-content {
-  width: 50px;
-  height: 50px;
+.prompt-card .main-icon-container {
+  width: 45px;
+  height: 45px;
   border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--primaryGradient);
   cursor: pointer;
+  transition: all 0.3s;
 }
-.prompt-card .icon-content i {
+.prompt-card .main-icon-container i {
   font-size: 25px;
   color: #fff;
 }
+.prompt-card .bookmark-icon {
+  color: var(--primary);
+  font-size: 17px;
+  cursor: pointer;
+}
+
 .prompt-card .text-content {
   background: #fff;
   display: flex;
   flex-direction: column;
   padding: 15px 10px;
   padding-left: 25px;
-  border-radius: 40px;
+  border-radius: 50px;
   width: calc(100% - 50px);
   transition: all 0.2s;
 }
