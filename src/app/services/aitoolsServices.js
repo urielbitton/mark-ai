@@ -58,6 +58,21 @@ export const getToolsByType = (type, setTools, lim) => {
     })
 }
 
+export const getToolsByTypeAndCategory = (type, category, lim) => {
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    where('type', '==', type),
+    where('category', '==', category),
+    orderBy('dateAdded', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
+
 export const getNonAITools = (setTools, lim) => {
   const toolsRef = collection(db, 'aitools')
   const q = query(

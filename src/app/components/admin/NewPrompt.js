@@ -32,7 +32,6 @@ export default function NewPrompt() {
 
   const clearForm = () => {
     setText("")
-    setCategory(toolsCategoriesData[0].value)
     setShort("")
     setTags("")
   }

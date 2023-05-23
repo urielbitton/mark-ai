@@ -5,8 +5,11 @@ import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import AIToolsGrid from "app/components/aitools/AIToolsGrid"
-import { useToolsByType } from "app/hooks/aitoolsHooks"
+import { useToolsByTypeAndCategory } from "app/hooks/aitoolsHooks"
 import { useViewportObserver } from "app/hooks/generalHooks"
+import { toolsCategoriesData } from "app/data/toolsData"
+import { AppReactSelect } from "app/components/ui/AppInputs"
+import AppScrollSlider from "app/components/ui/AppScrollSlider"
 
 export default function ToolsPage() {
 
@@ -14,10 +17,22 @@ export default function ToolsPage() {
   const [toolsLimit, setToolsLimit] = useState(limitsNum)
   const [toolsLoading, setToolsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const onlineTools = useToolsByType('tool', toolsLimit, setToolsLoading)
+  const [selectedCategory, setSelectedCategory] = useState(toolsCategoriesData[0].value)
+  const onlineTools = useToolsByTypeAndCategory('tool', selectedCategory, toolsLimit, setToolsLoading)
   const navigate = useNavigate()
   const endRef = useRef(null)
   const reachedEndOfList = useViewportObserver(endRef)
+
+  const toolsCategoriesRender = toolsCategoriesData.map((cat, index) => {
+    return <h6
+      key={index}
+      className={selectedCategory === cat.value ? 'selected' : ''}
+      onClick={() => setSelectedCategory(cat.value)}
+    >
+      <i className={cat.icon}></i>
+      {cat.label}
+    </h6>
+  })
 
   const submitSearch = () => {
     if (noWhiteSpaceChars(searchQuery) < 1) return
@@ -33,7 +48,7 @@ export default function ToolsPage() {
   return (
     <div className="tools-page nonai-tools-page">
       <div className="titles">
-        <h1><span>Online</span> Tools</h1>
+        <h1>Online Tools</h1>
         <h5>Your Gateway to Efficiency and Productivity</h5>
       </div>
       <div className="search-section">
@@ -47,6 +62,28 @@ export default function ToolsPage() {
           onClear={() => setSearchQuery('')}
           btnIcon="fas fa-flask"
         />
+      </div>
+      <div className="categories-section">
+        <div className="left">
+          <h4>Categories</h4>
+          <AppReactSelect
+            value={selectedCategory}
+            onChange={(val) => setSelectedCategory(val.value)}
+            options={toolsCategoriesData}
+            searchable
+            placeholder={
+              <div className="input-placeholder">
+                <i className={toolsCategoriesData.find((cat) => cat.value === selectedCategory)?.icon} />
+                <h5 className="cap">{selectedCategory}</h5>
+              </div>
+            }
+          />
+        </div>
+        <div className="right">
+          <AppScrollSlider>
+            {toolsCategoriesRender}
+          </AppScrollSlider>
+        </div>
       </div>
       <AIToolsGrid
         tools={onlineTools}

@@ -1,4 +1,4 @@
-import { getAITool, getAITools, getAllTools, getChatPrompt, getChatPrompts, getNonAITools, getPromptsByCategory, getToolsByType } from "app/services/aitoolsServices"
+import { getAITool, getAITools, getAllTools, getChatPrompt, getChatPrompts, getNonAITools, getPromptsByCategory, getToolsByType, getToolsByTypeAndCategory } from "app/services/aitoolsServices"
 import { useEffect, useState } from "react"
 
 export const useAiTools = (limit, setLoading) => {
@@ -89,6 +89,25 @@ export const useToolsByType = (type, limit, setLoading) => {
         setLoading(false)
       })
   }, [type, limit])
+
+  return tools
+}
+
+export const useToolsByTypeAndCategory = (type, category, limit, setLoading) => {
+
+  const [tools, setTools] = useState([])
+
+  useEffect(() => {
+    getToolsByTypeAndCategory(type, category, limit)
+      .then((tools) => {
+        setTools(tools)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [type, category, limit])
 
   return tools
 }

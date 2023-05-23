@@ -19,7 +19,7 @@ export default function PromptsPage() {
   return (
     <div className="tools-page prompts-page">
       <div className="titles">
-        <h1>Chat <span>Prompts</span></h1>
+        <h1>Chat Prompts</h1>
         <h5>Discover powerful and high yielding chat prompts</h5>
       </div>
       <div className="search-section">

@@ -11,15 +11,11 @@
   padding-top: 20px;
 }
 .tools-page .titles h1 {
-  color: var(--darkGrayText);
   font-size: 50px;
-}
-.tools-page .titles h1 span {
   background: var(--primaryGradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  text-align: center;
 }
 .tools-page .titles h5 {
   color: var(--grayText);
@@ -43,6 +39,48 @@
 .tools-page .search-section .app-searchbar {
   width: 700px;
   max-width: 100%;
+}
+
+.tools-page .categories-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+.tools-page .categories-section > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tools-page .categories-section h4 {
+  color: var(--darkGrayText);
+  font-size: 17px;
+}
+.tools-page .categories-section .react-select {
+  min-width: 200px;
+}
+.tools-page .categories-section .right {
+  width: 50%;
+}
+.tools-page .categories-section .right h6 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: var(--grayBg);
+  color: var(--darkGrayText);
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tools-page .categories-section .right h6:hover,
+.tools-page .categories-section .right h6.selected {
+  background: var(--primary);
+  color: #fff;
 }
 
 .tools-page .prompts-grid {

@@ -8,7 +8,7 @@ import NotificationElement from "./NotificationElement"
 import MenuDropdown from "./MenuDropdown"
 import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
@@ -53,18 +53,18 @@ export default function Navbar() {
         </div>
         <div className="right">
           <div className="menu">
-            <Link to="/">
+            <NavLink to="/">
               Home
-            </Link>
-            <Link to="ai-tools">
+            </NavLink>
+            <NavLink to="ai-tools">
               AI Tools
-            </Link>
-            <Link to="online-tools">
+            </NavLink>
+            <NavLink to="online-tools">
               Online Tools
-            </Link>
-            <Link to="prompts">
+            </NavLink>
+            <NavLink to="prompts">
               Prompts
-            </Link>
+            </NavLink>
           </div>
           {
             myUser &&

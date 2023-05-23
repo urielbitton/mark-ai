@@ -98,10 +98,11 @@
   font-size: 13px;
   font-weight: 600;
   transition: all 0.2s;
-  padding: 10px;
+  padding: 15px 10px;
   border-radius: 5px;
 }
-.navbar .topbar .right .menu a:hover {
+.navbar .topbar .right .menu a:hover,
+.navbar .topbar .right .menu a.active {
   background: rgba(255,255,255,0.2);
 }
 .navbar .topbar .dropdown-button .dropdown-item {

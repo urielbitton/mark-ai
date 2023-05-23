@@ -49,21 +49,6 @@ export default function NewTool() {
       && images?.length > 0
   }
 
-  const clearForm = () => {
-    setTitle("")
-    setTagline("")
-    setShortDescription("")
-    setCategory(toolsCategoriesData[0].value)
-    setColor1("#865DFF")
-    setColor2("#E384FF")
-    setType(toolsTypesData[0].value)
-    setUrl("")
-    setTags("")
-    setMainImg([])
-    setLogo([])
-    setImages([])
-  }
-
   const handleAddTool = () => {
     if (!validateForm) return
     return addNewToolService(
@@ -113,7 +98,7 @@ export default function NewTool() {
       setToasts
     )
       .then(() => {
-        clearForm()
+        navigate(`/ai-tools/${editToolID}`)
       })
   }
 

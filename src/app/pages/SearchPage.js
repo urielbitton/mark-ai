@@ -40,7 +40,10 @@ export default function SearchPage() {
 
   return (
     <div className="search-page">
-      <div className="search-section">
+      <div className="titles">
+        <h1>Search</h1>
+      </div>
+      <div className="search-container">
         <AppSearchBar
           placeholder="Search by name, category, or tag..."
           btnLabel="Search"
@@ -50,6 +53,8 @@ export default function SearchPage() {
           onSubmit={submitSearch}
           onClear={clearInput}
         />
+      </div>
+      <div className="search-info">
         {
           searchQuery.length > 0 &&
           <div className="search-stats">
