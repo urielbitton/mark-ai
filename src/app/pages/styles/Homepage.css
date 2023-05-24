@@ -18,13 +18,6 @@
   color: var(--darkGrayText);
   font-size: 50px;
 }
-.homepage .hero-section h1 span {
-  background: var(--primaryGradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  text-align: center;
-}
 .homepage .hero-section h5 {
   color: var(--grayText);
   font-size: 20px;
@@ -39,7 +32,7 @@
   animation: typewrite 1s steps(40) infinite;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 3px solid var(--darkGrayText);
+  border-right: 3px solid var(--primary);
 }
 .typewrite.done {
   border-color: transparent;

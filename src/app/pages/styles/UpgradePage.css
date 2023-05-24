@@ -1,0 +1,101 @@
+.upgrade-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.upgrade-page .main-img {
+  height: 300px;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
+.upgrade-page .titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upgrade-page .titles h1 {
+  font-size: 45px;
+  color: var(--darkGrayText);
+}
+.upgrade-page .titles h5 {
+  color: var(--grayText);
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.upgrade-page .table-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 400px;
+  margin-top: 50px;
+  padding: 50px 20px;
+  border-radius: 10px;
+  background: var(--primary);
+}
+.upgrade-page .table-list .main-icon {
+  font-size: 30px;
+  color: #fff;
+}
+.upgrade-page .table-list h4 {
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.upgrade-page .table-list h6 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+}
+.upgrade-page .table-list .appButton {
+  margin-top: 30px;
+  padding: 12px 20px;
+}
+
+.upgrade-page .payment-section {
+  margin-top: 100px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 300px;
+  width: 400px;
+  padding: 40px 30px;
+  border-radius: 10px;
+  background: var(--grayBg);
+  border: 1px solid var(--tableBorder);
+  display: none;
+}
+.upgrade-page .payment-section.show {
+  display: flex;
+}
+.upgrade-page .payment-section h3 {
+  color: var(--primary);
+  font-size: 35px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.upgrade-page .payment-section h5 {
+  font-size: 18px;
+  color: var(--darkGrayText);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.upgrade-page .payment-section h5 i {
+  font-size: 14px;
+}
+.upgrade-page .payment-section .paypal-button-container {
+  width: 100%;
+}
+.upgrade-page .payment-section .paypal-button-container * {
+  border-radius: 5px;
+}

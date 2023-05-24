@@ -19,10 +19,11 @@ import UpgradePage from "app/pages/UpgradePage"
 import AIToolsPage from "app/pages/AIToolsPage"
 import ToolsPage from "app/pages/ToolsPage"
 import PromptsPage from "app/pages/PromptsPage"
+import AppLoadingPage from "app/components/ui/AppLoadingPage"
 
 export default function RoutesContainer() {
 
-  const { user } = useContext(StoreContext)
+  const { myUser } = useContext(StoreContext)
   const scrollRef = useRef(null)
   const location = useLocation()
 
@@ -48,19 +49,22 @@ export default function RoutesContainer() {
           <Route path="/ai-tools/:toolID" element={<AIToolPage />} />
           <Route path="/prompts/categories/:category" element={<PromptsCategoryPage />} />
           <Route path="/prompts/:promptID" element={<PromptPage />} />
+          <Route path="/upgrade" element={<UpgradePage />} />
+          <Route path="/admin/*" element={<AdminPage />} />
           {
-            user ?
+            myUser ?
               <>
                 <Route path="my-account" element={<MyAccountPage />} />
                 <Route path="my-bookmarks" element={<MyCollectionPage />} />
-                <Route path="my-account/upgrade" element={<UpgradePage />} />
               </> :
+              myUser === null ? 
+              <Route path="*" element={<AppLoadingPage />} />
+              :
               <>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
               </>
           }
-          <Route path="/admin/*" element={<AdminPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>

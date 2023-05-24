@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
+    "@paypal/react-paypal-js": "^7.8.3",
     "@types/react": "^18.0.9",
     "algoliasearch": "^4.11.0",
-    "compressorjs": "^1.2.1",
     "firebase": "^9.16.0",
     "image-resize-compress": "^1.1.0",
     "react": "^18.2.0",

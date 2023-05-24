@@ -48,7 +48,7 @@ export default function ToolsPage() {
   return (
     <div className="tools-page nonai-tools-page">
       <div className="titles">
-        <h1>Online Tools</h1>
+        <h1 className="gradient-text">Online Tools</h1>
         <h5>Your Gateway to Efficiency and Productivity</h5>
       </div>
       <div className="search-section">

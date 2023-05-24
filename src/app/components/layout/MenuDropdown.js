@@ -64,30 +64,30 @@ export default function ProfileDropdown(props) {
           }
           {
             myUser ?
-            <>
-              <Link to="/my-account">
-                <i className="fas fa-user-circle" />
-                <span>My Account</span>
-              </Link>
-              <Link to="/upgrade">
-                <i className="fas fa-rocket" />
-                <span>Upgrade To Pro</span>
-              </Link>
-              <h6 onClick={() => signOut()}>
-                <i className="fas fa-sign-out" />
-                <span>Sign Out</span>
-              </h6>
-            </> :
-            <>
-              <Link to="/login">
-                <i className="fas fa-sign-in" />
-                <span>Sign In</span>
-              </Link>
-              <Link to="/register">
-                <i className="fas fa-user-plus" />
-                <span>Register</span>
-              </Link>
-            </>
+              <>
+                <Link to="/my-account">
+                  <i className="fas fa-user-circle" />
+                  <span>My Account</span>
+                </Link>
+                <h6 onClick={() => signOut()}>
+                  <i className="fas fa-sign-out" />
+                  <span>Sign Out</span>
+                </h6>
+              </> :
+              <>
+                <Link to="/upgrade">
+                  <i className="fas fa-rocket" />
+                  <span>Upgrade To Pro</span>
+                </Link>
+                <Link to="/login">
+                  <i className="fas fa-sign-in" />
+                  <span>Sign In</span>
+                </Link>
+                <Link to="/register">
+                  <i className="fas fa-user-plus" />
+                  <span>Register</span>
+                </Link>
+              </>
           }
         </div>
         <div className="column">

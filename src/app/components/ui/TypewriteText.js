@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-export default function TypewriteText({ textArray=null, loopTime=2000, maxLoops=Infinity }) {
+export default function TypewriteText({ 
+  textArray=null, loopTime=2000, maxLoops=Infinity, className=""
+}) {
 
   const [displayText, setDisplayText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -40,5 +42,5 @@ export default function TypewriteText({ textArray=null, loopTime=2000, maxLoops=
     return () => clearInterval(interval)
   }, [currentIndex, textArray])
 
-  return <span className={`typewrite ${doneTyping ? 'done' : ''}`}>{displayText}</span>
+  return <span className={`typewrite ${className} ${doneTyping ? 'done' : ''}`}>{displayText}</span>
 }

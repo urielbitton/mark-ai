@@ -139,7 +139,7 @@ export default function Navbar() {
             avatarDimensions="27px"
           />
           {
-            !myUserID &&
+            !myUserID && myUser !== null &&
             <AppButton
               label="Login"
               buttonType="whiteBtn"

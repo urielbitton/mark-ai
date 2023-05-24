@@ -35,7 +35,7 @@ export default function MyBookmarksPage() {
           <h5 className="title">AI & Online Tools</h5>
           {bookmarkedTools}
         </div>
-        <div className="prompts-flex">
+        <div className="prompts-grid">
           <h5 className="title">Chat Prompts</h5>
           {bookmarkedPrompts}
         </div>
@@ -69,5 +69,8 @@ export const BookmarkPromptCard = ({ promptID }) => {
       prompt={prompt}
     />
   ) :
-    <SkeletonLoader />
+    <SkeletonLoader 
+      small 
+      borderRadius={45}
+    />
 }

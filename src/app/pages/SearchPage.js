@@ -41,7 +41,7 @@ export default function SearchPage() {
   return (
     <div className="search-page">
       <div className="titles">
-        <h1>Search</h1>
+        <h1 className="gradient-text">Search</h1>
       </div>
       <div className="search-container">
         <AppSearchBar

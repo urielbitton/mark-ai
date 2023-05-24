@@ -11,10 +11,6 @@
 }
 .search-page h1 {
   font-size: 50px;
-  background: var(--primaryGradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
 }
 .search-page .search-info {
   margin-bottom: 40px;

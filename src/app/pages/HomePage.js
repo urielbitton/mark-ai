@@ -67,6 +67,7 @@ export default function HomePage() {
           <TypewriteText 
             textArray={homeTypewriteTexts} 
             maxLoops={4}
+            className="gradient-text"
           />
           &nbsp;in one place
         </h1>

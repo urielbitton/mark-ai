@@ -48,7 +48,7 @@ export default function AIToolsPage() {
   return (
     <div className="tools-page ai-tools-page">
       <div className="titles">
-        <h1>AI Tools</h1>
+        <h1 className="gradient-text">AI Tools</h1>
         <h5>Empower Your Work with Cutting-Edge AI Tools</h5>
       </div>
       <div className="search-section">

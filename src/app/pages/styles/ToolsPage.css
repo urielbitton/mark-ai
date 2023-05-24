@@ -12,10 +12,6 @@
 }
 .tools-page .titles h1 {
   font-size: 50px;
-  background: var(--primaryGradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
 }
 .tools-page .titles h5 {
   color: var(--grayText);

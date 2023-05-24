@@ -1,9 +1,12 @@
 import React from 'react'
 import './styles/SkeletonLoader.css'
 
-export default function SkeletonLoader() {
+export default function SkeletonLoader({small=false, borderRadius=10}) {
   return (
-    <div className="skeleton-loader">
+    <div 
+      className={`skeleton-loader ${small ? 'small' : ''}`}
+      style={{borderRadius}}
+    >
       <div className="intro" />
       <div className="info">
         <div className="rect1 rect" />

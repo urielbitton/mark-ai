@@ -171,6 +171,12 @@ hr {
   50% { background: #ddd; }
   100% { background: #f1f1f1; }
 }
+.gradient-text {
+  background: var(--primaryGradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
 .error-boundary {
   width: 100%;

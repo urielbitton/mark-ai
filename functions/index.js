@@ -5,7 +5,6 @@ firebase.initializeApp()
 const db = firebase.firestore()
 const storage = firebase.storage()
 db.settings({ ignoreUndefinedProperties: true })
-const sgMail = require('@sendgrid/mail')
 
 const APP_ID = functions.config().algolia.app
 const API_KEY = functions.config().algolia.key
