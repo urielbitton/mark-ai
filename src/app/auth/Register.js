@@ -6,11 +6,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { clearAuthState } from 'app/services/CrudDB'
 import googleIcon from 'app/assets/images/google-icon.png'
 import facebookIcon from 'app/assets/images/facebook-icon.png'
-import { facebookAuthService, googleAuthService, plainAuthService } from "app/services/authServices"
+import { facebookAuthService, googleAuthService, 
+  plainAuthService } from "app/services/authServices"
 import { validateEmail } from "app/utils/generalUtils"
 import logo from 'app/assets/images/logo.png'
 import AppButton from "app/components/ui/AppButton"
-import { infoToast } from "app/data/toastsTemplates"
+import { infoToast, successToast } from "app/data/toastsTemplates"
 
 export default function Register() {
 
@@ -34,14 +35,16 @@ export default function Register() {
 
   const googleAuth = () => {
     googleAuthService(photoURLPlaceholder, setMyUser, setLoading, setToasts)
-      .then(() => {
+      .then((res) => {
+        if(res === 'error') return 
         navigate('/')
       })
   }
 
   const facebookAuth = () => {
     facebookAuthService(photoURLPlaceholder, setLoading, setToasts)
-      .then(() => {
+      .then((res) => {
+        if(res === 'error') return 
         navigate('/')
       })
   }

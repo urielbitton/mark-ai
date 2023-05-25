@@ -56,3 +56,53 @@ export const homeTypewriteTexts = [
   "Online Tools",
   "Prompts"
 ]
+
+export const proMenuLinks = [
+  {
+    label: 'Dashboard',
+    url: '',
+    icon: 'fas fa-tachometer-alt',
+  },
+  {
+    label: 'My AI Tools',
+    url: 'my-ai-tools',
+    icon: 'fas fa-robot',
+  },
+  {
+    label: 'My Online Tools',
+    url: 'my-online-tools',
+    icon: 'fas fa-flask',
+  },
+  {
+    label: 'My Prompts',
+    url: 'my-prompts',
+    icon: 'fas fa-comment-dots',
+  },
+  {
+    label: 'New Submission',
+    icon: 'fas fa-plus',
+    url: '',
+    sublinks: [
+      {
+        label: 'New AI Tool',
+        icon: 'fas fa-plus',
+        url: 'new-ai-tool',
+      },
+      {
+        label: 'New Online Tool',
+        icon: 'fas fa-plus',
+        url: 'new-online-tool',
+      },
+      {
+        label: 'New Prompt',
+        icon: 'fas fa-plus',
+        url: 'new-prompt',
+      },
+    ]
+  },
+  {
+    label: 'Settings',
+    url: 'settings',
+    icon: 'fas fa-cog',
+  },
+]

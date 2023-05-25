@@ -9,7 +9,7 @@ import RegisterPage from "app/pages/RegisterPage"
 import { StoreContext } from "app/store/store"
 import MyAccountPage from "app/pages/MyAccountPage"
 import AdminPage from "app/pages/AdminPage"
-import MyCollectionPage from "app/pages/MyBookmarksPage"
+import MyCollectionPage from "app/pages/BookmarkToolsPage"
 import SearchPage from "app/pages/SearchPage"
 import AIToolPage from "app/pages/AIToolPage"
 import PromptPage from "app/pages/PromptPage"
@@ -20,6 +20,9 @@ import AIToolsPage from "app/pages/AIToolsPage"
 import ToolsPage from "app/pages/ToolsPage"
 import PromptsPage from "app/pages/PromptsPage"
 import AppLoadingPage from "app/components/ui/AppLoadingPage"
+import BookmarkToolsPage from "app/pages/BookmarkToolsPage"
+import BookmarkPromptsPage from "app/pages/BookmarkPromptsPage"
+import DashboardPage from "app/pages/DashboardPage"
 
 export default function RoutesContainer() {
 
@@ -51,11 +54,13 @@ export default function RoutesContainer() {
           <Route path="/prompts/:promptID" element={<PromptPage />} />
           <Route path="/upgrade" element={<UpgradePage />} />
           <Route path="/admin/*" element={<AdminPage />} />
+          <Route path="/dashboard/*" element={<DashboardPage />} />
           {
             myUser ?
               <>
                 <Route path="my-account" element={<MyAccountPage />} />
-                <Route path="my-bookmarks" element={<MyCollectionPage />} />
+                <Route path="my-bookmarks/tools" element={<BookmarkToolsPage />} />
+                <Route path="my-bookmarks/prompts" element={<BookmarkPromptsPage />} />
               </> :
               myUser === null ? 
               <Route path="*" element={<AppLoadingPage />} />

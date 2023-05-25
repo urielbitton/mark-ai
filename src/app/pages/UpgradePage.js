@@ -4,29 +4,65 @@ import upgradeImg from 'app/assets/images/upgrade-img.png'
 import AppButton from "app/components/ui/AppButton"
 import PayPalButton from "app/components/ui/PayPalButton"
 import { StoreContext } from "app/store/store"
+import { useNavigate } from "react-router-dom"
+import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
+import { formatCurrency } from "app/utils/generalUtils"
+import { updateDB } from "app/services/CrudDB"
+import { createNotification } from "app/services/notifServices"
+import { createTransactionService } from "app/services/transactionServices"
+import { auth } from "app/firebase/fire"
 
 export default function UpgradePage() {
 
-  const { upgradeProPrice } = useContext(StoreContext)
+  const { upgradeProPrice, myUser, myUserType, setToasts } = useContext(StoreContext)
   const [showPaypal, setShowPaypal] = useState(false)
   const paymentSectionRef = useRef(null)
+  const isPro = myUserType === 'pro' || myUserType === 'admin'
+  const navigate = useNavigate()
 
   const showPaypalSection = () => {
+    if(isPro) return setToasts(infoToast('You are already a Pro user'))
+    if(!myUser) {
+      setToasts(infoToast('Please login to upgrade to pro'))
+      return navigate('/login')
+    }
     setShowPaypal(true)
     setTimeout(() => {
       paymentSectionRef.current.scrollIntoView({ behavior: 'smooth' })
     }, 100)
   }
 
-  const handleOnSuccess = (data, actions) => {
-    console.log('success', data, actions)
+  const handleOnSuccess = (data, details) => {
+    const myUserID = auth?.currentUser?.uid
+    updateDB('users', myUserID, { 
+      userType: 'pro' 
+    })
+    .then(() => {
+      return createTransactionService(myUserID, data, details)
+    })
+    .then(() => {
+      return createNotification(
+        myUserID,
+        'Pro Membership Payment Successful',
+        `Your payment of ${formatCurrency(upgradeProPrice)} has been processed successfully. `+
+        `You are now a Pro user! You can find the transaction details in your account under `+
+        `payments and you can find your receipt in your PayPal account.`,
+        'fas fa-rocket',
+        '/dashboard'
+      )
+    })
+    .then(() => {
+      setToasts(successToast('Your payment has been processed successfully. You are now a Pro user!', true))
+      navigate('/dashboard')
+    })
   }
 
   const handleOnError = (err) => {
-    console.log('error', err)
+    setToasts(errorToast('There was an error processing your payment. Please try again later.'))
+    console.log(err)
   }
 
-  return (
+  return !isPro ? (
     <div className="upgrade-page">
       <img
         src={upgradeImg}
@@ -72,19 +108,26 @@ export default function UpgradePage() {
           className={`payment-section ${showPaypal ? 'show' : ''}`} 
           ref={paymentSectionRef}
         >
-          <h3>$20</h3>
+          <h3>${formatCurrency(upgradeProPrice)}</h3>
           <h5>
             <i className="fas fa-lock" />
             One time payment
           </h5>
           <PayPalButton
             amount={upgradeProPrice}
-            currency="USD"
+            currency="CAD"
             onSuccess={handleOnSuccess}
             onError={handleOnError}
           />
         </div>
       }
     </div>
-  )
+  ) :
+  <div className="upgrade-page">
+    <h3>You are already a Pro user</h3>
+    <AppButton
+      label="Go to Dashboard"
+      onClick={() => navigate('/dashboard')}
+    />
+  </div>
 }

@@ -15,7 +15,7 @@ const StoreContextProvider = ({children}) => {
   const myUserID = user?.uid
   const myUserImg = myUser?.photoURL
   const myUserName = `${myUser?.firstName} ${myUser?.lastName}`
-  const myMemberType = myUser?.memberType
+  const myUserType = myUser?.userType
   const photoURLPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/mark-ai-5d4aa.appspot.com/o/resources%2Fimages%2FphotoURLPlaceholder.png?alt=media&token=af309860-be92-419d-ad9b-5f8bd35eb5b3'
   const photoPlaceholder = 'https://firebasestorage.googleapis.com/v0/b/mark-ai-5d4aa.appspot.com/o/resources%2Fimages%2FphotoPlaceholder.jpg?alt=media&token=be84157d-15f2-481a-9c38-b6331d4efd4a'
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
@@ -41,7 +41,7 @@ const StoreContextProvider = ({children}) => {
   },[darkMode]) 
 
   return <StoreContext.Provider value={{ 
-    user, myUser, setMyUser, myUserID, myUserImg, myUserName, myMemberType,
+    user, myUser, setMyUser, myUserID, myUserImg, myUserName, myUserType,
     isAdmin, upgradeProPrice, 
     pageLoading, setPageLoading,
     darkMode, setDarkMode,

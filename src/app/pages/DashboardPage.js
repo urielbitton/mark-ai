@@ -1,15 +1,17 @@
-import AdminRouter from "app/components/admin/AdminRouter"
+import DashboardRouter from "app/components/dashboard/DashboardRouter"
 import AppLoadingPage from "app/components/ui/AppLoadingPage"
 import { StoreContext } from "app/store/store"
 import React, { useContext } from 'react'
 import { Navigate } from "react-router-dom"
 
-export default function AdminPage() {
+export default function DashboardPage() {
 
   const { myUser } = useContext(StoreContext)
-  const isAdmin = myUser?.userType === "admin"
+  const isPro = myUser?.userType === "pro"
 
-  return isAdmin ? <AdminRouter /> :
+  return (
+    isPro ? <DashboardRouter /> :
     myUser === null ? <AppLoadingPage /> : 
     <Navigate to="/error-404" />
+  )
 }

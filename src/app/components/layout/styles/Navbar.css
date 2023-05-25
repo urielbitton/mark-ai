@@ -319,9 +319,10 @@
   position: absolute;
   top: calc(100% + 5px);
   right: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
   visibility: hidden;
   opacity: 0;
   padding: 20px;
@@ -331,6 +332,12 @@
   visibility: visible;
   opacity: 1;
   top: 40px;
+}
+.navbar .menu-dropdown .top {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 25px;
+  width: 100%;
 }
 .navbar .menu-dropdown .column {
   display: flex;
@@ -376,6 +383,38 @@
   margin: 3px 0;
   background: #eee;
 }
+.navbar .menu-dropdown .bottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.navbar .menu-dropdown .bottom .profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.navbar .menu-dropdown .bottom h5 {
+  color: var(--darkGrayText);
+}
+.navbar .menu-dropdown .bottom h5 span {
+  color: var(--grayText);
+  text-transform: capitalize;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.navbar .menu-dropdown .bottom h5 span:hover {
+  background: var(--extraLightPrimary);
+  color: var(--primary);
+}
+.navbar .menu-dropdown .bottom h5 span i {
+  margin-right: 7px;
+}
+
 
 .navbar .add-new-dropdown {
   position: absolute;
@@ -398,6 +437,7 @@
   top: calc(100% + 10px);
 }
 .navbar .add-new-dropdown a {
+  border-radius: 5px;
   padding: 10px 7px;
   font-size: 13px;
   display: flex;

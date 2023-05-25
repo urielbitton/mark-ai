@@ -5,6 +5,7 @@ import { auth } from 'app/firebase/fire'
 import './styles/ForgotPassword.css'
 import resetPassword from 'app/assets/images/reset-password.png'
 import AppButton from "app/components/ui/AppButton"
+import { sendPasswordResetEmail } from "firebase/auth"
 
 export default function ForgotPassword() {
 
@@ -17,7 +18,7 @@ export default function ForgotPassword() {
   const handleSendEmail = () => {
     if(email.length) {
       setLoading(true)
-      auth.sendPasswordResetEmail(email)
+      sendPasswordResetEmail(auth, email)
         .then(() => {
           setLoading(false)
           setSuccess(true)

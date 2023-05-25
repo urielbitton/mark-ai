@@ -96,18 +96,30 @@ export default function Navbar() {
                   </div>
                 </div>
               }
-              <IconContainer
-                icon="fas fa-bookmark"
-                inverted
-                iconColor="#fff"
-                iconSize="16px"
-                dimensions="30px"
-                tooltip="Collection"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  navigate('/my-bookmarks')
-                }}
-              />
+              <div>
+                <IconContainer
+                  icon="fas fa-bookmark"
+                  inverted
+                  iconColor="#fff"
+                  iconSize="16px"
+                  dimensions="30px"
+                  tooltip="Collection"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowMenu(showMenu === 'bookmarks' ? null : 'bookmarks')
+                  }}
+                />
+                <div className={`add-new-dropdown ${showMenu === 'bookmarks' ? 'show' : ''}`}>
+                  <Link to="/my-bookmarks/tools">
+                    <i className="fas fa-flask" />
+                    My Tools
+                  </Link>
+                  <Link to="/my-bookmarks/prompts">
+                    <i className="fas fa-comment-dots" />
+                    My Prompts
+                  </Link>
+                </div>
+              </div>
               <IconContainer
                 icon="fas fa-bell"
                 inverted

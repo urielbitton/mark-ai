@@ -10,11 +10,10 @@ import { clearAuthState } from "app/services/CrudDB"
 import logo from 'app/assets/images/logo.png'
 import AppButton from "app/components/ui/AppButton"
 import {
-  createAccountOnLoginService,
   facebookAuthService, googleAuthService
 } from "app/services/authServices"
-import { infoToast } from "app/data/toastsTemplates"
 import { signInWithEmailAndPassword } from "firebase/auth"
+import { successToast } from "app/data/toastsTemplates"
 
 export default function Login() {
 
@@ -35,10 +34,11 @@ export default function Login() {
     setLoading(true)
     clearErrors()
     signInWithEmailAndPassword(auth, email.replaceAll(' ', ''), password.replaceAll(' ', ''))
-      .then((user) => {
+      .then((userCredential) => {
         setLoading(false)
         setLoading(false)
         navigate('/')
+        setToasts(successToast(`Hi ${userCredential.user.displayName}, welcome back to MarkAI.`))
       })
       .catch(err => {
         setLoading(false)
@@ -58,15 +58,17 @@ export default function Login() {
   }
 
   const googleAuth = () => {
-    googleAuthService(setMyUser, setLoading, setToasts)
-      .then(() => {
+    googleAuthService(null, setMyUser, setLoading, setToasts)
+      .then((res) => {
+        if(res === 'error') return
         navigate('/')
       })
   }
 
   const facebookAuth = () => {
-    facebookAuthService(setLoading, setToasts)
-      .then(() => {
+    facebookAuthService(null, setLoading, setToasts)
+      .then((res) => {
+        if(res === 'error') return
         navigate('/')
       })
   }
@@ -95,14 +97,14 @@ export default function Login() {
           <div className="social-logins">
             <div
               className="google-btn btn"
-              onClick={() => googleAuth()}
+              onClick={googleAuth}
             >
               <img src={googleIcon} className="img-icon" alt="google-icon" />
               <span>Sign In with Google</span>
             </div>
             <div
               className="facebook-btn btn"
-              onClick={() => facebookAuth()}
+              onClick={facebookAuth}
             >
               <img src={facebookIcon} className="img-icon" alt="facebook-icon" />
               <span>Sign In with Facebook</span>

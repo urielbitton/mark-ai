@@ -1,17 +1,18 @@
 import { auth } from "app/firebase/fire"
 import { createUserDocService, doGetUserByID } from "./userServices"
-import firebase from "firebase/compat/app"
 import { successToast, infoToast, errorToast } from "app/data/toastsTemplates"
 import { deleteDB } from "./CrudDB"
 import {
+  FacebookAuthProvider,
+  GoogleAuthProvider,
   createUserWithEmailAndPassword, onAuthStateChanged,
-  signInWithPopup, updateProfile
+  signInWithPopup, updateProfile, fetchSignInMethodsForEmail
 } from "firebase/auth"
 
 export const completeRegistrationService = (user, authMode, res, userName, photoURL, setLoading) => {
   updateProfile(user, {
-    displayName: authMode === 'plain' ? `${userName.firstName} ${userName.lastName}` : authMode === 'google' ? res.additionalUserInfo.profile.name : res.name,
-    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURL
+    displayName: authMode === 'plain' ? `${userName.firstName} ${userName.lastName}` : authMode === 'google' ? res.user.displayName : res.name,
+    photoURL: authMode === 'facebook' ? res.picture.data.url : authMode === 'google' ? res.user.photoURL : photoURL
   })
   return createUserDocService(user, res, authMode, photoURL, setLoading)
     .then(() => {
@@ -53,43 +54,57 @@ export const plainAuthService = (firstName, lastName, email, password, photoURL,
 
 export const googleAuthService = (photoURL, setMyUser, setLoading, setToasts) => {
   setLoading(true)
-  const provider = new firebase.auth.GoogleAuthProvider()
+  const provider = new GoogleAuthProvider()
   provider.addScope('email')
   return signInWithPopup(auth, provider)
     .then((res) => {
-      // @ts-ignore
-      if (res.additionalUserInfo.isNewUser) {
-        return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
-      }
-      else {
-        setMyUser(res.user)
-      }
-      setLoading(false)
+      return fetchSignInMethodsForEmail(auth, res.user.email)
+        .then((signInMethods) => {
+          if (signInMethods.includes(provider.providerId)) {
+            setMyUser(res.user)
+            return setLoading(false)
+          }
+          else {
+            return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
+            .then(() => {
+              setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+            })
+          }
+        })
     })
     .catch((error) => {
       setLoading(false)
       console.log(error)
       if (error.code === 'auth/account-exists-with-different-credential')
-        setToasts(infoToast('You have already signed up with a different provider for that email. Please sign in with that provider.'))
+        setToasts(errorToast('You have already signed up with a different provider for that email. Please sign in with that provider.'))
+      if (error.code === 'auth/popup-closed-by-user')
+        setToasts(errorToast('Popup closed by user. Please try again.'))
+      if (error.code === 'auth/popup-blocked')
+        setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
       else
         setToasts(errorToast('An errror occurred with the google login. Please try again.'))
+      return 'error'
     })
 }
 
 export const facebookAuthService = (photoURL, setLoading, setToasts) => {
   setLoading(true)
-  const provider = new firebase.auth.FacebookAuthProvider()
-  return firebase.auth().signInWithPopup(provider)
+  const provider = new FacebookAuthProvider()
+  return signInWithPopup(auth, provider)
     .then((res) => {
+      console.log(res)
+      // @ts-ignore
       const credential = res.credential
       const user = res.user
-      // @ts-ignore
       const accessToken = credential.accessToken
       return fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=name,first_name,last_name,email,picture.width(720).height(720)`)
         .then(fbRes => fbRes.json())
         .then(fbRes => {
           console.log(fbRes)
           return completeRegistrationService(user, 'facebook', fbRes, null, photoURL, setLoading)
+          .then(() => {
+            setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+          })
         })
         .catch(err => {
           console.log(err)
@@ -97,13 +112,17 @@ export const facebookAuthService = (photoURL, setLoading, setToasts) => {
         })
     })
     .catch((err) => {
+      setLoading(false)
       console.log(err)
       if (err.code === 'auth/account-exists-with-different-credential')
-        setToasts(infoToast('You have already signed up with a different provider. Please sign in with that provider.'))
-      else if (err.code === 'auth/popup-blocked')
-        setToasts(infoToast('Popup blocked. Please allow popups for this site.'))
+        setToasts(errorToast('You have already signed up with a different provider. Please sign in with that provider.'))
+      if (err.code === 'auth/popup-blocked')
+        setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
+      if (err.code === 'auth/popup-closed-by-user')
+        setToasts(errorToast('Popup closed by user. Please try again.'))
       else
         setToasts(errorToast('An error with facebook has occured. Please try again later.'))
+      return 'error'
     })
 }
 

@@ -57,26 +57,23 @@ export const saveAccountInfoService = (userID, data, uploadedImg, contactStorage
 export const createUserDocService = (user, res, authMode, photoURL, setLoading) => {
   const firstName = user?.displayName?.split(' ')[0] || ''
   const lastName = user?.displayName?.split(' ')[1] || ''
+  const googleFirstName = res.user.displayName.split(' ')[0] || ''
+  const googleLastName = res.user.displayName.split(' ')[1] || ''
   return setDB('users', user.uid, {
-    firstName: authMode === 'plain' ? firstName : authMode === 'google' ? res.additionalUserInfo.profile.given_name : res.first_name,
-    lastName: authMode === 'plain' ? lastName : authMode === 'google' ? res.additionalUserInfo.profile.family_name : res.last_name,
-    email: authMode === 'plain' ? user.email : authMode === 'google' ? res.additionalUserInfo.profile.email : res.email,
-    photoURL: authMode === 'facebook' ? res.picture.data.url : photoURL,
+    firstName: authMode === 'plain' ? firstName : authMode === 'google' ? googleFirstName : res.first_name,
+    lastName: authMode === 'plain' ? lastName : authMode === 'google' ? googleLastName : res.last_name,
+    email: authMode === 'plain' ? user.email : authMode === 'google' ? res.user.email : res.email,
+    photoURL: authMode === 'facebook' ? res.picture.data.url : authMode === 'google' ? res.user.photoURL : photoURL,
     address: '',
     phone: '',
     city: '',
     region: '',
     regionCode: '',
-    branch: 'none',
     country: '',
     countryCode: '',
     userID: user.uid,
     dateJoined: new Date(),
-    memberType: 'classc',
-    status: 'inactive',
-    title: 'Employee',
-    activeOrgID: null,
-    position: '',
+    userType: 'basic',
   })
     .then(() => {
       return createNotification(

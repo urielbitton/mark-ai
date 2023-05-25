@@ -4,16 +4,17 @@ import {
   usePayPalScriptReducer
 } from "@paypal/react-paypal-js"
 
-const clientID = process.env.REACT_APP_PAYPAL_CLIENTID
+const liveClientID = process.env.REACT_APP_PAYPAL_CLIENTID
+const sandboxClientID = process.env.REACT_APP_PAYPAL_SANDBOX_CLIENTID
 
 export default function PayPalButton({ amount, currency, onSuccess, onError }) {
   return (
     <div className="paypal-button-container">
       <PayPalScriptProvider
         options={{
-          "client-id": clientID,
+          "client-id": sandboxClientID,
           components: "buttons",
-          currency: "USD"
+          currency: "CAD",
         }}
       >
         <ButtonWrapper
@@ -61,16 +62,17 @@ export function ButtonWrapper({ amount, currency, onSuccess, onError }) {
             ],
           })
           .then((orderId) => {
-            // Your code here after create the order
-            return orderId;
+            return orderId
           })
       }}
-      onApprove={function (data, actions) {
+      onApprove={(data, actions) => {
         return actions.order.capture()
-        .then(function () {
-          // Your code here after capture the order
-          onSuccess(data, actions)
-        })
+          .then((details) => {
+            onSuccess(data, details)
+          })
+          .catch((err) => {
+            onError(err)
+          })
       }}
     />
   )

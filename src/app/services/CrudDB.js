@@ -51,8 +51,9 @@ export const clearAuthState = (checked) => {
   return setPersistence(auth, browserSessionPersistence)
 }
 
-export const signOut = () => {
-  auth.signOut()
+export const signOut = (navigate) => {
+  navigate('/')
+  return auth.signOut()
   .then(() => {
     window.location.reload()
   })
