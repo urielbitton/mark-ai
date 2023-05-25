@@ -63,7 +63,7 @@ export default function DashboardSidebar() {
     <div className="dashboard-sidebar">
       <div className="pro-logo">
         <h5>
-          <i className="fas fa-flask" />
+          <i className="fas fa-tachometer" />
           Pro Dashboard
         </h5>
       </div>

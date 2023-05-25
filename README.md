@@ -1,5 +1,11 @@
 # Mark AI App
 
+ToDos:
+- add most popular tab to ai, online tools and prompts pages (order by highest rated, onl 4-5 stars)
+- on every submission of a tool (create btn that will check if url alread exists) so no duplicate tools
+- add views features
+- change navbar and homepage searches to multiple queries search
+
 Sites To Add:
 
 Canva - https://www.canva.com/

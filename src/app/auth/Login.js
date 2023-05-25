@@ -7,7 +7,6 @@ import googleIcon from 'app/assets/images/google-icon.png'
 import facebookIcon from 'app/assets/images/facebook-icon.png'
 import { auth } from 'app/firebase/fire'
 import { clearAuthState } from "app/services/CrudDB"
-import logo from 'app/assets/images/logo.png'
 import AppButton from "app/components/ui/AppButton"
 import {
   facebookAuthService, googleAuthService
@@ -60,7 +59,7 @@ export default function Login() {
   const googleAuth = () => {
     googleAuthService(null, setMyUser, setLoading, setToasts)
       .then((res) => {
-        if(res === 'error') return
+        if (res === 'error') return
         navigate('/')
       })
   }
@@ -68,7 +67,7 @@ export default function Login() {
   const facebookAuth = () => {
     facebookAuthService(null, setLoading, setToasts)
       .then((res) => {
-        if(res === 'error') return
+        if (res === 'error') return
         navigate('/')
       })
   }
@@ -90,9 +89,6 @@ export default function Login() {
         <div className="container">
           <div className="auth-titles">
             <h4>Sign In</h4>
-            <div className="logo-container">
-              <img src={logo} className="logo" alt="logo" />
-            </div>
           </div>
           <div className="social-logins">
             <div

@@ -42,5 +42,5 @@ export const BookmarkToolCard = ({ toolID }) => {
       tool={tool}
     />
   ) :
-    <SkeletonLoader />
+    <SkeletonLoader key={toolID} />
 }

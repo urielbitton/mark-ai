@@ -1,0 +1,23 @@
+.pro-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.pro-page .titles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.pro-page .titles h2 {
+  color: var(--darkGrayText);
+  font-weight: 600;
+  font-size: 21px;
+}
+.pro-page .pro-page-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}

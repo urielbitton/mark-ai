@@ -8,16 +8,18 @@ import NotificationElement from "./NotificationElement"
 import MenuDropdown from "./MenuDropdown"
 import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
-import { Link, NavLink, useNavigate } from "react-router-dom"
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"
 import AppButton from "../ui/AppButton"
 
 export default function Navbar() {
 
-  const { myUser, myUserID, setShowMobileSidebar, isAdmin } = useContext(StoreContext)
+  const { myUser, myUserID, setShowMobileSidebar, isAdmin, isPro } = useContext(StoreContext)
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
   const notifications = useAllNotifications(myUserID, 5)
   const navigate = useNavigate()
+  const location = useLocation()
+  const hideNavbar = location.pathname === '/login' || location.pathname === '/register'
 
   const notificationsList = notifications?.map((notif, index) => {
     return <NotificationElement
@@ -34,15 +36,16 @@ export default function Navbar() {
   }, [showMenu])
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${hideNavbar ? 'hide' : ''}`}>
       <div className="topbar site-grid">
         <div className="left">
-          <div
+          <Link 
+            to="/"
             className="logo"
           >
             <img src={navLogo} alt="Mark Logo" />
             <h4>Mark<span>AI</span></h4>
-          </div>
+          </Link>
           <NavSearch />
           <div
             className="mobile-btn"
@@ -66,6 +69,18 @@ export default function Navbar() {
               Prompts
             </NavLink>
           </div>
+          {
+            isPro && !isAdmin &&
+            <IconContainer
+              icon="fas fa-tachometer"
+              inverted
+              iconColor="#fff"
+              iconSize="16px"
+              dimensions="30px"
+              tooltip="Pro Dashboard"
+              onClick={(e) => navigate('/dashboard/')}
+            />
+          }
           {
             myUser &&
             <>

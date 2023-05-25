@@ -42,20 +42,22 @@
 .app-tabs-bar > .tab-item::after {
   content: '';
   position: absolute;
-  bottom: -3px;
   left: 0;
   right: 0;
   margin: auto;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
+  width: 100%;
+  height: 100%;
+  background: var(--extraLightPrimary);
   transition: all 0.3s;
+  z-index: -1;
+  opacity: 0;
+  border-radius: 5px;
 }
 .app-tabs-bar > a:hover::after,
 .app-tabs-bar > a.active::after,
 .app-tabs-bar > .tab-item:hover::after,
 .app-tabs-bar > .tab-item.active::after {
-  width: 100%;
+  opacity: 1;
 }
 .app-tabs-bar > a.active,
 .app-tabs-bar > .tab-item.active {
@@ -63,11 +65,13 @@
 }
 .app-tabs-bar > a.not-active::after,
 .app-tabs-bar > .tab-item.not-active::after {
-  width: 0;
+  opacity: 0;
 }
-.app-tabs-bar > a.not-active:hover::after,
-.app-tabs-bar > a.not-active.active::after {
-  width: 100%;
+.app-tabs-bar > a.not-active:hover::after {
+  opacity: 1;
+}
+.app-tabs-bar > a.not-active::after {
+  opacity: 0;
 }
 .app-tabs-bar > a.not-active,
 .app-tabs-bar > .tab-item.not-active {

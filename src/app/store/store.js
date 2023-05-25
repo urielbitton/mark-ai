@@ -23,6 +23,7 @@ const StoreContextProvider = ({children}) => {
   const [toasts, setToasts] = useState([])
   const [newEventModal, setNewEventModal] = useState({open: false, eventObject: null})
   const isAdmin = myUser?.userType === "admin"
+  const isPro = myUser?.userType === "pro" || isAdmin
   const upgradeProPrice = 20
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const StoreContextProvider = ({children}) => {
 
   return <StoreContext.Provider value={{ 
     user, myUser, setMyUser, myUserID, myUserImg, myUserName, myUserType,
-    isAdmin, upgradeProPrice, 
+    isAdmin, isPro, upgradeProPrice, 
     pageLoading, setPageLoading,
     darkMode, setDarkMode,
     percentFormat,

@@ -45,5 +45,6 @@ export const BookmarkPromptCard = ({ promptID }) => {
     <SkeletonLoader
       small
       borderRadius={45}
+      key={promptID}
     />
 }

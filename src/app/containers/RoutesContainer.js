@@ -23,6 +23,7 @@ import AppLoadingPage from "app/components/ui/AppLoadingPage"
 import BookmarkToolsPage from "app/pages/BookmarkToolsPage"
 import BookmarkPromptsPage from "app/pages/BookmarkPromptsPage"
 import DashboardPage from "app/pages/DashboardPage"
+import NotificationsPage from "app/pages/NotificationsPage"
 
 export default function RoutesContainer() {
 
@@ -61,6 +62,7 @@ export default function RoutesContainer() {
                 <Route path="my-account" element={<MyAccountPage />} />
                 <Route path="my-bookmarks/tools" element={<BookmarkToolsPage />} />
                 <Route path="my-bookmarks/prompts" element={<BookmarkPromptsPage />} />
+                <Route path="notifications" element={<NotificationsPage />} />
               </> :
               myUser === null ? 
               <Route path="*" element={<AppLoadingPage />} />

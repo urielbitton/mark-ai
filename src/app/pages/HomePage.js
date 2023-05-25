@@ -25,18 +25,9 @@ export default function HomePage() {
   const endRef = useRef(null)
   const reachedEndOfList = useViewportObserver(endRef)
 
-  const btnIconRender = activeType.type === 'ai' ? "fas fa-robot" :
-    activeType.type === 'tool' ? "fas fa-flask" :
-    activeType.type === 'prompt' ? "fas fa-comment-dots" : ''
-
   const submitSearch = () => {
     if (noWhiteSpaceChars(searchQuery) < 1) return
-    if(activeType.type !== 'prompt') {
-      navigate(`/search?q=${searchQuery}`)
-    }
-    else {
-      navigate(`/search/prompts?q=${searchQuery}`)
-    }
+    navigate(`/search?q=${searchQuery}`)
   }
 
   const onTabClick = (tab, index) => {
@@ -64,8 +55,8 @@ export default function HomePage() {
       <div className="hero-section">
         <h1>
           Your&nbsp;
-          <TypewriteText 
-            textArray={homeTypewriteTexts} 
+          <TypewriteText
+            textArray={homeTypewriteTexts}
             maxLoops={4}
             className="gradient-text"
           />
@@ -80,7 +71,7 @@ export default function HomePage() {
           onKeyUp={(e) => e.key === 'Enter' && submitSearch()}
           onSubmit={submitSearch}
           onClear={() => setSearchQuery('')}
-          btnIcon={btnIconRender}
+          btnIcon="fas fa-flask"
         />
         <div className="tabs-section">
           <TabSwitcher

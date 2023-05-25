@@ -10,13 +10,14 @@ import { useUserToolsBookmarks } from "app/hooks/userHooks"
 
 export default function AIToolCard(props) {
 
-  const { isAdmin, myUser, myUserID,setToasts } = useContext(StoreContext)
+  const { isAdmin, myUser, myUserID, setToasts } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
-    url, category } = props.tool
-  const { isPreview } = props
+    url, category, type } = props.tool
+  const { isPreview, submission } = props
   const navigate = useNavigate()
   const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
+  const isAIType = type === 'ai'
 
   const Image = React.memo(() => {
     return <img
@@ -28,11 +29,12 @@ export default function AIToolCard(props) {
   })
 
   const handleBookmarkClick = () => {
-    if(myUser) {
+    if (isPreview) return
+    if (myUser) {
       toggleBookmarkToolService(
-        toolID, 
-        myUserID, 
-        isBookmarked, 
+        toolID,
+        myUserID,
+        isBookmarked,
         setToasts
       )
     }
@@ -48,7 +50,7 @@ export default function AIToolCard(props) {
       key={toolID}
     >
       <Link
-        to={!isPreview ? `/ai-tools/${toolID}` : ''}
+        to={(!isPreview && !submission) ? `/ai-tools/${toolID}` : ''}
         className="img-container"
       >
         <Image />
@@ -59,12 +61,15 @@ export default function AIToolCard(props) {
             src={logo}
             dimensions={27}
           />
-          <small onClick={() => navigate(`/search?q=${category}`)}>
-            {category}
-          </small>
+          <div className="category-container">
+            <i className={isAIType ? 'fas fa-robot' : 'fas fa-flask'} />
+            <small onClick={() => navigate(`/search?q=${category}`)}>
+              {category}
+            </small>
+          </div>
         </div>
         <h5>
-          <Link to={!isPreview ? `/ai-tools/${toolID}` : ''}>
+          <Link to={(!isPreview && !submission) ? `/ai-tools/${toolID}` : ''}>
             {truncateText(title, 25)}
           </Link>
         </h5>
@@ -88,7 +93,7 @@ export default function AIToolCard(props) {
                 onClick={() => navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)}
               />
             }
-            <i 
+            <i
               className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
               onClick={handleBookmarkClick}
             />

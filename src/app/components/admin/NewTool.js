@@ -12,8 +12,10 @@ import AIToolCard from "../aitools/AIToolCard"
 import logoImg from "app/assets/images/logo-filled.png"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
+import { validateURL } from "app/utils/generalUtils"
+import { errorToast } from "app/data/toastsTemplates"
 
-export default function NewTool() {
+export default function NewTool({ proUser, handleProSubmit, handleProUpdate, proLoading }) {
 
   const { setToasts, photoPlaceholder } = useContext(StoreContext)
   const [title, setTitle] = useState("")
@@ -28,6 +30,7 @@ export default function NewTool() {
   const [mainImg, setMainImg] = useState([])
   const [logo, setLogo] = useState([])
   const [images, setImages] = useState([])
+  const [video, setVideo] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -36,13 +39,14 @@ export default function NewTool() {
   const editToolID = searchParams.get("toolID")
   const editTool = useAITool(editToolID, () => { })
   const maxFileSize = 5 * 1024 * 1024
+  const maxVideoSize = 10 * 1024 * 1024
 
   const validateForm = () => {
     return title
       && tagline
       && shortDescription
       && category
-      && url
+      && validateURL(url)
       && tags
       && mainImg?.length
       && logo?.length
@@ -50,7 +54,24 @@ export default function NewTool() {
   }
 
   const handleAddTool = () => {
-    if (!validateForm) return
+    if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
+    if (!validateForm) return setToasts(errorToast("Please fill all the fields correctly."))
+    if (proUser) {
+      return handleProSubmit({
+        title,
+        tagline,
+        shortDescription,
+        category,
+        color1,
+        color2,
+        url,
+        tags,
+        type,
+        mainImg,
+        logo,
+        images,
+      })
+    }
     return addNewToolService(
       {
         title,
@@ -65,6 +86,7 @@ export default function NewTool() {
         mainImg,
         logo,
         images,
+        video,
       },
       setLoading,
       setToasts
@@ -75,7 +97,11 @@ export default function NewTool() {
   }
 
   const handleSaveTool = () => {
-    if (!validateForm) return
+    if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
+    if (!validateForm) return setToasts(errorToast("Please fill all the fields correctly."))
+    if (proUser) {
+      return handleProUpdate()
+    }
     return updateAIToolService(
       {
         title,
@@ -92,7 +118,8 @@ export default function NewTool() {
       {
         mainImg,
         logo,
-        images
+        images,
+        video
       },
       setLoading,
       setToasts
@@ -116,6 +143,7 @@ export default function NewTool() {
       setMainImg([{ src: editTool.mainImg }])
       setLogo([{ src: editTool.logo }])
       setImages(editTool.images.map((img) => ({ src: img })))
+      setVideo([{ src: editTool.video }])
     }
   }, [editTool])
 
@@ -203,11 +231,11 @@ export default function NewTool() {
             label="Tool Type"
             value={type}
             onChange={(val) => setType(val.value)}
-            options={toolsTypesData}
+            options={toolsTypesData.slice(0, 2)}
             placeholder={
               <div className="input-placeholder">
                 <i className={toolsTypesData.find((cat) => cat.value === type)?.icon}></i>
-                <h5 className="cap">{type}</h5>
+                <h5 className="cap">{toolsTypesData.find((cat) => cat.value === type)?.label}</h5>
               </div>
             }
           />
@@ -256,24 +284,42 @@ export default function NewTool() {
             className="commonInput"
             displayMode={editMode}
           />
+          {
+            !proUser &&
+            <FileUploader
+              label="Optional Video (BETA)"
+              isDragging={isDragging}
+              setIsDragging={setIsDragging}
+              uploadedFiles={video}
+              setUploadedFiles={setVideo}
+              maxFileSize={maxVideoSize}
+              truncateFilenameAmount={60}
+              accept="video/*"
+              icon="fas fa-cloud-upload-alt"
+              text="Drop files here or click to browse"
+              className="commonInput"
+              displayMode={editMode}
+              overwrite
+            />
+          }
           <div className="btn-group">
             {
               !editMode ?
                 <>
                   <AppButton
-                    label="Add Tool"
+                    label={!proUser ? "Add Tool" : "Submit for Review"}
                     onClick={handleAddTool}
-                    loading={loading}
+                    loading={proLoading || loading}
                     rightIcon="far fa-arrow-right"
                     disabled={!validateForm()}
                   />
-                </> 
+                </>
                 :
                 <>
                   <AppButton
                     label="Save Changes"
                     onClick={handleSaveTool}
-                    loading={loading}
+                    loading={proLoading || loading}
                   />
                   <AppButton
                     label="Cancel"

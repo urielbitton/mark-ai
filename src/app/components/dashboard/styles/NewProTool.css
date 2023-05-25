@@ -1,0 +1,9 @@
+.new-pro-tool .guide-section {
+  margin-bottom: 30px;
+}
+.new-pro-tool .new-tool-page .new-card {
+  box-shadow: none;
+}
+.new-pro-tool .new-tool-page .left h2 {
+  display: none;
+}

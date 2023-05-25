@@ -1,5 +1,10 @@
-import { getAITool, getAITools, getAllTools, getChatPrompt, getChatPrompts, getNonAITools, getPromptsByCategory, getToolsByType, getToolsByTypeAndCategory } from "app/services/aitoolsServices"
-import { useEffect, useState } from "react"
+import { getAITool, getAITools, getAllTools, 
+  getChatPrompt, getChatPrompts, getNonAITools, 
+  getPromptsByCategory, getToolsByType, 
+  getToolsByTypeAndCategory, 
+  getToolsSubmissionsByTypeAndStatus} from "app/services/aitoolsServices"
+import { StoreContext } from "app/store/store"
+import { useContext, useEffect, useState } from "react"
 
 export const useAiTools = (limit, setLoading) => {
 
@@ -169,3 +174,25 @@ export const usePromptsByCategory = (category, limit, setLoading) => {
 
   return prompts
 }
+
+// pro user submissions
+export const useAIToolsSubmissionsByTypeAndStatus = (type, status, limit, setLoading) => {
+
+  const { myUserID } = useContext(StoreContext)
+  const [tools, setTools] = useState([])
+
+  useEffect(() => {
+    getToolsSubmissionsByTypeAndStatus(myUserID, type, status, limit)
+      .then((data) => {
+        setLoading(false)
+        setTools(data)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [type, limit])
+
+  return tools
+}
+

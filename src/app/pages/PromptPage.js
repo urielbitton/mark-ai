@@ -14,7 +14,7 @@ import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptPage() {
 
-  const { setToasts, isAdmin, myUserID, myUserType } = useContext(StoreContext)
+  const { setToasts, isAdmin, myUserID, isPro } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [iconHover, setIconHover] = useState(false)
   const [iconClicked, setIconClicked] = useState(false)
@@ -23,8 +23,7 @@ export default function PromptPage() {
   const navigate = useNavigate()
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
-  const isProMember = myUserType === "pro" || myUserType === "admin"
-  const reachedBookmarkLimit = userBookmarks.length >= 50 && !isProMember
+  const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
   const categoryIcon = toolsCategoriesData?.find(cat => cat.value === prompt?.category)?.icon
 
   const handleCopyText = () => {

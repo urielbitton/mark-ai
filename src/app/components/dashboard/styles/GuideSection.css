@@ -1,0 +1,40 @@
+.guide-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  background: var(--extraLightPrimary);
+}
+.guide-section .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.guide-section .top h4 {
+  color: var(--primary);
+  font-weight: 600;
+}
+.guide-section .top i {
+  color: var(--primary);
+}
+.guide-section .bottom {
+  display: flex;
+  flex-direction: column;
+}
+.guide-section p {
+  font-size: 14px;
+  color: var(--darkGrayText);
+  line-height: 1.5;
+  font-weight: 500;
+}
+.guide-section a {
+  color: var(--primary);
+  font-weight: 600;
+}
+.guide-section a:hover {
+  text-decoration: underline;
+}

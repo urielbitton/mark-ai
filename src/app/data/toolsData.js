@@ -94,7 +94,7 @@ export const toolsTypesData = [
     iconColor: 'var(--primary)'
   },
   {
-    label: 'Tools',
+    label: 'Online Tools',
     value: 'tool',
     icon: 'fas fa-flask',
     iconColor: 'var(--primary)'

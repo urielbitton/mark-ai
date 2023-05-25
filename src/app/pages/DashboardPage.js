@@ -6,8 +6,7 @@ import { Navigate } from "react-router-dom"
 
 export default function DashboardPage() {
 
-  const { myUser } = useContext(StoreContext)
-  const isPro = myUser?.userType === "pro"
+  const { myUser, isPro } = useContext(StoreContext)
 
   return (
     isPro ? <DashboardRouter /> :

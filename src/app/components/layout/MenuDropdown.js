@@ -8,9 +8,8 @@ import IconContainer from "../ui/IconContainer"
 export default function ProfileDropdown(props) {
 
   const { isAdmin, myUser, myUserImg,
-    myUserName, myUserType } = useContext(StoreContext)
+    myUserName, myUserType, isPro } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
-  const isPro = myUserType === 'pro' || myUserType === 'admin'
   const navigate = useNavigate()
 
   return (
@@ -80,8 +79,8 @@ export default function ProfileDropdown(props) {
             <h5>Account</h5>
             {
               isPro && !isAdmin &&
-              <Link to="/dashboard">
-                <i className="fas fa-tachometer-alt" />
+              <Link to="/dashboard/">
+                <i className="fas fa-tachometer" />
                 <span>Pro Dashboard</span>
               </Link>
             }

@@ -2,10 +2,11 @@
   width: 100%;
   height: 100%;
   background: #fff;
-  height: calc(100vh - var(--navbarHeight) - 20px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  border: 1px solid var(--inputBorder);
+  border-right: none;
   gap: 20px;
   border-radius: 10px 0 0 10px;
 }
@@ -27,14 +28,13 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 0 20px;
   width: 100%;
 }
 .dashboard-sidebar .menu .menu-link {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 .dashboard-sidebar .menu .link-bar {
   display: flex;

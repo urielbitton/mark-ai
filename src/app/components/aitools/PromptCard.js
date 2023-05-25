@@ -10,13 +10,12 @@ import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptCard(props) {
 
-  const { setToasts, myUserID, myUser, myUserType } = useContext(StoreContext)
+  const { setToasts, myUserID, myUser, isPro } = useContext(StoreContext)
   const { text, category, promptID } = props.prompt
   const { isPreview } = props
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
-  const isProMember = myUserType === "pro" || myUserType === "admin"
-  const reachedBookmarkLimit = userBookmarks.length >= 50 && !isProMember
+  const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
   const navigate = useNavigate()
   const categoryIcon = toolsCategoriesData?.find(cat => cat.value === category)?.icon
 

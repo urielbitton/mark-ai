@@ -1,10 +1,9 @@
-// @ts-nocheck
 export const addLeadingZeros = (number) => {
   return number < 10 ? "0" + number : number
 }
 
 export const noWhiteSpaceChars = (text) => {
-  return text?.replace(/\s/g, '').length 
+  return text?.replace(/\s/g, '').length
 }
 
 export const truncateText = (text, charsNum) => {
@@ -38,6 +37,12 @@ export const validateEmail = (email) => {
 export const validatePhone = (phone) => {
   const re = /^\d{10}$/
   return re.test(String(phone))
+}
+
+export const validateURL = (url) => {
+  var pattern = /^(www\.|http:\/\/|https:\/\/|ftp:\/\/)/
+  var regex = new RegExp(pattern)
+  return regex.test(url)
 }
 
 export const isEmptyObject = (obj) => {
@@ -83,17 +88,9 @@ export const scrapeTitleFromLink = (fetchedLink) => {
   }
 }
 
-//keep only the domain from a link
-export const extractDomainFromLink = (link) => {
-  if (link) {
-    let domain = null
-    let domainRegex = new RegExp("(https?:\/\/)?(www\.)?([^\/]*)", "g")
-    let match = domainRegex.exec(link)
-    if (match !== null) {
-      domain = match[3]
-    }
-    return domain
-  }
+//keep only the domain from a link (google.com)
+export const extractDomainFromURL = (url) => {
+  return url.replace(/(https?:\/\/)?(www\.)?([^\/]*)(.*)/g, '$3')
 }
 
 export const scrapeImgFromLink = (fetchedLink, link) => {
@@ -105,7 +102,7 @@ export const scrapeImgFromLink = (fetchedLink, link) => {
       img = match[1]
     }
     if (img?.startsWith('/')) {
-      return `https://${extractDomainFromLink(link)}${img}`
+      return `https://${extractDomainFromURL(link)}${img}`
     }
     return img
   }

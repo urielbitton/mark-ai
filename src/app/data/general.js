@@ -61,7 +61,7 @@ export const proMenuLinks = [
   {
     label: 'Dashboard',
     url: '',
-    icon: 'fas fa-tachometer-alt',
+    icon: 'fas fa-tachometer',
   },
   {
     label: 'My AI Tools',
@@ -85,17 +85,17 @@ export const proMenuLinks = [
     sublinks: [
       {
         label: 'New AI Tool',
-        icon: 'fas fa-plus',
+        icon: 'fas fa-robot',
         url: 'new-ai-tool',
       },
       {
         label: 'New Online Tool',
-        icon: 'fas fa-plus',
+        icon: 'fas fa-flask',
         url: 'new-online-tool',
       },
       {
         label: 'New Prompt',
-        icon: 'fas fa-plus',
+        icon: 'fas fa-comment-dots',
         url: 'new-prompt',
       },
     ]

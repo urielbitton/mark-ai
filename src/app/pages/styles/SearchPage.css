@@ -44,6 +44,14 @@
   gap: 30px 20px;
   margin: 20px 0;
 }
+.search-prompts-page .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-prompts-page .search-section .app-searchbar {
+  width: 800px;
+}
 
 .search-page .app-pagination {
   margin-top: 20px;

@@ -24,6 +24,15 @@
   display: flex;
   flex-direction: column;
 }
+.ai-card .info-content .category-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ai-card .info-content .category-container i {
+  color: var(--primary);
+  font-size: 13px;
+}
 .ai-card .info-content .top-row {
   display: flex;
   align-items: center;

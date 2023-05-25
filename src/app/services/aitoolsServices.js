@@ -6,7 +6,7 @@ import {
 import { deleteDB, firebaseArrayAdd, firebaseArrayRemove, firebaseIncrement, getRandomDocID, setDB, updateDB } from "./CrudDB"
 import { errorToast, successToast } from "app/data/toastsTemplates"
 import { uploadMultipleFilesToFireStorage } from "./storageServices"
-import { removeNullOrUndefined } from "app/utils/generalUtils"
+import { extractDomainFromURL, removeNullOrUndefined } from "app/utils/generalUtils"
 import { compressImagesService } from "app/utils/fileUtils"
 
 // Get operations
@@ -130,6 +130,23 @@ export const getPromptsByCategory = (category, lim) => {
     })
 }
 
+export const getToolsSubmissionsByTypeAndStatus = (userID, type, status, lim) => {
+  const toolsRef = collection(db, 'toolsSubmissions')
+  const q = query(
+    toolsRef,
+    where('submitterID', '==', userID),
+    where('type', '==', type),
+    where('status', '==', status),
+    orderBy('dateSubmitted', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
+
+
 
 // Write operations
 
@@ -139,8 +156,27 @@ const catchBlock = (err, setLoading, setToasts) => {
   setToasts(errorToast("Error adding AI Tool. Please try again."))
 }
 
+export const checkIfURLExists = (url) => {
+  const cleanedURL = extractDomainFromURL(url)
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    where('cleanedURL', '==', cleanedURL)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.length > 0
+    })
+}
+
 export const addNewToolService = async (tool, setLoading, setToasts) => {
   setLoading(true)
+  const urlExists = await checkIfURLExists(tool.url)
+  if (urlExists) {
+    setLoading(false)
+    setToasts(errorToast("This tool already exists. Please verify the URL and make sure it does not already exist on the platform"))
+    return
+  }
   const path = 'aitools'
   const docID = getRandomDocID(path)
   const storagePath = `aitools/${docID}/images`
@@ -158,6 +194,7 @@ export const addNewToolService = async (tool, setLoading, setToasts) => {
             .then((imagesURLs) => {
               return setDB(path, docID, {
                 ...tool,
+                cleanedURL: extractDomainFromURL(tool.url),
                 mainImg: mainImgURLs[0].downloadURL,
                 logo: logoURLs[0].downloadURL,
                 images: imagesURLs.map(img => img.downloadURL),
@@ -173,7 +210,43 @@ export const addNewToolService = async (tool, setLoading, setToasts) => {
     })
     .then((docID) => {
       setLoading(false)
-      setToasts(successToast("AI tool added successfully"))
+      setToasts(successToast("AI/Online tool added successfully"))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const updateAIToolService = async (tool, toolID, images, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'aitools'
+  const storagePath = `aitools/${toolID}/images`
+  const mainImgs = images.mainImg.filter(file => file.file).map(img => img.file)
+  const logos = images.logo.filter(file => file.file).map(img => img.file)
+  const toolImages = images.images.filter(file => file.file).map(img => img.file)
+  const compressedMainImg = await compressImagesService(mainImgs)
+  const compressedLogo = await compressImagesService(logos)
+  const compressedImages = await compressImagesService(toolImages)
+  return uploadMultipleFilesToFireStorage(mainImgs.length > 0 ? removeNullOrUndefined(compressedMainImg) : null, storagePath, null)
+    .then((mainImgURLs) => {
+      return uploadMultipleFilesToFireStorage(logos.length > 0 ? removeNullOrUndefined(compressedLogo) : null, storagePath, null)
+        .then((logoURLs) => {
+          return uploadMultipleFilesToFireStorage(toolImages.length > 0 ? removeNullOrUndefined(compressedImages) : null, storagePath, null)
+            .then((imagesURLs) => {
+              return updateDB(path, toolID, {
+                ...tool,
+                ...(mainImgs.length > 0 && {mainImg: mainImgURLs[mainImgURLs.length-1]?.downloadURL}),
+                ...(logos.length > 0 && {logo: logoURLs[logoURLs.length-1]?.downloadURL}),
+                ...(toolImages.length > 0 && {images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL))}),
+              })
+                .catch((err) => catchBlock(err, setLoading, setToasts))
+            })
+            .catch((err) => catchBlock(err, setLoading, setToasts))
+        })
+        .catch((err) => catchBlock(err, setLoading, setToasts))
+    })
+    .then((docID) => {
+      setLoading(false)
+      setToasts(successToast("AI/Online tool saved successfully"))
       return docID
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
@@ -229,42 +302,6 @@ export const deleteAIToolService = (toolID, setLoading, setToasts) => {
       setLoading(false)
       setToasts(errorToast("Error deleting AI Tool. Please try again."))
     })
-}
-
-export const updateAIToolService = async (tool, toolID, images, setLoading, setToasts) => {
-  setLoading(true)
-  const path = 'aitools'
-  const storagePath = `aitools/${toolID}/images`
-  const mainImgs = images.mainImg.filter(file => file.file).map(img => img.file)
-  const logos = images.logo.filter(file => file.file).map(img => img.file)
-  const toolImages = images.images.filter(file => file.file).map(img => img.file)
-  const compressedMainImg = await compressImagesService(mainImgs)
-  const compressedLogo = await compressImagesService(logos)
-  const compressedImages = await compressImagesService(toolImages)
-  return uploadMultipleFilesToFireStorage(mainImgs.length > 0 ? removeNullOrUndefined(compressedMainImg) : null, storagePath, null)
-    .then((mainImgURLs) => {
-      return uploadMultipleFilesToFireStorage(logos.length > 0 ? removeNullOrUndefined(compressedLogo) : null, storagePath, null)
-        .then((logoURLs) => {
-          return uploadMultipleFilesToFireStorage(toolImages.length > 0 ? removeNullOrUndefined(compressedImages) : null, storagePath, null)
-            .then((imagesURLs) => {
-              return updateDB(path, toolID, {
-                ...tool,
-                ...(mainImgs.length > 0 && {mainImg: mainImgURLs[mainImgURLs.length-1]?.downloadURL}),
-                ...(logos.length > 0 && {logo: logoURLs[logoURLs.length-1]?.downloadURL}),
-                ...(toolImages.length > 0 && {images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL))}),
-              })
-                .catch((err) => catchBlock(err, setLoading, setToasts))
-            })
-            .catch((err) => catchBlock(err, setLoading, setToasts))
-        })
-        .catch((err) => catchBlock(err, setLoading, setToasts))
-    })
-    .then((docID) => {
-      setLoading(false)
-      setToasts(successToast("AI tool saved successfully"))
-      return docID
-    })
-    .catch((err) => catchBlock(err, setLoading, setToasts))
 }
 
 export const toggleBookmarkToolService = (toolID, userID, isBookmarked, setToasts) => {
@@ -331,4 +368,59 @@ export const toggleBookmarkPromptService = (promptID, userID, isBookmarked, setT
   .catch((err) => {
     setToasts(errorToast("Error adding prompt to bookmarks. Please try again."))
   })
+}
+
+
+// pro users services
+export const submitNewToolRequestService = async (tool, userID, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'toolsSubmissions'
+  const docID = getRandomDocID(path)
+  const storagePath = `toolsSubmissions/${docID}/images`
+  const mainImgs = tool.mainImg.map(img => img.file)
+  const logos = tool.logo.map(img => img.file)
+  const images = tool.images.map(img => img.file)
+  const compressedMainImg = await compressImagesService(mainImgs)
+  const compressedLogo = await compressImagesService(logos)
+  const compressedImages = await compressImagesService(images)
+  return uploadMultipleFilesToFireStorage(tool.mainImg.length > 0 ? removeNullOrUndefined(compressedMainImg) : null, storagePath, null)
+    .then((mainImgURLs) => {
+      return uploadMultipleFilesToFireStorage(tool.logo.length > 0 ? removeNullOrUndefined(compressedLogo) : null, storagePath, null)
+        .then((logoURLs) => {
+          return uploadMultipleFilesToFireStorage(tool.images.length > 0 ? removeNullOrUndefined(compressedImages) : null, storagePath, null)
+            .then((imagesURLs) => {
+              return setDB(path, docID, {
+                ...tool,
+                cleanedURL: extractDomainFromURL(tool.url),
+                submitterID: userID,
+                proUserAdded: true,
+                mainImg: mainImgURLs[0].downloadURL,
+                logo: logoURLs[0].downloadURL,
+                images: imagesURLs.map(img => img.downloadURL),
+                toolID: docID,
+                dateAdded: new Date(),
+                dateCreated: new Date(),
+                dateSubmitted: new Date(),
+                status: 'in-review'
+              })
+                .catch((err) => catchBlock(err, setLoading, setToasts))
+            })
+            .catch((err) => catchBlock(err, setLoading, setToasts))
+        })
+        .catch((err) => catchBlock(err, setLoading, setToasts))
+    })
+    .then((docID) => {
+      setLoading(false)
+      setToasts(successToast("AI/Online tool submitted for review."))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const updateNonApprovedToolService = async (tool, toolID, images, setLoading, setToasts) => {
+
+}
+
+export const updateApprovedToolService = async (tool, toolID, images, setLoading, setToasts) => {
+
 }

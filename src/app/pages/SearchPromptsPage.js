@@ -22,7 +22,7 @@ export default function SearchPromptsPage() {
   const categoryMode = searchParams.get('category')
   const filters = !categoryMode ? '' : `category: ${categoryMode}`
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
-  
+
   const submitSearch = () => {
     setSearchQuery(searchString)
   }
@@ -48,15 +48,17 @@ export default function SearchPromptsPage() {
   return (
     <div className="search-page search-prompts-page">
       <div className="search-section">
-        <AppSearchBar
-          placeholder="Search by prompt, category, or tag..."
-          btnLabel="Search"
-          onChange={(e) => setSearchString(e.target.value)}
-          value={searchString}
-          onKeyUp={(e) => e.key === 'Enter' && submitSearch()}
-          onSubmit={submitSearch}
-          onClear={clearInput}
-        />
+        <div className="search-container">
+          <AppSearchBar
+            placeholder="Search by prompt, category, or tag..."
+            btnLabel="Search"
+            onChange={(e) => setSearchString(e.target.value)}
+            value={searchString}
+            onKeyUp={(e) => e.key === 'Enter' && submitSearch()}
+            onSubmit={submitSearch}
+            onClear={clearInput}
+          />
+        </div>
         {
           searchQuery.length > 0 &&
           <div className="search-stats">
@@ -70,11 +72,11 @@ export default function SearchPromptsPage() {
               }
             </h5>
             {
-               categoryMode &&
-               <AppButton
-                  label="Clear category"
-                  onClick={() => clearCategory()}
-               />
+              categoryMode &&
+              <AppButton
+                label="Clear category"
+                onClick={() => clearCategory()}
+              />
             }
           </div>
         }

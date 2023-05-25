@@ -1,10 +1,10 @@
 import React from 'react'
 import ProPage from "./ProPage"
 
-export default function ProDashboard() {
+export default function NewProPrompt() {
   return (
-    <ProPage title="Dashboard">
-      
+    <ProPage title="New Prompt">
+
     </ProPage>
   )
 }

@@ -14,10 +14,9 @@ import { auth } from "app/firebase/fire"
 
 export default function UpgradePage() {
 
-  const { upgradeProPrice, myUser, myUserType, setToasts } = useContext(StoreContext)
+  const { upgradeProPrice, myUser, isPro, setToasts } = useContext(StoreContext)
   const [showPaypal, setShowPaypal] = useState(false)
   const paymentSectionRef = useRef(null)
-  const isPro = myUserType === 'pro' || myUserType === 'admin'
   const navigate = useNavigate()
 
   const showPaypalSection = () => {
@@ -44,16 +43,16 @@ export default function UpgradePage() {
       return createNotification(
         myUserID,
         'Pro Membership Payment Successful',
-        `Your payment of ${formatCurrency(upgradeProPrice)} has been processed successfully. `+
+        `Your payment of $${formatCurrency(upgradeProPrice.toFixed(2))} has been processed successfully. `+
         `You are now a Pro user! You can find the transaction details in your account under `+
         `payments and you can find your receipt in your PayPal account.`,
         'fas fa-rocket',
-        '/dashboard'
+        '/my-account/payments'
       )
     })
     .then(() => {
       setToasts(successToast('Your payment has been processed successfully. You are now a Pro user!', true))
-      navigate('/dashboard')
+      navigate('/dashboard/')
     })
   }
 
@@ -127,7 +126,7 @@ export default function UpgradePage() {
     <h3>You are already a Pro user</h3>
     <AppButton
       label="Go to Dashboard"
-      onClick={() => navigate('/dashboard')}
+      onClick={() => navigate('/dashboard/')}
     />
   </div>
 }
