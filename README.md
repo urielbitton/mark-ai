@@ -1,10 +1,10 @@
 # Mark AI App
 
 ToDos:
-- add most popular tab to ai, online tools and prompts pages (order by highest rated, onl 4-5 stars)
-- on every submission of a tool (create btn that will check if url alread exists) so no duplicate tools
 - add views features
+- add most popular tab to ai, online tools and prompts pages (order by highest rated, only 4-5 stars)
 - change navbar and homepage searches to multiple queries search
+- add form validation on all inputs and forms, especially new tool creation form.
 
 Sites To Add:
 

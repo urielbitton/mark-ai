@@ -29,6 +29,22 @@ export const formatCurrency = (number) => {
   return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
+export const formatViewsNumber = (number) => {
+  if (isNaN(number)) return '0'
+  if (number < 1000) {
+    return number.toString();
+  } else if (number < 1000000) {
+    let formattedNumber = (number / 1000).toFixed(1);
+    return formattedNumber.endsWith('.0') ? formattedNumber.slice(0, -2) + 'k' : formattedNumber + 'k';
+  } else if (number < 1000000000) {
+    let formattedNumber = (number / 1000000).toFixed(1);
+    return formattedNumber.endsWith('.0') ? formattedNumber.slice(0, -2) + 'M' : formattedNumber + 'M';
+  } else {
+    let formattedNumber = (number / 1000000000).toFixed(1);
+    return formattedNumber.endsWith('.0') ? formattedNumber.slice(0, -2) + 'b' : formattedNumber + 'b';
+  }
+}
+
 export const validateEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(String(email).toLowerCase())
@@ -40,9 +56,9 @@ export const validatePhone = (phone) => {
 }
 
 export const validateURL = (url) => {
-  var pattern = /^(www\.|http:\/\/|https:\/\/|ftp:\/\/)/
-  var regex = new RegExp(pattern)
-  return regex.test(url)
+  var pattern = /^(http:\/\/|https:\/\/)?(www\.)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i;
+  var regex = new RegExp(pattern);
+  return regex.test(url);
 }
 
 export const isEmptyObject = (obj) => {

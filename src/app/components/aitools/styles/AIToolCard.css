@@ -116,3 +116,17 @@
 .ai-card .bottom-bar .right i.fa-pen {
   font-size: 16px;
 }
+
+.ai-card .bottom-bar .views-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ai-card .bottom-bar .views-container i {
+  color: var(--primary);
+}
+.ai-card .bottom-bar .views-container small {
+  font-size: 15px;
+  color: var(--ternary);
+  font-weight: 600;
+}

@@ -25,6 +25,9 @@
   max-height: 200px;
   resize: vertical;
 }
+.new-tool-page .new-card .appInput h6 i.fa-check-circle {
+  color: var(--primary);
+}
 .new-tool-page .new-card .split-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

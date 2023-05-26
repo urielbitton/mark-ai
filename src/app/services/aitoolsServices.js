@@ -163,6 +163,7 @@ const catchBlock = (err, setLoading, setToasts) => {
   console.log(err)
   setLoading(false)
   setToasts(errorToast("Error adding AI Tool. Please try again."))
+  return 'error'
 }
 
 export const checkIfURLExists = (url) => {
@@ -183,8 +184,8 @@ export const addNewToolService = async (tool, setLoading, setToasts) => {
   const urlExists = await checkIfURLExists(tool.url)
   if (urlExists) {
     setLoading(false)
-    setToasts(errorToast("This tool already exists. Please verify the URL and make sure it does not already exist on the platform"))
-    return
+    setToasts(errorToast(`The url - ${tool.url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
+    return 'error'
   }
   const path = 'aitools'
   const docID = getRandomDocID(path)
@@ -227,6 +228,12 @@ export const addNewToolService = async (tool, setLoading, setToasts) => {
 
 export const updateAIToolService = async (tool, toolID, images, setLoading, setToasts) => {
   setLoading(true)
+  const urlExists = await checkIfURLExists(tool.url)
+  if (urlExists) {
+    setLoading(false)
+    setToasts(errorToast(`The url - ${tool.url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
+    return 'error'
+  }
   const path = 'aitools'
   const storagePath = `aitools/${toolID}/images`
   const mainImgs = images.mainImg.filter(file => file.file).map(img => img.file)
@@ -377,6 +384,18 @@ export const toggleBookmarkPromptService = (promptID, userID, isBookmarked, setT
     .catch((err) => {
       setToasts(errorToast("Error adding prompt to bookmarks. Please try again."))
     })
+}
+
+export const incrementToolViewCountService = (toolID) => {
+  return updateDB('aitools', toolID, {
+    views: firebaseIncrement(1)
+  })
+}
+
+export const incrementPromptViewCountService = (promptID) => {
+  return updateDB('prompts', promptID, {
+    views: firebaseIncrement(1)
+  })
 }
 
 

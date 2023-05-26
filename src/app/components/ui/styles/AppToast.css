@@ -43,9 +43,10 @@
   gap: 5px;
 }
 .app-toast h6 {
-  font-size: 12.5px;
+  font-size: 14px;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.4;
 }
 .app-toast .side > i {
   color: #fff;

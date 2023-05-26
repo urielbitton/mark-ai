@@ -5,7 +5,7 @@ import { useChatPrompt } from "app/hooks/aitoolsHooks"
 import { useNavigate, useParams } from "react-router-dom"
 import { copyToClipboard } from "app/utils/generalUtils"
 import AILoader from "app/components/ui/AILoader"
-import { successToast } from "app/data/toastsTemplates"
+import { infoToast, successToast } from "app/data/toastsTemplates"
 import { StoreContext } from "app/store/store"
 import AppButton from "app/components/ui/AppButton"
 import { deletePromptService, toggleBookmarkPromptService } from "app/services/aitoolsServices"
@@ -45,6 +45,7 @@ export default function PromptPage() {
   }
 
   const toggleBookmarkPrompt = () => {
+    if(!myUserID) return setToasts(infoToast("You must be logged in to bookmark prompts."))
     if(!isBookmarked && reachedBookmarkLimit) {
       setToasts("You can bookmark up to 50 prompts. Upgrade your account to unlock unlimited bookmarking.")
       return navigate("/my-account/upgrade")

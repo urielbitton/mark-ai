@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './styles/AIToolCard.css'
 import { Link, useNavigate } from "react-router-dom"
 import Avatar from "../ui/Avatar"
-import { beautifyUrl, truncateText } from "app/utils/generalUtils"
+import { beautifyUrl, formatViewsNumber, truncateText } from "app/utils/generalUtils"
 import { StoreContext } from "app/store/store"
 import { toggleBookmarkToolService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
@@ -10,9 +10,9 @@ import { useUserToolsBookmarks } from "app/hooks/userHooks"
 
 export default function AIToolCard(props) {
 
-  const { isAdmin, myUser, myUserID, setToasts } = useContext(StoreContext)
+  const { myUser, myUserID, setToasts } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
-    url, category, type } = props.tool
+    url, category, type, views } = props.tool
   const { isPreview, submission, submissionStatus, compact } = props
   const navigate = useNavigate()
   const userBookmarks = useUserToolsBookmarks(myUserID)
@@ -86,13 +86,10 @@ export default function AIToolCard(props) {
             </a>
           </small>
           <div className="right">
-            {
-              isAdmin && !isPreview &&
-              <i
-                className="fas fa-pen"
-                onClick={() => navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)}
-              />
-            }
+            <div className="views-container">
+              <small>{formatViewsNumber(views)}</small>
+              <i className="fas fa-eye" />
+            </div>
             {
               submission ?
                 <small className="status">Status: <span>{submissionStatus}</span></small> :

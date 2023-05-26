@@ -6,14 +6,14 @@ import {
 import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import FileUploader from "../ui/FileUploader"
 import AppButton from "../ui/AppButton"
-import { addNewToolService, updateAIToolService } from "app/services/aitoolsServices"
+import { addNewToolService, checkIfURLExists, updateAIToolService } from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 import AIToolCard from "../aitools/AIToolCard"
 import logoImg from "app/assets/images/logo-filled.png"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
-import { validateURL } from "app/utils/generalUtils"
-import { errorToast } from "app/data/toastsTemplates"
+import { noWhiteSpaceChars, validateURL } from "app/utils/generalUtils"
+import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
 
 export default function NewTool({ proUser, handleProSubmit, handleProUpdate, proLoading }) {
 
@@ -33,6 +33,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
   const [video, setVideo] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [checkLoading, setCheckLoading] = useState(false)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const editMode = searchParams.get("edit") === "true"
@@ -91,8 +92,9 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
       setLoading,
       setToasts
     )
-      .then(() => {
-        navigate("/admin/library")
+      .then((res) => {
+        if(res !== 'error')
+          navigate("/admin/library")
       })
   }
 
@@ -124,9 +126,29 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
       setLoading,
       setToasts
     )
-      .then(() => {
-        navigate(`/ai-tools/${editToolID}`)
+      .then((res) => {
+        if(res !== 'error')
+          navigate(`/ai-tools/${editToolID}`)
       })
+  }
+
+  const handleCheckURL = () => {
+    if(!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
+    setCheckLoading(true)
+    checkIfURLExists(url)
+    .then((exists) => {
+      if(exists) {
+        setToasts(infoToast(`The url - ${url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
+      } 
+      else {
+        setToasts(successToast("This URL is available."))
+      }
+      setCheckLoading(false)
+    })
+    .catch(() => {
+      setToasts(infoToast("There was an error checking the URL. Please try again."))
+      setCheckLoading(false)
+    })
   }
 
   useEffect(() => {
@@ -159,7 +181,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             onChange={(e) => setTitle(e.target.value)}
           />
           <AppInput
-            label="URL"
+            label={<>URL &nbsp;{noWhiteSpaceChars(url) ? validateURL(url) ? <i className="fas fa-check-circle"/> : <i className="fas fa-times-circle" /> : ''}</>}
             placeholder="Enter a URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -328,6 +350,13 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
                   />
                 </>
             }
+            <AppButton
+              label="Check URL"
+              onClick={handleCheckURL}
+              loading={checkLoading}
+              buttonType="outlineBtn"
+              rightIcon="fas fa-check-circle"
+            />
           </div>
         </div>
         <div className="right">

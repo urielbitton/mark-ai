@@ -21,8 +21,9 @@ import { useDocsCount } from "app/hooks/userHooks"
 import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
 import { toolsTypesData } from "app/data/toolsData"
+import { formatViewsNumber } from "app/utils/generalUtils"
 
-export default function AIToolPage({ previewTool=null }) {
+export default function AIToolPage({ previewTool = null }) {
 
   const { myUser, myUserID, setToasts, isAdmin,
     setPageLoading } = useContext(StoreContext)
@@ -58,7 +59,7 @@ export default function AIToolPage({ previewTool=null }) {
   })
 
   const submitRating = () => {
-    if(previewTool) return setToasts(errorToast("You can't rate a non approved tool."))
+    if (previewTool) return setToasts(errorToast("You can't rate a non approved tool."))
     setRatingLoading(true)
     checkUserToolRatingService(aitool.toolID, myUserID)
       .then((userRating) => {
@@ -124,6 +125,7 @@ export default function AIToolPage({ previewTool=null }) {
                 className="logo"
               />
               <h1>{aitool.title}</h1>
+              <h5>{aitool.tagline}</h5>
             </div>
             <div className="ratings-colors row-item">
               {
@@ -155,7 +157,8 @@ export default function AIToolPage({ previewTool=null }) {
           </div>
           <div className="row">
             <div className="row-item">
-              <h5>{aitool.tagline}</h5>
+              <h6>Views</h6>
+              <p>{formatViewsNumber(aitool.views)}</p>
             </div>
             <div className="row-item">
               <h6>Description</h6>
