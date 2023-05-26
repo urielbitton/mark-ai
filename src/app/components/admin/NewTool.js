@@ -65,7 +65,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
         color1,
         color2,
         url,
-        tags,
+        tags: tags.split(",").map((tag) => tag.trim()),
         type,
         mainImg,
         logo,

@@ -1,10 +1,11 @@
 export const showXResultsOptions = [
-  { name: '10 results', value: 10 },
-  { name: '15 results', value: 15 },
-  { name: '20 results', value: 20 },
-  { name: '25 results', value: 25 },
-  { name: '30 results', value: 30 },
-  { name: '40 results', value: 40 },
+  { label: '10 results', value: 10 },
+  { label: '15 results', value: 15 },
+  { label: '20 results', value: 20 },
+  { label: '25 results', value: 25 },
+  { label: '30 results', value: 30 },
+  { label: '40 results', value: 40 },
+  { label: '50 results', value: 50 },
 ]
 
 export const monthSelectOptions = [

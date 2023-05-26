@@ -1,0 +1,55 @@
+.view-toggler-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.view-toggler-container > h6 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--darkGrayText);
+}
+.view-toggler {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  height: 40px;
+  border-radius: 5px;
+  background: var(--grayBg);
+}
+.view-toggler .mode-item {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.view-toggler .mode-item:hover,
+.view-toggler .mode-item.active {
+  background: var(--darkGrayBg);
+}
+.view-toggler .mode-item i {
+  color: var(--grayText);
+  font-size: 16px;
+}
+
+.view-toggler.theme-color {
+  background: var(--extraLightPrimary);
+}
+.view-toggler.theme-color .mode-item:hover,
+.view-toggler.theme-color .mode-item.active {
+  background: var(--primary);
+}
+.view-toggler.theme-color .mode-item:hover i,
+.view-toggler.theme-color .mode-item.active i {
+  color: #fff;
+}
+.view-toggler .mode-item i {
+  color: var(--primary);
+}
+.view-toggler.theme-color .mode-item i {
+  color: var(--primary);
+}

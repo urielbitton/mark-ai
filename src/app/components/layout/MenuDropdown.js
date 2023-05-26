@@ -7,8 +7,8 @@ import IconContainer from "../ui/IconContainer"
 
 export default function ProfileDropdown(props) {
 
-  const { isAdmin, myUser, myUserImg,
-    myUserName, myUserType, isPro } = useContext(StoreContext)
+  const { isAdmin, myUser, myUserImg, myUserName, 
+    myUserType, isPro } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
   const navigate = useNavigate()
 

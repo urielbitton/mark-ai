@@ -1,7 +1,7 @@
 import { auth, db } from 'app/firebase/fire'
 import { browserSessionPersistence, setPersistence } from "firebase/auth"
 import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, 
-  doc, getCountFromServer, increment, setDoc, Timestamp, updateDoc } from "firebase/firestore"
+  doc, getCountFromServer, increment, query, setDoc, Timestamp, updateDoc, where } from "firebase/firestore"
 
 export function setDB(path, doc_, value, merge=true) {
   return setDoc(doc(db, path, doc_), value, { merge })

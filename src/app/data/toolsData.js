@@ -106,3 +106,14 @@ export const toolsTypesData = [
     iconColor: 'var(--primary)'
   }
 ]
+
+export const toolsSubmissionModes = [
+  {
+    icon: 'fas fa-th-large',
+    value: 'large'
+  },
+  {
+    icon: 'fas fa-grip-lines',
+    value: 'compact'
+  }
+]

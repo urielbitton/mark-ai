@@ -22,9 +22,9 @@ import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
 import { toolsTypesData } from "app/data/toolsData"
 
-export default function AIToolPage() {
+export default function AIToolPage({ previewTool=null }) {
 
-  const { myUser, myUserID, setToasts, isAdmin, 
+  const { myUser, myUserID, setToasts, isAdmin,
     setPageLoading } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
@@ -32,10 +32,10 @@ export default function AIToolPage() {
   const [selectedRating, setSelectedRating] = useState(0)
   const [ratingLoading, setRatingLoading] = useState(false)
   const toolID = useParams().toolID
-  const aitool = useAITool(toolID, setLoading)
-  const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
+  const aitool = useAITool(toolID, setLoading) || previewTool
   const ratingsCount = useDocsCount(`aitools/${toolID}/ratings`)
   const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
+  const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
   const navigate = useNavigate()
 
   const imgsList = allImages?.map((img, index) => {
@@ -58,6 +58,7 @@ export default function AIToolPage() {
   })
 
   const submitRating = () => {
+    if(previewTool) return setToasts(errorToast("You can't rate a non approved tool."))
     setRatingLoading(true)
     checkUserToolRatingService(aitool.toolID, myUserID)
       .then((userRating) => {
@@ -100,11 +101,11 @@ export default function AIToolPage() {
 
   const handleDeleteTool = () => {
     const confirm = window.confirm("Are you sure you want to delete this tool?")
-    if(!confirm) return
+    if (!confirm) return
     deleteAIToolService(toolID, setPageLoading, setToasts)
-    .then(() => {
-      navigate("/admin/library")
-    })
+      .then(() => {
+        navigate("/admin/library")
+      })
   }
 
   return !loading && aitool ? (
@@ -125,18 +126,21 @@ export default function AIToolPage() {
               <h1>{aitool.title}</h1>
             </div>
             <div className="ratings-colors row-item">
-              <div className="ratings">
-                <big>{toolRating.toFixed(1)}</big>
-                <Ratings rating={toolRating} />
-                {
-                  myUser &&
-                  <AppButton
-                    label="Rate"
-                    buttonType="lightBtn"
-                    onClick={() => setShowRatingModal(true)}
-                  />
-                }
-              </div>
+              {
+                !previewTool &&
+                <div className="ratings">
+                  <big>{toolRating.toFixed(1)}</big>
+                  <Ratings rating={toolRating} />
+                  {
+                    myUser &&
+                    <AppButton
+                      label="Rate"
+                      buttonType="lightBtn"
+                      onClick={() => setShowRatingModal(true)}
+                    />
+                  }
+                </div>
+              }
               <div className="colors">
                 <div
                   className="color-item"
@@ -190,8 +194,8 @@ export default function AIToolPage() {
           </div>
           <div className="row">
             <div className="row-item">
-              <h6>Date Added</h6>
-              <p>{convertClassicDate(aitool.dateAdded.toDate())}</p>
+              <h6>{!previewTool ? 'Date Added' : 'Date Submitted'}</h6>
+              <p>{convertClassicDate(!previewTool ? aitool.dateAdded.toDate() : aitool.dateSubmitted.toDate())}</p>
             </div>
             <div className="row-item">
               <h6>Date Created</h6>
@@ -255,6 +259,6 @@ export default function AIToolPage() {
         label="Tool not found"
         sublabel="The tool or website you are looking for does not exist."
         btnLabel="All Tools"
-        btnLink="/"
+        btnLink="/ai-tools"
       />
 }

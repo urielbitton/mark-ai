@@ -10,6 +10,9 @@
 .ai-card:hover {
   box-shadow: var(--cardShadowHover);
 }
+.ai-card.compact .img-container {
+  display: none;
+}
 
 .ai-card .img-container {
   width: 100%;
@@ -92,6 +95,12 @@
 }
 .ai-card .bottom-bar small i {
   font-size: 14px;
+  color: var(--primary);
+}
+.ai-card .bottom-bar .status {
+  font-weight: 600;
+}
+.ai-card .bottom-bar .status span {
   color: var(--primary);
 }
 .ai-card .bottom-bar .right {

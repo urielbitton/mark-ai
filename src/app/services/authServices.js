@@ -1,5 +1,5 @@
 import { auth } from "app/firebase/fire"
-import { createUserDocService, doGetUserByID } from "./userServices"
+import { createUserDocService, doGetUserByID, getUserByID } from "./userServices"
 import { successToast, infoToast, errorToast } from "app/data/toastsTemplates"
 import { deleteDB } from "./CrudDB"
 import {
@@ -61,14 +61,30 @@ export const googleAuthService = (photoURL, setMyUser, setLoading, setToasts) =>
       return fetchSignInMethodsForEmail(auth, res.user.email)
         .then((signInMethods) => {
           if (signInMethods.includes(provider.providerId)) {
-            setMyUser(res.user)
-            return setLoading(false)
+            doGetUserByID(res.user.uid)
+              .then((user) => {
+                setMyUser(user)
+                return setLoading(false)
+              })
+              .catch((err) => {
+                console.log(err)
+                return setLoading(false)
+              })
           }
           else {
             return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
-            .then(() => {
-              setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
-            })
+              .then(() => {
+                doGetUserByID(res.user.uid)
+                  .then((user) => {
+                    setMyUser(user)
+                    return setLoading(false)
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                    return setLoading(false)
+                  })
+                setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+              })
           }
         })
     })
@@ -102,9 +118,9 @@ export const facebookAuthService = (photoURL, setLoading, setToasts) => {
         .then(fbRes => {
           console.log(fbRes)
           return completeRegistrationService(user, 'facebook', fbRes, null, photoURL, setLoading)
-          .then(() => {
-            setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
-          })
+            .then(() => {
+              setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+            })
         })
         .catch(err => {
           console.log(err)

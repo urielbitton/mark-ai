@@ -1,8 +1,9 @@
-import { getAITool, getAITools, getAllTools, 
+import { getAITool, getAIToolPreview, getAITools, getAllTools, 
   getChatPrompt, getChatPrompts, getNonAITools, 
   getPromptsByCategory, getToolsByType, 
   getToolsByTypeAndCategory, 
-  getToolsSubmissionsByTypeAndStatus} from "app/services/aitoolsServices"
+  getToolsSubmissionsByTypeAndStatus,
+  getUserToolsSubmissionsDocsCountByStatusAndType} from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 import { useContext, useEffect, useState } from "react"
 
@@ -175,6 +176,26 @@ export const usePromptsByCategory = (category, limit, setLoading) => {
   return prompts
 }
 
+export const useAIToolPreview = (toolID, setLoading) => {
+
+  const [tool, setTool] = useState(null)
+
+  useEffect(() => {
+    if (!toolID) return
+    getAIToolPreview(toolID)
+      .then((tool) => {
+        setLoading(false)
+        setTool(tool)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [toolID])
+
+  return tool
+}
+
 // pro user submissions
 export const useAIToolsSubmissionsByTypeAndStatus = (type, status, limit, setLoading) => {
 
@@ -196,3 +217,18 @@ export const useAIToolsSubmissionsByTypeAndStatus = (type, status, limit, setLoa
   return tools
 }
 
+export const useUserToolsSubmissionsDocsCountByStatusAndType = (path, type, status) => {
+  
+    const { myUserID } = useContext(StoreContext)
+    const [count, setCount] = useState(0)
+  
+    useEffect(() => {
+      getUserToolsSubmissionsDocsCountByStatusAndType(myUserID, path, type, status)
+      .then((count) => {
+        setCount(count)
+      })
+      .catch((err) => console.log(err))
+    }, [myUserID, path, status])
+  
+    return count
+}

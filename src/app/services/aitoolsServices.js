@@ -1,6 +1,6 @@
 import { db } from "app/firebase/fire"
 import {
-  collection, doc, getDoc, getDocs, limit,
+  collection, doc, getCountFromServer, getDoc, getDocs, limit,
   onSnapshot, orderBy, query, where
 } from "firebase/firestore"
 import { deleteDB, firebaseArrayAdd, firebaseArrayRemove, firebaseIncrement, getRandomDocID, setDB, updateDB } from "./CrudDB"
@@ -48,7 +48,7 @@ export const getToolsByType = (type, setTools, lim) => {
   const toolsRef = collection(db, 'aitools')
   const q = query(
     toolsRef,
-    where('type', '==', type),  
+    where('type', '==', type),
     orderBy('dateAdded', 'desc'),
     limit(lim)
   )
@@ -129,6 +129,15 @@ export const getPromptsByCategory = (category, lim) => {
       return snapshot.docs.map((doc) => doc.data())
     })
 }
+
+export const getAIToolPreview = (toolID) => {
+  const toolRef = doc(db, 'toolsSubmissions', toolID)
+  return getDoc(toolRef)
+    .then((snapshot) => {
+      return snapshot.data()
+    })
+}
+
 
 export const getToolsSubmissionsByTypeAndStatus = (userID, type, status, lim) => {
   const toolsRef = collection(db, 'toolsSubmissions')
@@ -234,9 +243,9 @@ export const updateAIToolService = async (tool, toolID, images, setLoading, setT
             .then((imagesURLs) => {
               return updateDB(path, toolID, {
                 ...tool,
-                ...(mainImgs.length > 0 && {mainImg: mainImgURLs[mainImgURLs.length-1]?.downloadURL}),
-                ...(logos.length > 0 && {logo: logoURLs[logoURLs.length-1]?.downloadURL}),
-                ...(toolImages.length > 0 && {images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL))}),
+                ...(mainImgs.length > 0 && { mainImg: mainImgURLs[mainImgURLs.length - 1]?.downloadURL }),
+                ...(logos.length > 0 && { logo: logoURLs[logoURLs.length - 1]?.downloadURL }),
+                ...(toolImages.length > 0 && { images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL)) }),
               })
                 .catch((err) => catchBlock(err, setLoading, setToasts))
             })
@@ -271,24 +280,24 @@ export const addUserToolRatingService = (toolID, userID, rating) => {
     rating,
     dateAdded: new Date(),
     toolID,
-    userID,  
+    userID,
   })
-  .then(() => {
-    return updateDB('aitools', toolID, {
-      rating: firebaseIncrement(rating)
+    .then(() => {
+      return updateDB('aitools', toolID, {
+        rating: firebaseIncrement(rating)
+      })
     })
-  })
 }
 
 export const updateUserToolRatingService = (toolID, userID, oldRating, newRating) => {
   return updateDB(`aitools/${toolID}/ratings`, userID, {
     rating: newRating
   })
-  .then(() => {
-    return updateDB('aitools', toolID, {
-      rating: firebaseIncrement(Math.round(newRating - oldRating))
+    .then(() => {
+      return updateDB('aitools', toolID, {
+        rating: firebaseIncrement(Math.round(newRating - oldRating))
+      })
     })
-  })
 }
 
 export const deleteAIToolService = (toolID, setLoading, setToasts) => {
@@ -308,12 +317,12 @@ export const toggleBookmarkToolService = (toolID, userID, isBookmarked, setToast
   return setDB(`users/${userID}/bookmarks`, 'tools', {
     bookmarks: isBookmarked ? firebaseArrayRemove(toolID) : firebaseArrayAdd(toolID)
   })
-  .then(() => {
-    setToasts(successToast(isBookmarked ? "Bookmark removed successfully" : "Bookmark added successfully"))
-  })
-  .catch((err) => {
-    setToasts(errorToast("Error adding bookmark. Please try again."))
-  })
+    .then(() => {
+      setToasts(successToast(isBookmarked ? "Bookmark removed successfully" : "Bookmark added successfully"))
+    })
+    .catch((err) => {
+      setToasts(errorToast("Error adding bookmark. Please try again."))
+    })
 }
 
 export const addNewPromptService = (prompt, setLoading, setToasts) => {
@@ -325,12 +334,12 @@ export const addNewPromptService = (prompt, setLoading, setToasts) => {
     promptID: docID,
     dateAdded: new Date()
   })
-  .then(() => {
-    setLoading(false)
-    setToasts(successToast("Prompt added successfully"))
-    return docID
-  })
-  .catch((err) => catchBlock(err, setLoading, setToasts))
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt added successfully"))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
 }
 
 export const updatePromptService = (prompt, promptID, setLoading, setToasts) => {
@@ -338,11 +347,11 @@ export const updatePromptService = (prompt, promptID, setLoading, setToasts) => 
   return updateDB('prompts', promptID, {
     ...prompt
   })
-  .then(() => {
-    setLoading(false)
-    setToasts(successToast("Prompt saved successfully"))
-  })
-  .catch((err) => catchBlock(err, setLoading, setToasts))
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt saved successfully"))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
 }
 
 export const deletePromptService = (promptID, setLoading, setToasts) => {
@@ -362,12 +371,12 @@ export const toggleBookmarkPromptService = (promptID, userID, isBookmarked, setT
   return setDB(`users/${userID}/bookmarks`, 'prompts', {
     bookmarks: isBookmarked ? firebaseArrayRemove(promptID) : firebaseArrayAdd(promptID)
   })
-  .then(() => {
-    setToasts(successToast(isBookmarked ? "Prompt bookmark removed" : "Prompt bookmark added"))
-  })
-  .catch((err) => {
-    setToasts(errorToast("Error adding prompt to bookmarks. Please try again."))
-  })
+    .then(() => {
+      setToasts(successToast(isBookmarked ? "Prompt bookmark removed" : "Prompt bookmark added"))
+    })
+    .catch((err) => {
+      setToasts(errorToast("Error adding prompt to bookmarks. Please try again."))
+    })
 }
 
 
@@ -423,4 +432,18 @@ export const updateNonApprovedToolService = async (tool, toolID, images, setLoad
 
 export const updateApprovedToolService = async (tool, toolID, images, setLoading, setToasts) => {
 
+}
+
+export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, type, status) => {
+  const docRef = collection(db, path)
+  const q = query(
+    docRef,
+    where('submitterID', '==', userID),
+    where('status', '==', status),
+    where('type', '==', type)
+  )
+  return getCountFromServer(q)
+    .then((count) => {
+      return count.data().count
+    })
 }

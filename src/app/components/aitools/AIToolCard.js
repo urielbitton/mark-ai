@@ -13,7 +13,7 @@ export default function AIToolCard(props) {
   const { isAdmin, myUser, myUserID, setToasts } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category, type } = props.tool
-  const { isPreview, submission } = props
+  const { isPreview, submission, submissionStatus, compact } = props
   const navigate = useNavigate()
   const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
@@ -46,11 +46,11 @@ export default function AIToolCard(props) {
 
   return (
     <div
-      className="ai-card"
+      className={`ai-card ${compact ? 'compact' : ''}`}
       key={toolID}
     >
       <Link
-        to={(!isPreview && !submission) ? `/ai-tools/${toolID}` : ''}
+        to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}
         className="img-container"
       >
         <Image />
@@ -69,7 +69,7 @@ export default function AIToolCard(props) {
           </div>
         </div>
         <h5>
-          <Link to={(!isPreview && !submission) ? `/ai-tools/${toolID}` : ''}>
+          <Link to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}>
             {truncateText(title, 25)}
           </Link>
         </h5>
@@ -93,10 +93,14 @@ export default function AIToolCard(props) {
                 onClick={() => navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)}
               />
             }
-            <i
-              className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
-              onClick={handleBookmarkClick}
-            />
+            {
+              submission ?
+                <small className="status">Status: <span>{submissionStatus}</span></small> :
+                <i
+                  className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+                  onClick={handleBookmarkClick}
+                />
+            }
           </div>
         </div>
       </div>

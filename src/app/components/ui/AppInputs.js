@@ -191,7 +191,6 @@ const reactSelectStyles = {
     transition: 'all 0.2s ease',
     "&:hover": {
       border: state.isFocused ? '1px solid var(--primary)' : '1px solid var(--tableBorder)',
-      background: state.isFocused ? 'none' : 'var(--inputBg)'
     },
   }),
   menuPortal: base => ({ ...base, zIndex: 300 }),
@@ -202,6 +201,7 @@ const reactSelectStyles = {
     background: state.isSelected ? 'var(--inputBg)' : '#fff',
     cursor: 'pointer',
     opacity: state.isDisabled ? '0.4' : '1',
+    padding: '10px 15px',
     color: 'var(--darkGrayText)',
     "&:hover": {
       background: 'var(--inputBg)'
