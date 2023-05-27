@@ -1,7 +1,7 @@
 import { db } from "app/firebase/fire"
 import {
   collection, doc, getCountFromServer, getDoc, getDocs, limit,
-  onSnapshot, orderBy, query, where
+  onSnapshot, orderBy, query, runTransaction, where
 } from "firebase/firestore"
 import { deleteDB, firebaseArrayAdd, firebaseArrayRemove, firebaseIncrement, getRandomDocID, setDB, updateDB } from "./CrudDB"
 import { errorToast, successToast } from "app/data/toastsTemplates"
@@ -386,15 +386,39 @@ export const toggleBookmarkPromptService = (promptID, userID, isBookmarked, setT
     })
 }
 
-export const incrementToolViewCountService = (toolID) => {
-  return updateDB('aitools', toolID, {
-    views: firebaseIncrement(1)
+export const incrementToolViewsCountService = (toolID) => {
+  const itemRef = doc(db, "aitools", toolID)
+
+  return runTransaction(db, (transaction) => {
+    return transaction.get(itemRef).then((itemSnapshot) => {
+      const currentViews = itemSnapshot.data().views || 0
+      const newViews = currentViews + 1
+      transaction.update(
+        itemRef, 
+        { views: newViews }
+      )
+    })
+  })
+  .catch((error) => {
+    console.error("Error incrementing view count:", error)
   })
 }
 
-export const incrementPromptViewCountService = (promptID) => {
-  return updateDB('prompts', promptID, {
-    views: firebaseIncrement(1)
+export const incrementPromptViewsCountService = (promptID) => {
+  const itemRef = doc(db, "prompts", promptID)
+
+  return runTransaction(db, (transaction) => {
+    return transaction.get(itemRef).then((itemSnapshot) => {
+      const currentViews = itemSnapshot.data().views || 0
+      const newViews = currentViews + 1
+      transaction.update(
+        itemRef, 
+        { views: newViews }
+      )
+    })
+  })
+  .catch((error) => {
+    console.error("Error incrementing view count:", error)
   })
 }
 

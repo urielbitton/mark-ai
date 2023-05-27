@@ -9,7 +9,7 @@ export const updateEveryToolWithProps = (path, props) => {
   return getDocs(q)
   .then((snapshot) => {
     snapshot.forEach((doc) => {
-      bacth.update(doc.ref, props)
+      bacth.update(doc.ref, {views: props})
     })
     return bacth.commit()
   })

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/AIToolPage.css'
 import { useNavigate, useParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
@@ -14,6 +14,7 @@ import {
   addUserToolRatingService,
   checkUserToolRatingService,
   deleteAIToolService,
+  incrementToolViewsCountService,
   updateUserToolRatingService
 } from "app/services/aitoolsServices"
 import { errorToast, successToast } from "app/data/toastsTemplates"
@@ -22,11 +23,12 @@ import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
 import { toolsTypesData } from "app/data/toolsData"
 import { formatViewsNumber } from "app/utils/generalUtils"
+import { v4 as uuidv4 } from 'uuid'
 
 export default function AIToolPage({ previewTool = null }) {
 
   const { myUser, myUserID, setToasts, isAdmin,
-    setPageLoading } = useContext(StoreContext)
+    setPageLoading, toolsUID } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
   const [showRatingModal, setShowRatingModal] = useState(false)
@@ -108,6 +110,15 @@ export default function AIToolPage({ previewTool = null }) {
         navigate("/admin/library")
       })
   }
+
+  useEffect(() => {
+    if(!toolsUID) {
+      incrementToolViewsCountService(toolID)
+      .then(() => {
+        localStorage.setItem('toolsUID', uuidv4())
+      })
+    }
+  },[])
 
   return !loading && aitool ? (
     <div className="aitool-page">

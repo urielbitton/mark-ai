@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/PromptPage.css'
 import IconContainer from "app/components/ui/IconContainer"
 import { useChatPrompt } from "app/hooks/aitoolsHooks"
@@ -8,13 +8,15 @@ import AILoader from "app/components/ui/AILoader"
 import { infoToast, successToast } from "app/data/toastsTemplates"
 import { StoreContext } from "app/store/store"
 import AppButton from "app/components/ui/AppButton"
-import { deletePromptService, toggleBookmarkPromptService } from "app/services/aitoolsServices"
+import { deletePromptService, incrementPromptViewsCountService, toggleBookmarkPromptService } from "app/services/aitoolsServices"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
+import { v4 as uuidv4 } from 'uuid'
 
 export default function PromptPage() {
 
-  const { setToasts, isAdmin, myUserID, isPro } = useContext(StoreContext)
+  const { setToasts, isAdmin, myUserID, isPro,
+    promptsUID } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [iconHover, setIconHover] = useState(false)
   const [iconClicked, setIconClicked] = useState(false)
@@ -53,6 +55,15 @@ export default function PromptPage() {
     toggleBookmarkPromptService(promptID, myUserID, isBookmarked, setToasts)
   }
 
+  useEffect(() => {
+    if(!promptsUID) {
+      incrementPromptViewsCountService(promptID)
+      .then(() => {
+        localStorage.setItem('promptsUID', uuidv4())
+      })
+    }
+  },[])
+
   return prompt && !loading ? (
     <div className="prompt-page">
       <IconContainer
@@ -74,6 +85,10 @@ export default function PromptPage() {
       <div className="text-info">
         <h5><i className="fas fa-hashtag"/>Tags</h5>
         <p>{prompt.tags ? prompt.tags.join(", ") : 'No Tags'}</p>
+        <h6 className="views">
+          <i className="fas fa-eye"/>
+          {prompt.views}
+        </h6> 
         <AppButton
           label={!isBookmarked ? "Bookmark Prompt" : 'Remove Bookmark'}
           onClick={toggleBookmarkPrompt}

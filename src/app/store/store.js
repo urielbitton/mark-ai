@@ -25,6 +25,8 @@ const StoreContextProvider = ({children}) => {
   const isAdmin = myUser?.userType === "admin"
   const isPro = myUser?.userType === "pro" || isAdmin
   const upgradeProPrice = 20
+  const toolsUID = localStorage.getItem('toolsUID')
+  const promptsUID = localStorage.getItem('promptsUID')
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
@@ -51,6 +53,7 @@ const StoreContextProvider = ({children}) => {
     showMobileSidebar, setShowMobileSidebar,
     toasts, setToasts,
     newEventModal, setNewEventModal,
+    toolsUID, promptsUID
   }}>
     {children}
   </StoreContext.Provider>

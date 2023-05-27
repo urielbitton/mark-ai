@@ -10,11 +10,10 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false)
 
   const handleAddProps = () => {
-    //change the path string and props to add
-    const confirm = window.confirm('Are you sure you want to add props to all DB docs?')
+    const path = 'prompts'
+    const confirm = window.confirm(`Are you sure you want to add props to all ${path} docs?`)
     if (!confirm) return
     setLoading(true)
-    const path = 'prompts'
     updateEveryToolWithProps(path, null)
     .then(() => {
       console.log('views initialized')
