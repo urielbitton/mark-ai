@@ -8,7 +8,8 @@ import AILoader from "app/components/ui/AILoader"
 import { infoToast, successToast } from "app/data/toastsTemplates"
 import { StoreContext } from "app/store/store"
 import AppButton from "app/components/ui/AppButton"
-import { deletePromptService, incrementPromptViewsCountService, toggleBookmarkPromptService } from "app/services/aitoolsServices"
+import { deletePromptService, incrementPromptViewsCountService, 
+  toggleBookmarkPromptService } from "app/services/aitoolsServices"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
 import { v4 as uuidv4 } from 'uuid'
@@ -28,7 +29,7 @@ export default function PromptPage() {
   const isBookmarked = userBookmarks.includes(promptID)
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
   const categoryIcon = toolsCategoriesData?.find(cat => cat.value === prompt?.category)?.icon
-  const isPromptSubmitter = myUserID === prompt?.submitterID
+  const isPromptSubmitter = myUserID && myUserID === prompt?.submitterID
 
   const tagsList = prompt?.tags?.map((tag, index) => {
     return <small

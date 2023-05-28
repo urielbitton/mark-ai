@@ -40,7 +40,7 @@ export default function AIToolPage({ previewTool = null }) {
   const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
   const navigate = useNavigate()
-  const isToolSubmitter = myUserID === aitool?.submitterID
+  const isToolSubmitter = myUserID && myUserID === aitool?.submitterID
 
   const imgsList = allImages?.map((img, index) => {
     return <img
