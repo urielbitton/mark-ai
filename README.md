@@ -1,7 +1,7 @@
 # Mark AI App
 
 ToDos:
-- add views features
+- make mobile
 - add most popular tab to ai, online tools and prompts pages (order by highest rated, only 4-5 stars)
 - change navbar and homepage searches to multiple queries search
 - add form validation on all inputs and forms, especially new tool creation form.

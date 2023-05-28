@@ -1,7 +1,6 @@
 import { promptsIndex } from "app/algolia"
 import { useInstantSearch } from "app/hooks/searchHooks"
 import React from 'react'
-import AIToolsGrid from "./AIToolsGrid"
 import PromptCard from "./PromptCard"
 import AILoader from "../ui/AILoader"
 

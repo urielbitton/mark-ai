@@ -18,6 +18,9 @@
   color: var(--darkGrayText);
   font-size: 50px;
 }
+.homepage .hero-section h1 br {
+  display: none
+}
 .homepage .hero-section h5 {
   color: var(--grayText);
   font-size: 20px;
@@ -66,4 +69,14 @@
 .homepage .home-grid .end-div {
   width: 100px;
   height: 20px;
+}
+
+
+@media (max-width: 750px) {
+  .homepage .hero-section {
+    margin: 50px auto;
+  }
+  .homepage .hero-section h1 br {
+    display: block
+  }
 }

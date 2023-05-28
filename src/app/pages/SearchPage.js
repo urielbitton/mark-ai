@@ -11,7 +11,6 @@ export default function SearchPage() {
 
   const [searchString, setSearchString] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
-  const filters = ''
   const [numOfHits, setNumOfHits] = useState(0)
   const [numOfPages, setNumOfPages] = useState(0)
   const [pageNum, setPageNum] = useState(0)
@@ -19,10 +18,13 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const urlQuery = searchParams.get('q')
+  const urlTagQuery = searchParams.get('tag')
+  const filters = !urlTagQuery ? '' : `tags:${urlTagQuery}`
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
 
   const submitSearch = () => {
     setSearchQuery(searchString)
+    setSearchParams({ q: searchString }) 
   }
 
   const clearInput = () => {
@@ -62,6 +64,13 @@ export default function SearchPage() {
             <h5>{numOfHits} results found</h5>
           </div>
         }
+        {
+          urlTagQuery &&
+          <div className="search-tag search-stats">
+            <h4>Tag: <span>"{urlTagQuery}"</span></h4>
+            <h5>{numOfHits} results found</h5>
+          </div>
+        }
       </div>
       <AIToolsSearchHits
         query={searchQuery}
@@ -72,6 +81,7 @@ export default function SearchPage() {
         hitsPerPage={hitsPerPage}
         loading={loading}
         setLoading={setLoading}
+        showAll={urlTagQuery}
       />
       {
         noResults ?

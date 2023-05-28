@@ -63,11 +63,10 @@
   width: calc(100% - 50px);
   transition: all 0.2s;
 }
-.prompt-card .text-content h5 {
+.prompt-card .text-content h6 {
   font-size: 13px;
   color: var(--darkGrayText);
   color: var(--primary);
-  text-transform: uppercase;
   margin-bottom: 2px;
 }
 .prompt-card .text-content p {

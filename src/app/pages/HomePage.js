@@ -6,7 +6,7 @@ import AppSearchBar from "app/components/ui/AppSearchBar"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import { useViewportObserver } from "app/hooks/generalHooks"
-import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
+import { homeTabSwitcherData, toolsCategoriesData } from "app/data/toolsData"
 import TabSwitcher from "app/components/ui/TabSwitcher"
 import PromptsGrid from "app/components/aitools/PromptsGrid"
 import TypewriteText from "app/components/ui/TypewriteText"
@@ -19,7 +19,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [toolsLoading, setToolsLoading] = useState(true)
   const [searchParams, setSearchParams] = useSearchParams()
-  const [activeType, setActiveType] = useState({ type: toolsTypesData[0].value, index: 0 })
+  const [activeType, setActiveType] = useState({ type: homeTabSwitcherData[0].value, index: 0 })
   const aitools = useToolsByType(activeType.type, toolsLimit, setToolsLoading)
   const navigate = useNavigate()
   const endRef = useRef(null)
@@ -37,9 +37,9 @@ export default function HomePage() {
 
   useEffect(() => {
     if (searchParams.get('type')) {
-      const type = toolsTypesData.find(tab => tab.value === searchParams.get('type'))
+      const type = homeTabSwitcherData.find(tab => tab.value === searchParams.get('type'))
       if (type) {
-        setActiveType({ type: type.value, index: toolsTypesData.indexOf(type) })
+        setActiveType({ type: type.value, index: homeTabSwitcherData.indexOf(type) })
       }
     }
   }, [])
@@ -54,17 +54,18 @@ export default function HomePage() {
     <div className="homepage">
       <div className="hero-section">
         <h1>
-          Your&nbsp;
+          Your&nbsp;<br/>
           <TypewriteText
             textArray={homeTypewriteTexts}
             maxLoops={4}
             className="gradient-text"
           />
+          <br/>
           &nbsp;in one place
         </h1>
         <h5>Search the latest AI resources and tools</h5>
         <AppSearchBar
-          placeholder={activeType.type !== 'prompt' ? "Search by name, category, or tag..." : 'Search by prompt or category'}
+          placeholder="Search tools by name, category, or tags"
           btnLabel="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}
@@ -75,7 +76,7 @@ export default function HomePage() {
         />
         <div className="tabs-section">
           <TabSwitcher
-            tabs={toolsTypesData}
+            tabs={homeTabSwitcherData}
             activeTab={activeType}
             onTabClick={onTabClick}
           />

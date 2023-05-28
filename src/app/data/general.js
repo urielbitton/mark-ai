@@ -24,34 +24,6 @@ export const monthSelectOptions = [
   { label: 'December', value: 11 },
 ]
 
-export const supportIssuesOptions = [
-  {
-    label: 'Choose a support issue',
-    value: '',
-    disabled: true,
-  },
-  {
-    label: 'Technical issue',
-    value: 'technical',
-  },
-  {
-    label: 'Billing issue',
-    value: 'billing',
-  },
-  {
-    label: 'Feature request',
-    value: 'feature',
-  },
-  {
-    label: 'Account Issue',
-    value: 'account',
-  },
-  {
-    label: 'Other',
-    value: 'other',
-  }
-]
-
 export const homeTypewriteTexts = [
   "AI Tools",
   "Online Tools",
@@ -106,4 +78,8 @@ export const proMenuLinks = [
     url: 'settings',
     icon: 'fas fa-cog',
   },
+]
+
+export const mobileMenuLinks = [
+  
 ]

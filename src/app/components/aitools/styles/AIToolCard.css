@@ -110,7 +110,7 @@
 }
 .ai-card .bottom-bar .right i {
   color: var(--primary);
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
 }
 .ai-card .bottom-bar .right i.fa-pen {
@@ -124,6 +124,7 @@
 }
 .ai-card .bottom-bar .views-container i {
   color: var(--primary);
+  font-size: 16px;
 }
 .ai-card .bottom-bar .views-container small {
   font-size: 15px;

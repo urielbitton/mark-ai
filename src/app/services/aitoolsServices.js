@@ -31,7 +31,7 @@ export const getAITools = (setTools, lim) => {
     })
 }
 
-export const getAllTools = (setTools, lim) => {
+export const getAllTools = (lim) => {
   const toolsRef = collection(db, 'aitools')
   const q = query(
     toolsRef,
@@ -40,11 +40,11 @@ export const getAllTools = (setTools, lim) => {
   )
   return getDocs(q)
     .then((snapshot) => {
-      setTools(snapshot.docs.map((doc) => doc.data()))
+      return snapshot.docs.map((doc) => doc.data())
     })
 }
 
-export const getToolsByType = (type, setTools, lim) => {
+export const getToolsByType = (type, lim) => {
   const toolsRef = collection(db, 'aitools')
   const q = query(
     toolsRef,
@@ -54,7 +54,7 @@ export const getToolsByType = (type, setTools, lim) => {
   )
   return getDocs(q)
     .then((snapshot) => {
-      setTools(snapshot.docs.map((doc) => doc.data()))
+      return snapshot.docs.map((doc) => doc.data())
     })
 }
 
@@ -138,7 +138,6 @@ export const getAIToolPreview = (toolID) => {
     })
 }
 
-
 export const getToolsSubmissionsByTypeAndStatus = (userID, type, status, lim) => {
   const toolsRef = collection(db, 'toolsSubmissions')
   const q = query(
@@ -154,6 +153,21 @@ export const getToolsSubmissionsByTypeAndStatus = (userID, type, status, lim) =>
       return snapshot.docs.map((doc) => doc.data())
     })
 }
+
+export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, type, status) => {
+  const docRef = collection(db, path)
+  const q = query(
+    docRef,
+    where('submitterID', '==', userID),
+    where('status', '==', status),
+    where('type', '==', type)
+  )
+  return getCountFromServer(q)
+    .then((count) => {
+      return count.data().count
+    })
+}
+
 
 
 
@@ -394,14 +408,14 @@ export const incrementToolViewsCountService = (toolID) => {
       const currentViews = itemSnapshot.data().views || 0
       const newViews = currentViews + 1
       transaction.update(
-        itemRef, 
+        itemRef,
         { views: newViews }
       )
     })
   })
-  .catch((error) => {
-    console.error("Error incrementing view count:", error)
-  })
+    .catch((error) => {
+      console.error("Error incrementing view count:", error)
+    })
 }
 
 export const incrementPromptViewsCountService = (promptID) => {
@@ -412,14 +426,14 @@ export const incrementPromptViewsCountService = (promptID) => {
       const currentViews = itemSnapshot.data().views || 0
       const newViews = currentViews + 1
       transaction.update(
-        itemRef, 
+        itemRef,
         { views: newViews }
       )
     })
   })
-  .catch((error) => {
-    console.error("Error incrementing view count:", error)
-  })
+    .catch((error) => {
+      console.error("Error incrementing view count:", error)
+    })
 }
 
 
@@ -470,23 +484,74 @@ export const submitNewToolRequestService = async (tool, userID, setLoading, setT
 }
 
 export const updateNonApprovedToolService = async (tool, toolID, images, setLoading, setToasts) => {
-
+  setLoading(true)
+  const path = 'toolsSubmissions'
+  const storagePath = `toolsSubmissions/${toolID}/images`
+  const mainImgs = images.mainImg.filter(file => file.file).map(img => img.file)
+  const logos = images.logo.filter(file => file.file).map(img => img.file)
+  const toolImages = images.images.filter(file => file.file).map(img => img.file)
+  const compressedMainImg = await compressImagesService(mainImgs)
+  const compressedLogo = await compressImagesService(logos)
+  const compressedImages = await compressImagesService(toolImages)
+  return uploadMultipleFilesToFireStorage(mainImgs.length > 0 ? removeNullOrUndefined(compressedMainImg) : null, storagePath, null)
+    .then((mainImgURLs) => {
+      return uploadMultipleFilesToFireStorage(logos.length > 0 ? removeNullOrUndefined(compressedLogo) : null, storagePath, null)
+        .then((logoURLs) => {
+          return uploadMultipleFilesToFireStorage(toolImages.length > 0 ? removeNullOrUndefined(compressedImages) : null, storagePath, null)
+            .then((imagesURLs) => {
+              return updateDB(path, toolID, {
+                ...tool,
+                ...(mainImgs.length > 0 && { mainImg: mainImgURLs[mainImgURLs.length - 1]?.downloadURL }),
+                ...(logos.length > 0 && { logo: logoURLs[logoURLs.length - 1]?.downloadURL }),
+                ...(toolImages.length > 0 && { images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL)) }),
+              })
+                .catch((err) => catchBlock(err, setLoading, setToasts))
+            })
+            .catch((err) => catchBlock(err, setLoading, setToasts))
+        })
+        .catch((err) => catchBlock(err, setLoading, setToasts))
+    })
+    .then((docID) => {
+      setLoading(false)
+      setToasts(successToast("AI/Online tool submission updated successfully (Still in review)."))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
 }
 
 export const updateApprovedToolService = async (tool, toolID, images, setLoading, setToasts) => {
-
-}
-
-export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, type, status) => {
-  const docRef = collection(db, path)
-  const q = query(
-    docRef,
-    where('submitterID', '==', userID),
-    where('status', '==', status),
-    where('type', '==', type)
-  )
-  return getCountFromServer(q)
-    .then((count) => {
-      return count.data().count
+  setLoading(true)
+  const path = 'aitools'
+  const storagePath = `aitools/${toolID}/images`
+  const mainImgs = images.mainImg.filter(file => file.file).map(img => img.file)
+  const logos = images.logo.filter(file => file.file).map(img => img.file)
+  const toolImages = images.images.filter(file => file.file).map(img => img.file)
+  const compressedMainImg = await compressImagesService(mainImgs)
+  const compressedLogo = await compressImagesService(logos)
+  const compressedImages = await compressImagesService(toolImages)
+  return uploadMultipleFilesToFireStorage(mainImgs.length > 0 ? removeNullOrUndefined(compressedMainImg) : null, storagePath, null)
+    .then((mainImgURLs) => {
+      return uploadMultipleFilesToFireStorage(logos.length > 0 ? removeNullOrUndefined(compressedLogo) : null, storagePath, null)
+        .then((logoURLs) => {
+          return uploadMultipleFilesToFireStorage(toolImages.length > 0 ? removeNullOrUndefined(compressedImages) : null, storagePath, null)
+            .then((imagesURLs) => {
+              return updateDB(path, toolID, {
+                ...tool,
+                inReview: true,
+                ...(mainImgs.length > 0 && { mainImg: mainImgURLs[mainImgURLs.length - 1]?.downloadURL }),
+                ...(logos.length > 0 && { logo: logoURLs[logoURLs.length - 1]?.downloadURL }),
+                ...(toolImages.length > 0 && { images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL)) }),
+              })
+                .catch((err) => catchBlock(err, setLoading, setToasts))
+            })
+            .catch((err) => catchBlock(err, setLoading, setToasts))
+        })
+        .catch((err) => catchBlock(err, setLoading, setToasts))
     })
+    .then((docID) => {
+      setLoading(false)
+      setToasts(successToast("AI/Online tool submission updated successfully (Now under review)."))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
 }

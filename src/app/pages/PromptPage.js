@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import './styles/PromptPage.css'
 import IconContainer from "app/components/ui/IconContainer"
 import { useChatPrompt } from "app/hooks/aitoolsHooks"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { copyToClipboard } from "app/utils/generalUtils"
 import AILoader from "app/components/ui/AILoader"
 import { infoToast, successToast } from "app/data/toastsTemplates"
@@ -12,6 +12,7 @@ import { deletePromptService, incrementPromptViewsCountService, toggleBookmarkPr
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
 import { v4 as uuidv4 } from 'uuid'
+import { convertClassicDate } from "app/utils/dateUtils"
 
 export default function PromptPage() {
 
@@ -27,7 +28,19 @@ export default function PromptPage() {
   const isBookmarked = userBookmarks.includes(promptID)
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
   const categoryIcon = toolsCategoriesData?.find(cat => cat.value === prompt?.category)?.icon
+  const isPromptSubmitter = myUserID === prompt?.submitterID
 
+  const tagsList = prompt?.tags?.map((tag, index) => {
+    return <small
+      key={index}
+      className="tag"
+    >
+      <Link to={`/search/prompts?tag=${tag}`}>
+        {index === 0 ? tag : `, ${tag}`}
+      </Link>
+    </small>
+  })
+    
   const handleCopyText = () => {
     setIconClicked(true)
     copyToClipboard(prompt.text)
@@ -45,6 +58,15 @@ export default function PromptPage() {
       navigate("/admin/library/prompts")
     })
   }
+
+  const handleEditPrompt = () => {
+    if(isAdmin) {
+      navigate(`/admin/add-new/prompt?promptID=${promptID}&edit=true`)
+    }
+    else {
+      navigate(`/dashboard/new-prompt?promptID=${promptID}&edit=true`)
+    }
+  } 
 
   const toggleBookmarkPrompt = () => {
     if(!myUserID) return setToasts(infoToast("You must be logged in to bookmark prompts."))
@@ -84,11 +106,14 @@ export default function PromptPage() {
       </div>
       <div className="text-info">
         <h5><i className="fas fa-hashtag"/>Tags</h5>
-        <p>{prompt.tags ? prompt.tags.join(", ") : 'No Tags'}</p>
+        <p>{prompt.tags ? tagsList : 'No Tags'}</p>
         <h6 className="views">
           <i className="fas fa-eye"/>
-          {prompt.views}
+          {prompt.views} views
         </h6> 
+        <h6 className="date">
+          Added: {convertClassicDate(prompt.dateAdded?.toDate())}
+        </h6>
         <AppButton
           label={!isBookmarked ? "Bookmark Prompt" : 'Remove Bookmark'}
           onClick={toggleBookmarkPrompt}
@@ -97,11 +122,11 @@ export default function PromptPage() {
         />
       </div>
       {
-        isAdmin &&
+        (isAdmin || isPromptSubmitter) &&
         <div className="btn-group">
           <AppButton
             label="Edit Prompt"
-            onClick={() => navigate(`/admin/add-new/prompt?promptID=${promptID}&edit=true`)}
+            onClick={handleEditPrompt}
           />
           <AppButton
             label="Delete Prompt"

@@ -11,7 +11,7 @@ import { toolsCategoriesData } from "app/data/toolsData"
 export default function PromptCard(props) {
 
   const { setToasts, myUserID, myUser, isPro } = useContext(StoreContext)
-  const { text, category, promptID } = props.prompt
+  const { text, category, promptID, short } = props.prompt
   const { isPreview } = props
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
@@ -59,7 +59,8 @@ export default function PromptCard(props) {
         to={!isPreview ? `/prompts/${promptID}` : ''}
         className="text-content"
       >
-        <p>{truncateText(text, 150)}</p>
+        <h6>{short}</h6>
+        <p>{truncateText(text, 165)}</p>
       </Link>
     </div>
   )

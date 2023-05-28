@@ -84,7 +84,7 @@ export default function NewPrompt() {
     <div className="new-tool-page">
       <div className="new-card">
         <div className="left">
-          <h2>{!editMode ? 'Add New Tool' : 'Update Tool'}</h2>
+          <h2>{!editMode ? 'Add New Prompt' : 'Update Prompt'}</h2>
           <AppTextarea
             label="Prompt Text"
             placeholder="Enter a prompt"

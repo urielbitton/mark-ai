@@ -8,7 +8,7 @@ export default function TabSwitcher(props) {
   const tabsRender = tabs?.map((tab, index) => {
     return <div 
       key={index}
-      className="tab-item"
+      className={`tab-item ${activeTab.index === index ? 'active' : ''}`}
       onClick={() => onTabClick(tab, index)}
     >
       <h6>{tab.label}</h6>

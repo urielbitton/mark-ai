@@ -19,12 +19,14 @@ export default function SearchPromptsPage() {
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const urlQuery = searchParams.get('q')
+  const urlTagQuery = searchParams.get('tag')
   const categoryMode = searchParams.get('category')
-  const filters = !categoryMode ? '' : `category: ${categoryMode}`
+  const filters = categoryMode ? `category: ${categoryMode}` : urlTagQuery ? `tags:${urlTagQuery}` : ''
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
 
   const submitSearch = () => {
     setSearchQuery(searchString)
+    setSearchParams({ q: searchString })
   }
 
   const clearInput = () => {
@@ -80,6 +82,13 @@ export default function SearchPromptsPage() {
             }
           </div>
         }
+        {
+          urlTagQuery &&
+          <div className="search-tag search-stats">
+            <h4>Tag: <span>"{urlTagQuery}"</span></h4>
+            <h5>{numOfHits} results found</h5>
+          </div>
+        }
       </div>
       <PromptsSearchHits
         query={searchQuery}
@@ -90,6 +99,7 @@ export default function SearchPromptsPage() {
         hitsPerPage={hitsPerPage}
         loading={loading}
         setLoading={setLoading}
+        showAll={urlTagQuery}
       />
       {
         noResults ?

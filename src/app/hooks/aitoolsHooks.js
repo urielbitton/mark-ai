@@ -1,9 +1,11 @@
-import { getAITool, getAIToolPreview, getAITools, getAllTools, 
-  getChatPrompt, getChatPrompts, getNonAITools, 
-  getPromptsByCategory, getToolsByType, 
-  getToolsByTypeAndCategory, 
+import {
+  getAITool, getAIToolPreview, getAITools, getAllTools,
+  getChatPrompt, getChatPrompts, getNonAITools,
+  getPromptsByCategory, getToolsByType,
+  getToolsByTypeAndCategory,
   getToolsSubmissionsByTypeAndStatus,
-  getUserToolsSubmissionsDocsCountByStatusAndType} from "app/services/aitoolsServices"
+  getUserToolsSubmissionsDocsCountByStatusAndType
+} from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 import { useContext, useEffect, useState } from "react"
 
@@ -68,9 +70,10 @@ export const useAllTools = (limit, setLoading) => {
   const [tools, setTools] = useState([])
 
   useEffect(() => {
-    getAllTools(setTools, limit)
-      .then(() => {
+    getAllTools(limit)
+      .then((tools) => {
         setLoading(false)
+        setTools(tools)
       })
       .catch((err) => {
         console.log(err)
@@ -86,14 +89,28 @@ export const useToolsByType = (type, limit, setLoading) => {
   const [tools, setTools] = useState([])
 
   useEffect(() => {
-    getToolsByType(type, setTools, limit)
-      .then(() => {
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log(err)
-        setLoading(false)
-      })
+    if (type === 'all') {
+      getAllTools(limit)
+        .then((tools) => {
+          setTools(tools)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoading(false)
+        })
+    }
+    else {
+      getToolsByType(type, limit)
+        .then((tools) => {
+          setLoading(false)
+          setTools(tools)
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoading(false)
+        })
+    }
   }, [type, limit])
 
   return tools
@@ -218,17 +235,17 @@ export const useAIToolsSubmissionsByTypeAndStatus = (type, status, limit, setLoa
 }
 
 export const useUserToolsSubmissionsDocsCountByStatusAndType = (path, type, status) => {
-  
-    const { myUserID } = useContext(StoreContext)
-    const [count, setCount] = useState(0)
-  
-    useEffect(() => {
-      getUserToolsSubmissionsDocsCountByStatusAndType(myUserID, path, type, status)
+
+  const { myUserID } = useContext(StoreContext)
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    getUserToolsSubmissionsDocsCountByStatusAndType(myUserID, path, type, status)
       .then((count) => {
         setCount(count)
       })
       .catch((err) => console.log(err))
-    }, [myUserID, path, status])
-  
-    return count
+  }, [myUserID, path, status])
+
+  return count
 }

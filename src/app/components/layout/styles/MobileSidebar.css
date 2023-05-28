@@ -1,0 +1,17 @@
+.mobile-sidebar {
+  position: fixed;
+  top: -110%;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--navbarHeight));
+  background: var(--primaryGradient);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  transition: 0.4s;
+  visibility: hidden;
+}
+.mobile-sidebar.show {
+  top: var(--navbarHeight);
+  visibility: visible;
+}

@@ -107,6 +107,33 @@ export const toolsTypesData = [
   }
 ]
 
+export const homeTabSwitcherData = [
+  {
+    label: 'All',
+    value: 'all',
+    icon: 'fas fa-ring',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'AI Tools',
+    value: 'ai',
+    icon: 'fas fa-robot',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Online Tools',
+    value: 'tool',
+    icon: 'fas fa-flask',
+    iconColor: 'var(--primary)'
+  },
+  {
+    label: 'Prompts',
+    value: 'prompt',
+    icon: 'fas fa-comment',
+    iconColor: 'var(--primary)'
+  }
+]
+
 export const toolsSubmissionModes = [
   {
     icon: 'fas fa-th-large',

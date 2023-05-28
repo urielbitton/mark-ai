@@ -10,6 +10,7 @@ import './styles/Navbar.css'
 import navLogo from 'app/assets/images/nav-logo.png'
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"
 import AppButton from "../ui/AppButton"
+import MobileSidebar from "./MobileSidebar"
 
 export default function Navbar() {
 
@@ -39,7 +40,13 @@ export default function Navbar() {
     <nav className={`navbar ${hideNavbar ? 'hide' : ''}`}>
       <div className="topbar site-grid">
         <div className="left">
-          <Link 
+          <div
+            className="mobile-btn"
+            onClick={() => setShowMobileSidebar(prev => !prev)}
+          >
+            <i className="fal fa-bars" />
+          </div>
+          <Link
             to="/"
             className="logo"
           >
@@ -47,12 +54,6 @@ export default function Navbar() {
             <h4>Mark<span>AI</span></h4>
           </Link>
           <NavSearch />
-          <div
-            className="mobile-btn"
-            onClick={() => setShowMobileSidebar(true)}
-          >
-            <i className="fal fa-bars" />
-          </div>
         </div>
         <div className="right">
           <div className="menu">
@@ -182,6 +183,7 @@ export default function Navbar() {
         <div className="shape shape3" />
         <div className="shape shape4" />
       </div>
+      <MobileSidebar />
     </nav>
   )
 }

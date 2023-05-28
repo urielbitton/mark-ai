@@ -18,6 +18,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  z-index: 100;
 }
 .navbar .topbar .left {
   display: flex;
@@ -456,18 +457,27 @@
 }
 
 
-@media (max-width: 700px) {
-  .navbar .appInput,
-  .navbar .dropdown-button {
+
+@media (max-width: 1080px) {
+  .navbar .topbar .right .menu {
     display: none;
   }
   .navbar .mobile-btn {
     display: flex;
   }
-  .navbar .bottombar {
+  .navbar .topbar .left {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar .nav-search-bar {
     display: none;
   }
-  .nav-search-dropdown {
-    width: 100%;
+}
+
+@media (max-width: 400px) {
+  .navbar .icon-container {
+    display: none;
   }
 }

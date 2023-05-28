@@ -42,3 +42,18 @@
   transition: all 0.3s;
   z-index: 0;
 }
+
+
+@media (max-width:550px) {
+  .tab-switcher,
+  .tab-switcher .tab-item {
+    flex-direction: column;
+    border-radius: 20px;
+  }
+  .tab-switcher .tab-indicator {
+    display: none;
+  }
+  .tab-switcher .tab-item.active {
+    background: var(--darkGrayBg)
+  }
+}

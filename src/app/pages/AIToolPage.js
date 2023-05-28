@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/AIToolPage.css'
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 import AILoader from "app/components/ui/AILoader"
 import { convertClassicDate } from "app/utils/dateUtils"
@@ -40,6 +40,7 @@ export default function AIToolPage({ previewTool = null }) {
   const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
   const navigate = useNavigate()
+  const isToolSubmitter = myUserID === aitool?.submitterID
 
   const imgsList = allImages?.map((img, index) => {
     return <img
@@ -54,9 +55,10 @@ export default function AIToolPage({ previewTool = null }) {
     return <small
       key={index}
       className="tag"
-      onClick={() => navigate(`/search?q=${tag}`)}
     >
-      {index === 0 ? tag : `, ${tag}`}
+      <Link to={`/search?tag=${tag}`}>
+        {index === 0 ? tag : `, ${tag}`}
+      </Link>
     </small>
   })
 
@@ -99,7 +101,14 @@ export default function AIToolPage({ previewTool = null }) {
   }
 
   const handleEditTool = () => {
-    navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)
+    if(isAdmin) {
+      navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)
+    }
+    else {
+      aitool?.type === 'ai' ?
+      navigate(`/dashboard/new-ai-tool?toolID=${toolID}&edit=true`) :
+      navigate(`/dashboard/new-online-tool?toolID=${toolID}&edit=true`)
+    }
   }
 
   const handleDeleteTool = () => {
@@ -249,7 +258,7 @@ export default function AIToolPage({ previewTool = null }) {
         />
       </div>
       {
-        isAdmin &&
+        (isAdmin || isToolSubmitter) &&
         <div className="btn-group">
           <AppButton
             label="Edit Tool"
