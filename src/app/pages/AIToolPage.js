@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 import AILoader from "app/components/ui/AILoader"
 import { convertClassicDate } from "app/utils/dateUtils"
-import { beautifyUrl } from "app/utils/generalUtils"
+import { extractDomainFromURL } from "app/utils/generalUtils"
 import PhotoModal from "app/components/ui/PhotoModal"
 import Ratings from "app/components/ui/Ratings"
 import { StoreContext } from "app/store/store"
@@ -193,12 +193,12 @@ export default function AIToolPage({ previewTool = null }) {
             <div className="row-item">
               <h6>Website URL</h6>
               <a
-                href={aitool.url}
+                href={`https://${extractDomainFromURL(aitool.url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <i className="far fa-external-link" />
-                {beautifyUrl(aitool.url)}
+                {extractDomainFromURL(aitool.url)}
               </a>
             </div>
           </div>

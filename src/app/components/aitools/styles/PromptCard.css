@@ -52,6 +52,12 @@
   font-size: 17px;
   cursor: pointer;
 }
+.prompt-card .main-icon-container.preview i.fa-copy {
+  display: none;
+}
+.prompt-card .main-icon-container.preview:hover .main-icon {
+  display: block
+}
 
 .prompt-card .text-content {
   background: #fff;

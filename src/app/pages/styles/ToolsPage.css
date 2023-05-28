@@ -42,6 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   margin: 30px 0;
 }
 .tools-page .categories-section > div {
@@ -86,4 +87,15 @@
 .tools-page .ai-tools-grid {
   margin-top: 40px;
   margin-bottom: 30px;
+}
+
+
+@media (max-width: 700px) {
+  .tools-page .categories-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tools-page .categories-section .right {
+    width: 100%;
+  }
 }

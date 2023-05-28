@@ -81,5 +81,20 @@ export const proMenuLinks = [
 ]
 
 export const mobileMenuLinks = [
-  
+  {
+    label: 'Home',
+    url: '/',
+  },
+  {
+    label: 'AI Tools',
+    url: '/ai-tools',
+  },
+  {
+    label: 'Online Tools',
+    url: '/online-tools',
+  },
+  {
+    label: 'Prompts',
+    url: '/prompts',
+  },
 ]

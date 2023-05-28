@@ -193,6 +193,7 @@
 .navbar .mobile-btn i {
   font-size: 20px;
   color: #fff;
+  transition: all 0.2s;
 }
 
 .nav-search-dropdown {
@@ -459,6 +460,9 @@
 
 
 @media (max-width: 1080px) {
+  .navbar .mobile-btn.active i {
+    transform: rotate(90deg);
+  }
   .navbar .topbar .right .menu {
     display: none;
   }
@@ -467,6 +471,15 @@
   }
   .navbar .topbar .left {
     gap: 20px;
+  }
+  .navbar .menu-dropdown {
+    position: fixed;
+    width: 100vw;
+    margin: 0 auto;
+    right: 0;
+  }
+  .navbar .menu-dropdown.show {
+    top: var(--navbarHeight);
   }
 }
 

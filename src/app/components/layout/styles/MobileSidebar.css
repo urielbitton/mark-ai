@@ -15,3 +15,19 @@
   top: var(--navbarHeight);
   visibility: visible;
 }
+.mobile-sidebar .mobile-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+.mobile-sidebar .mobile-menu a {
+  color: #fff;
+  font-size: 14px;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mobile-sidebar .mobile-menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

@@ -41,14 +41,14 @@ export default function PromptCard(props) {
     >
       <div className="left-side">
         <div
-          className="main-icon-container"
+          className={`main-icon-container ${isPreview ? 'preview' : ''}`}
           onClick={onPromptClick}
         >
           <i className={`${categoryIcon} main-icon`} />
           <i className="fas fa-copy" />
         </div>
         {
-          myUser &&
+          myUser && !isPreview &&
           <i
             className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark bookmark-icon`}
             onClick={toggleBookmarkPrompt}

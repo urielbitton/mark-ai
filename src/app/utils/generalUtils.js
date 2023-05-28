@@ -248,9 +248,6 @@ export const areArraysEqual = (arr1, arr2) => {
   return true
 }
 
-export const generateRoomID = () => {
-  return `${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}-${Math.random().toString(36).substring(2, 6)}`
-}
 
 export const beautifyUrl = (url) => {
   if (url.endsWith('/')) {

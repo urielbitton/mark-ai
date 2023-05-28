@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import './styles/AIToolCard.css'
 import { Link, useNavigate } from "react-router-dom"
 import Avatar from "../ui/Avatar"
-import { beautifyUrl, formatViewsNumber, truncateText } from "app/utils/generalUtils"
+import { extractDomainFromURL, formatViewsNumber, 
+  truncateText } from "app/utils/generalUtils"
 import { StoreContext } from "app/store/store"
 import { toggleBookmarkToolService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
@@ -78,11 +79,11 @@ export default function AIToolCard(props) {
           <small>
             <i className="fas fa-external-link-alt" />
             <a
-              href={url}
+              href={`https://${extractDomainFromURL(url)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {truncateText(beautifyUrl(url), 30)}
+              {truncateText(extractDomainFromURL(url), 30)}
             </a>
           </small>
           <div className="right">

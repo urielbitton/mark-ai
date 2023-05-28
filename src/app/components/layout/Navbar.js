@@ -14,7 +14,8 @@ import MobileSidebar from "./MobileSidebar"
 
 export default function Navbar() {
 
-  const { myUser, myUserID, setShowMobileSidebar, isAdmin, isPro } = useContext(StoreContext)
+  const { myUser, myUserID, showMobileSidebar, 
+    setShowMobileSidebar, isAdmin, isPro } = useContext(StoreContext)
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
   const notifications = useAllNotifications(myUserID, 5)
@@ -41,7 +42,7 @@ export default function Navbar() {
       <div className="topbar site-grid">
         <div className="left">
           <div
-            className="mobile-btn"
+            className={`mobile-btn ${showMobileSidebar ? 'active' : ''}`}
             onClick={() => setShowMobileSidebar(prev => !prev)}
           >
             <i className="fal fa-bars" />
