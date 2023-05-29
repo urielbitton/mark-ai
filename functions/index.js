@@ -1,11 +1,12 @@
 const functions = require("firebase-functions")
 const algoliasearch = require('algoliasearch')
 const firebase = require("firebase-admin")
+const sgMail = require('@sendgrid/mail')
+
 firebase.initializeApp()
 const db = firebase.firestore()
-const storage = firebase.storage()
 db.settings({ ignoreUndefinedProperties: true })
-
+sgMail.setApiKey(functions.config().sendgrid.key)
 const APP_ID = functions.config().algolia.app
 const API_KEY = functions.config().algolia.key
 // @ts-ignore
@@ -86,6 +87,20 @@ function deleteStorageFolder(path) {
   })
 }
 
+
+// Sendgrid functions
+exports.sendEmailWithAttachment = functions
+  .https.onCall((data, context) => {
+    const msg = {
+      from: data.from,
+      to: data.to,
+      subject: data.subject,
+      html: data.html,
+      attachments: data.attachments
+    }
+    return sgMail.send(msg)
+      .catch(err => console.log(err))
+  })
 
 
 // Utility Functions

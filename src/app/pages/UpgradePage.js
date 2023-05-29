@@ -14,7 +14,8 @@ import { auth } from "app/firebase/fire"
 
 export default function UpgradePage() {
 
-  const { upgradeProPrice, myUser, isPro, setToasts } = useContext(StoreContext)
+  const { upgradeProPrice, myUser, isPro, setToasts, 
+    isUserVerified } = useContext(StoreContext)
   const [showPaypal, setShowPaypal] = useState(false)
   const paymentSectionRef = useRef(null)
   const navigate = useNavigate()
@@ -24,6 +25,10 @@ export default function UpgradePage() {
     if(!myUser) {
       setToasts(infoToast('Please login to upgrade to pro'))
       return navigate('/login')
+    }
+    if(!isUserVerified) {
+      navigate('/my-account')
+      return setToasts(infoToast('Please verify your account to upgrade to pro'))
     }
     setShowPaypal(true)
     setTimeout(() => {

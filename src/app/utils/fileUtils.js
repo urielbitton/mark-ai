@@ -152,6 +152,7 @@ export async function downloadUsingFetchFromFile(file, fileName) {
 }
 
 export const convertFilesToBase64 = (files) => {
+  if(!files) return Promise.resolve([])
   return Promise.all(files.map((file, i) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()

@@ -15,10 +15,11 @@ import {
   checkUserToolRatingService,
   deleteAIToolService,
   incrementToolViewsCountService,
+  toggleBookmarkToolService,
   updateUserToolRatingService
 } from "app/services/aitoolsServices"
-import { errorToast, successToast } from "app/data/toastsTemplates"
-import { useDocsCount } from "app/hooks/userHooks"
+import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
+import { useDocsCount, useUserToolsBookmarks } from "app/hooks/userHooks"
 import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
 import { toolsTypesData } from "app/data/toolsData"
@@ -28,7 +29,7 @@ import { v4 as uuidv4 } from 'uuid'
 export default function AIToolPage({ previewTool = null }) {
 
   const { myUser, myUserID, setToasts, isAdmin,
-    setPageLoading, toolsUID } = useContext(StoreContext)
+    setPageLoading, toolsUID, isUserVerified } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
   const [showRatingModal, setShowRatingModal] = useState(false)
@@ -41,6 +42,8 @@ export default function AIToolPage({ previewTool = null }) {
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
   const navigate = useNavigate()
   const isToolSubmitter = myUserID && myUserID === aitool?.submitterID
+  const userBookmarks = useUserToolsBookmarks(myUserID)
+  const isBookmarked = userBookmarks.includes(toolID)
 
   const imgsList = allImages?.map((img, index) => {
     return <img
@@ -101,13 +104,13 @@ export default function AIToolPage({ previewTool = null }) {
   }
 
   const handleEditTool = () => {
-    if(isAdmin) {
+    if (isAdmin) {
       navigate(`/admin/add-new/tool?toolID=${toolID}&edit=true`)
     }
     else {
       aitool?.type === 'ai' ?
-      navigate(`/dashboard/new-ai-tool?toolID=${toolID}&edit=true`) :
-      navigate(`/dashboard/new-online-tool?toolID=${toolID}&edit=true`)
+        navigate(`/dashboard/new-ai-tool?toolID=${toolID}&edit=true`) :
+        navigate(`/dashboard/new-online-tool?toolID=${toolID}&edit=true`)
     }
   }
 
@@ -120,14 +123,30 @@ export default function AIToolPage({ previewTool = null }) {
       })
   }
 
-  useEffect(() => {
-    if(!toolsUID) {
-      incrementToolViewsCountService(toolID)
-      .then(() => {
-        localStorage.setItem('toolsUID', uuidv4())
-      })
+  const handleBookmarkTool = () => {
+    if (!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark tools.', true))
+    if (myUser) {
+      toggleBookmarkToolService(
+        toolID,
+        myUserID,
+        isBookmarked,
+        setToasts
+      )
     }
-  },[])
+    else {
+      navigate('/login')
+      setToasts(infoToast("Please login to bookmark tools"))
+    }
+  }
+
+  useEffect(() => {
+    if (!toolsUID) {
+      incrementToolViewsCountService(toolID)
+        .then(() => {
+          localStorage.setItem('toolsUID', uuidv4())
+        })
+    }
+  }, [])
 
   return !loading && aitool ? (
     <div className="aitool-page">
@@ -164,6 +183,10 @@ export default function AIToolPage({ previewTool = null }) {
                 </div>
               }
               <div className="colors">
+                <i
+                  className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+                  onClick={handleBookmarkTool}
+                />
                 <div
                   className="color-item"
                   style={{ backgroundColor: aitool.color1 }}

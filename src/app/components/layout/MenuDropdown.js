@@ -8,7 +8,7 @@ import IconContainer from "../ui/IconContainer"
 export default function ProfileDropdown(props) {
 
   const { isAdmin, myUser, myUserImg, myUserName, 
-    myUserType, isPro } = useContext(StoreContext)
+    myUserType, isPro, isUserVerified } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
   const navigate = useNavigate()
 
@@ -140,6 +140,10 @@ export default function ProfileDropdown(props) {
                 {myUserType} Account
               </span>
             </h5>
+            {
+              !isUserVerified &&
+              <h5 className="unverified">Account Unverified</h5>
+            }
           </div>
         }
       </div>

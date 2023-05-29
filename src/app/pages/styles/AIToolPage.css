@@ -121,8 +121,15 @@
 .aitool-page .tool-container .tool-content .colors {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   flex-wrap: wrap;
+}
+.aitool-page .tool-container .tool-content .colors i {
+  font-size: 18px;
+  color: var(--primary);
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 0 5px;
 }
 .aitool-page .tool-container .tool-content .color-item {
   width: 25px;

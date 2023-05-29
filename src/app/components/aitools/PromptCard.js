@@ -3,14 +3,15 @@ import './styles/PromptCard.css'
 import { copyToClipboard, truncateText } from "app/utils/generalUtils"
 import { Link, useNavigate } from "react-router-dom"
 import { StoreContext } from "app/store/store"
-import { successToast } from "app/data/toastsTemplates"
+import { infoToast, successToast } from "app/data/toastsTemplates"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toggleBookmarkPromptService } from "app/services/aitoolsServices"
 import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptCard(props) {
 
-  const { setToasts, myUserID, myUser, isPro } = useContext(StoreContext)
+  const { setToasts, myUserID, myUser, isPro, 
+    isUserVerified } = useContext(StoreContext)
   const { text, category, promptID, short } = props.prompt
   const { isPreview } = props
   const userBookmarks = useUserPromptsBookmarks(myUserID)
@@ -27,6 +28,11 @@ export default function PromptCard(props) {
   }
 
   const toggleBookmarkPrompt = () => {
+    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark prompts.', true))
+    if(!myUser) {
+      setToasts(infoToast('Please login to bookmark prompts.'))
+      return navigate('/login')
+    }
     if (!isBookmarked && reachedBookmarkLimit) {
       setToasts("You can bookmark up to 50 prompts. Upgrade your account to unlock unlimited bookmarking.")
       return navigate("/my-account/upgrade")

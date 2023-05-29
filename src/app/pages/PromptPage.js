@@ -18,7 +18,7 @@ import { convertClassicDate } from "app/utils/dateUtils"
 export default function PromptPage() {
 
   const { setToasts, isAdmin, myUserID, isPro,
-    promptsUID } = useContext(StoreContext)
+    promptsUID, isUserVerified } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [iconHover, setIconHover] = useState(false)
   const [iconClicked, setIconClicked] = useState(false)
@@ -70,6 +70,7 @@ export default function PromptPage() {
   } 
 
   const toggleBookmarkPrompt = () => {
+    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark prompts.', true))
     if(!myUserID) return setToasts(infoToast("You must be logged in to bookmark prompts."))
     if(!isBookmarked && reachedBookmarkLimit) {
       setToasts("You can bookmark up to 50 prompts. Upgrade your account to unlock unlimited bookmarking.")
@@ -99,6 +100,7 @@ export default function PromptPage() {
         onHover={(value) => setIconHover(value)}
       />
       <h4>{prompt.category}</h4>
+      <h5 className="short">{prompt.short}</h5>
       <div 
         className="prompt-bubble"
         onClick={handleCopyText}

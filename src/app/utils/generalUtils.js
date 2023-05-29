@@ -57,8 +57,8 @@ export const validatePhone = (phone) => {
 
 export const validateURL = (url) => {
   var pattern = /^(http:\/\/|https:\/\/)?(www\.)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i;
-  var regex = new RegExp(pattern);
-  return regex.test(url);
+  var regex = new RegExp(pattern)
+  return regex.test(url)
 }
 
 export const isEmptyObject = (obj) => {

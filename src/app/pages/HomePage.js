@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './styles/Homepage.css'
 import AIToolsGrid from "app/components/aitools/AIToolsGrid"
 import { useToolsByType } from "app/hooks/aitoolsHooks"
@@ -12,9 +12,11 @@ import PromptsGrid from "app/components/aitools/PromptsGrid"
 import TypewriteText from "app/components/ui/TypewriteText"
 import { homeTypewriteTexts } from "app/data/general"
 import AppBadge from "app/components/ui/AppBadge"
+import { StoreContext } from "app/store/store"
 
 export default function HomePage() {
 
+  const { isPro } = useContext(StoreContext)
   const limitsNum = 10
   const [toolsLimit, setToolsLimit] = useState(limitsNum)
   const [searchQuery, setSearchQuery] = useState('')
@@ -81,15 +83,18 @@ export default function HomePage() {
             activeTab={activeType}
             onTabClick={onTabClick}
           />
-          <Link
-            to="/submit-tool"
-            className="submit-text"
-          >
-            Submit Tool
-            <AppBadge
-              label="new"
-            />
-          </Link>
+          {
+            !isPro &&
+            <Link
+              to="/submit-tool"
+              className="submit-text"
+            >
+              Submit Tool
+              <AppBadge
+                label="new"
+              />
+            </Link>
+          }
         </div>
       </div>
       <div className="home-grid">

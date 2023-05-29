@@ -1,5 +1,5 @@
 import { auth } from "app/firebase/fire"
-import { createUserDocService, doGetUserByID, getUserByID } from "./userServices"
+import { createUserDocService, doGetUserByID } from "./userServices"
 import { successToast, infoToast, errorToast } from "app/data/toastsTemplates"
 import { deleteDB } from "./CrudDB"
 import {
@@ -10,17 +10,20 @@ import {
 } from "firebase/auth"
 
 export const completeRegistrationService = (user, authMode, res, userName, photoURL, setLoading) => {
-  updateProfile(user, {
+  return updateProfile(user, {
     displayName: authMode === 'plain' ? `${userName.firstName} ${userName.lastName}` : authMode === 'google' ? res.user.displayName : res.name,
     photoURL: authMode === 'facebook' ? res.picture.data.url : authMode === 'google' ? res.user.photoURL : photoURL
   })
-  return createUserDocService(user, res, authMode, photoURL, setLoading)
+    .then(() => {
+      return createUserDocService(user, res, authMode, photoURL, setLoading)
+    })
     .then(() => {
       setLoading(false)
     })
     .catch(err => {
       console.log(err)
       setLoading(false)
+      return 'error'
     })
 }
 
@@ -48,6 +51,7 @@ export const plainAuthService = (firstName, lastName, email, password, photoURL,
         case "auth/weak-password":
           setPassError('The password is not long enough or too easy to guess.'); break
         default: setEmailError('An error occurred. Please try again.')
+          return 'error'
       }
     })
 }
@@ -139,16 +143,6 @@ export const facebookAuthService = (photoURL, setLoading, setToasts) => {
       else
         setToasts(errorToast('An error with facebook has occured. Please try again later.'))
       return 'error'
-    })
-}
-
-export const createAccountOnLoginService = (loggedInUser, photoURL, setLoading, setToasts) => {
-  return doGetUserByID(loggedInUser.uid)
-    .then((user) => {
-      if (!user) {
-        return createUserDocService(loggedInUser, null, 'plain', photoURL, setLoading)
-      }
-      else return setToasts(infoToast('User already exists.'))
     })
 }
 

@@ -11,7 +11,7 @@ import { useUserToolsBookmarks } from "app/hooks/userHooks"
 
 export default function AIToolCard(props) {
 
-  const { myUser, myUserID, setToasts } = useContext(StoreContext)
+  const { myUser, myUserID, setToasts, isUserVerified } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category, type, views } = props.tool
   const { isPreview, submission, submissionStatus, compact } = props
@@ -29,8 +29,9 @@ export default function AIToolCard(props) {
     />
   })
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkTool = () => {
     if (isPreview) return
+    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark tools.', true))
     if (myUser) {
       toggleBookmarkToolService(
         toolID,
@@ -99,7 +100,7 @@ export default function AIToolCard(props) {
                 <small className="status">Status: <span>{submissionStatus}</span></small> :
                 <i
                   className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
-                  onClick={handleBookmarkClick}
+                  onClick={handleBookmarkTool}
                 />
             }
           </div>

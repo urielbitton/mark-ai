@@ -176,7 +176,7 @@ export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, ty
 const catchBlock = (err, setLoading, setToasts) => {
   console.log(err)
   setLoading(false)
-  setToasts(errorToast("Error adding AI Tool. Please try again."))
+  setToasts(errorToast("Error saving item. Please try again."))
   return 'error'
 }
 
@@ -554,4 +554,22 @@ export const updateApprovedToolService = async (tool, toolID, images, setLoading
       return docID
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const guestToolSubmissionService = (submission, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'guestToolsSubmissions'
+  const docID = getRandomDocID(path)
+  return setDB(path, docID, {
+    ...submission,
+    submissionID: docID,
+    dateSubmitted: new Date(),
+    status: 'in-review',
+    cleanedURL: extractDomainFromURL(submission.url)
+  })
+  .then(() => {
+    setLoading(false)
+    setToasts(successToast("AI/Online tool submitted for review."))
+  })
+  .catch((err) => catchBlock(err, setLoading, setToasts))
 }

@@ -13,10 +13,11 @@ import {
 import { validateEmail } from "app/utils/generalUtils"
 import AppButton from "app/components/ui/AppButton"
 import { infoToast, successToast } from "app/data/toastsTemplates"
+import { createNotification } from "app/services/notifServices"
 
 export default function Register() {
 
-  const { setMyUser, setToasts, photoURLPlaceholder } = useContext(StoreContext)
+  const { myUserID, setMyUser, setToasts, photoURLPlaceholder } = useContext(StoreContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -65,6 +66,20 @@ export default function Register() {
       setEmailError,
       setPassError
     )
+      .then((res) => {
+        if (res !== 'error') {
+          setToasts(successToast(`Hi ${firstName}, welcome to MarkAI! We are glad to have you here.`))
+          createNotification(
+            myUserID,
+            `Please verify your account`,
+            `Please verify your  on Mark AI. Check your email for the verification link. If you didn't `+
+            `receive an email or if the link has expired, you can request a new one in your account page.`,
+            'fas fa-info-circle',
+            `/my-account`,
+          )
+          navigate('/')
+        }
+      })
     clearErrors()
   }
 
@@ -101,18 +116,18 @@ export default function Register() {
             <div className="double-row">
               <AppInput
                 label="First Name"
-                placeholder="Jane"
+                placeholder="James"
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <AppInput
                 label="Last Name"
-                placeholder="Anderson"
+                placeholder="Hendrix"
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
             <AppInput
               label="Email"
-              placeholder="james@gmail.com"
+              placeholder="jameshendrix@markai.com"
               onChange={(e) => setEmail(e.target.value)}
             />
             {emailError && <h6 className="email-error">{emailError}</h6>}

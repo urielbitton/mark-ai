@@ -6,6 +6,7 @@ ToDos:
 - add a tab for highest rated and highest viewed in aitools page and online tools page
 - change navbar and homepage searches to multiple queries search
 - add form validation on all inputs and forms, especially new tool creation form.
+- request new account verification email feature in my account page
 
 Sites To Add:
 

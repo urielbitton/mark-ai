@@ -25,18 +25,29 @@ import BookmarkPromptsPage from "app/pages/BookmarkPromptsPage"
 import DashboardPage from "app/pages/DashboardPage"
 import NotificationsPage from "app/pages/NotificationsPage"
 import GuestSubmissionPage from "app/pages/GuestSubmissionPage"
+import ContactPage from "app/pages/ContactPage"
+import { infoToast } from "app/data/toastsTemplates"
+import VerifyAccountPage from "app/pages/VerifyAccountPage"
 
 export default function RoutesContainer() {
 
-  const { myUser } = useContext(StoreContext)
+  const { myUser, isUserVerified, setToasts } = useContext(StoreContext)
   const scrollRef = useRef(null)
   const location = useLocation()
+  const verifyAccountPage = location.pathname === '/verify-account'
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0
     }
   }, [location])
+
+  useEffect(() => {
+    if(!isUserVerified && myUser && !verifyAccountPage) {
+      setToasts(infoToast(`Please verify your account. Check your email for the verification link. `+
+      `If you didn't receive an email, you can request a new one in your account page.`, true))
+    }
+  },[isUserVerified])
 
   return (
     <div
@@ -58,6 +69,8 @@ export default function RoutesContainer() {
           <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/dashboard/*" element={<DashboardPage />} />
           <Route path="submit-tool" element={<GuestSubmissionPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="verify-account" element={<VerifyAccountPage />} />
           {
             myUser ?
               <>

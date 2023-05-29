@@ -16,6 +16,11 @@
   padding: 10px 20px;
   border-radius: 10px;
 }
+.prompt-page .short {
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: var(--primary);
+}
 .prompt-page .prompt-bubble {
   width: 700px;
   max-width: 100%;

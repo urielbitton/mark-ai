@@ -1,3 +1,78 @@
 .guest-submission {
-  
+  width: 600px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.guest-submission h1 {
+  color: var(--ternary);
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.guest-submission .guide-section {
+  width: 100%;
+}
+.guest-submission .submit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+  width: 100%;
+}
+.guest-submission .submit-form .appInput {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.guest-submission .submit-form .appInput h6 {
+  font-size: 14px;
+}
+.guest-submission .submit-form .appInput input {
+  height: 45px;
+}
+.guest-submission .submit-form .appInput small {
+  color: var(--darkGrayText);
+  font-size: 12px;
+  font-weight: 500;
+}
+.guest-submission .submit-form .appInput small span {
+  font-weight: 600;
+}
+.guest-submission .btn-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.guest-submission .submission-done {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  width: 100%;
+  background: var(--grayBg);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.guest-submission .submission-done h4 {
+  color: var(--ternary);
+  margin-bottom: 15px;
+}
+.guest-submission .submission-done h4 i {
+  margin-right: 10px;
+  color: var(--primary);
+}
+.guest-submission .submission-done p {
+  color: var(--grayText);
+  line-height: 1.5;
+  font-weight: 600;
+  font-size: 14px;
+}
+.guest-submission .submission-done p a {
+  color: var(--primary);
+}
+.guest-submission .submission-done p a:hover {
+  text-decoration: underline;
 }

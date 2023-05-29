@@ -24,6 +24,7 @@ const StoreContextProvider = ({children}) => {
   const [newEventModal, setNewEventModal] = useState({open: false, eventObject: null})
   const isAdmin = myUser?.userType === "admin"
   const isPro = myUser?.userType === "pro" || isAdmin
+  const isUserVerified = myUser?.isVerified
   const upgradeProPrice = 20
   const toolsUID = localStorage.getItem('toolsUID')
   const promptsUID = localStorage.getItem('promptsUID')
@@ -45,7 +46,8 @@ const StoreContextProvider = ({children}) => {
 
   return <StoreContext.Provider value={{ 
     user, myUser, setMyUser, myUserID, myUserImg, myUserName, myUserType,
-    isAdmin, isPro, upgradeProPrice, 
+    isAdmin, isPro, isUserVerified, 
+    upgradeProPrice, 
     pageLoading, setPageLoading,
     darkMode, setDarkMode,
     percentFormat,
