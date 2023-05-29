@@ -8,8 +8,10 @@ import AILoader from "app/components/ui/AILoader"
 import { infoToast, successToast } from "app/data/toastsTemplates"
 import { StoreContext } from "app/store/store"
 import AppButton from "app/components/ui/AppButton"
-import { deletePromptService, incrementPromptViewsCountService, 
-  toggleBookmarkPromptService } from "app/services/aitoolsServices"
+import {
+  deletePromptService, incrementPromptViewsCountService,
+  toggleBookmarkPromptService
+} from "app/services/aitoolsServices"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
 import { v4 as uuidv4 } from 'uuid'
@@ -41,38 +43,38 @@ export default function PromptPage() {
       </Link>
     </small>
   })
-    
+
   const handleCopyText = () => {
     setIconClicked(true)
     copyToClipboard(prompt.text)
-    .then(() => {
-      setToasts(successToast("Prompt copied to clipboard!"))
-      setTimeout(() => setIconClicked(false), 3000)
-    })
+      .then(() => {
+        setToasts(successToast("Prompt copied to clipboard!"))
+        setTimeout(() => setIconClicked(false), 3000)
+      })
   }
 
   const handleDeletePrompt = () => {
     const confirm = window.confirm("Are you sure you want to delete this prompt?")
-    if (!confirm) return 
+    if (!confirm) return
     deletePromptService(promptID, setLoading, setToasts)
-    .then(() => {
-      navigate("/admin/library/prompts")
-    })
+      .then(() => {
+        navigate("/admin/library/prompts")
+      })
   }
 
   const handleEditPrompt = () => {
-    if(isAdmin) {
+    if (isAdmin) {
       navigate(`/admin/add-new/prompt?promptID=${promptID}&edit=true`)
     }
     else {
       navigate(`/dashboard/new-prompt?promptID=${promptID}&edit=true`)
     }
-  } 
+  }
 
   const toggleBookmarkPrompt = () => {
-    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark prompts.', true))
-    if(!myUserID) return setToasts(infoToast("You must be logged in to bookmark prompts."))
-    if(!isBookmarked && reachedBookmarkLimit) {
+    if (!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark prompts.', true))
+    if (!myUserID) return setToasts(infoToast("You must be logged in to bookmark prompts."))
+    if (!isBookmarked && reachedBookmarkLimit) {
       setToasts("You can bookmark up to 50 prompts. Upgrade your account to unlock unlimited bookmarking.")
       return navigate("/my-account/upgrade")
     }
@@ -80,13 +82,15 @@ export default function PromptPage() {
   }
 
   useEffect(() => {
-    if(!promptsUID) {
+    const viewedPrompts = localStorage.getItem('viewedPrompts')
+    const viewedPromptsArray = viewedPrompts ? JSON.parse(viewedPrompts) : []
+    if (!viewedPromptsArray.includes(promptID)) {
       incrementPromptViewsCountService(promptID)
-      .then(() => {
-        localStorage.setItem('promptsUID', uuidv4())
-      })
+        .then(() => {
+          localStorage.setItem('viewedPrompts', JSON.stringify([...viewedPromptsArray, promptID]))
+        })
     }
-  },[])
+  }, [])
 
   return prompt && !loading ? (
     <div className="prompt-page">
@@ -101,19 +105,19 @@ export default function PromptPage() {
       />
       <h4>{prompt.category}</h4>
       <h5 className="short">{prompt.short}</h5>
-      <div 
+      <div
         className="prompt-bubble"
         onClick={handleCopyText}
       >
         <p>{prompt.text}</p>
       </div>
       <div className="text-info">
-        <h5><i className="fas fa-hashtag"/>Tags</h5>
+        <h5><i className="fas fa-hashtag" />Tags</h5>
         <p>{prompt.tags ? tagsList : 'No Tags'}</p>
         <h6 className="views">
-          <i className="fas fa-eye"/>
+          <i className="fas fa-eye" />
           {prompt.views} views
-        </h6> 
+        </h6>
         <h6 className="date">
           Added: {convertClassicDate(prompt.dateAdded?.toDate())}
         </h6>
@@ -140,7 +144,7 @@ export default function PromptPage() {
       }
     </div>
   ) :
-  loading ?
-  <AILoader /> :
-  null
+    loading ?
+      <AILoader /> :
+      null
 }

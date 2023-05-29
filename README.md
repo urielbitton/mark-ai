@@ -1,9 +1,8 @@
 # Mark AI App
 
 ToDos:
-- make mobile
-- add guest submissions page (just tools title and url)
 - add a tab for highest rated and highest viewed in aitools page and online tools page
+- make mobile
 - change navbar and homepage searches to multiple queries search
 - add form validation on all inputs and forms, especially new tool creation form.
 - request new account verification email feature in my account page

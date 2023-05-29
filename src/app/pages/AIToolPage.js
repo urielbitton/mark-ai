@@ -24,7 +24,6 @@ import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
 import { toolsTypesData } from "app/data/toolsData"
 import { formatViewsNumber } from "app/utils/generalUtils"
-import { v4 as uuidv4 } from 'uuid'
 
 export default function AIToolPage({ previewTool = null }) {
 
@@ -140,10 +139,12 @@ export default function AIToolPage({ previewTool = null }) {
   }
 
   useEffect(() => {
-    if (!toolsUID) {
+    const viewedTools = localStorage.getItem('viewedTools')
+    const viewedToolsArray = viewedTools ? JSON.parse(viewedTools) : []
+    if (!viewedToolsArray.includes(toolID)) {
       incrementToolViewsCountService(toolID)
         .then(() => {
-          localStorage.setItem('toolsUID', uuidv4())
+          localStorage.setItem('viewedTools', JSON.stringify([...viewedToolsArray, toolID]))
         })
     }
   }, [])
