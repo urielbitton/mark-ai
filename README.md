@@ -2,7 +2,8 @@
 
 ToDos:
 - make mobile
-- add most popular tab to ai, online tools and prompts pages (order by highest rated, only 4-5 stars)
+- add guest submissions page (just tools title and url)
+- add a tab for highest rated and highest viewed in aitools page and online tools page
 - change navbar and homepage searches to multiple queries search
 - add form validation on all inputs and forms, especially new tool creation form.
 

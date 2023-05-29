@@ -24,6 +24,7 @@ import BookmarkToolsPage from "app/pages/BookmarkToolsPage"
 import BookmarkPromptsPage from "app/pages/BookmarkPromptsPage"
 import DashboardPage from "app/pages/DashboardPage"
 import NotificationsPage from "app/pages/NotificationsPage"
+import GuestSubmissionPage from "app/pages/GuestSubmissionPage"
 
 export default function RoutesContainer() {
 
@@ -56,6 +57,7 @@ export default function RoutesContainer() {
           <Route path="/upgrade" element={<UpgradePage />} />
           <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/dashboard/*" element={<DashboardPage />} />
+          <Route path="submit-tool" element={<GuestSubmissionPage />} />
           {
             myUser ?
               <>

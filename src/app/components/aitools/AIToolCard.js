@@ -63,8 +63,11 @@ export default function AIToolCard(props) {
             dimensions={27}
           />
           <div className="category-container">
-            <i className={isAIType ? 'fas fa-robot' : 'fas fa-flask'} />
-            <small onClick={() => navigate(`/search?q=${category}`)}>
+            <i 
+              className={isAIType ? 'fas fa-robot' : 'fas fa-flask'} 
+              title={isAIType ? 'AI Tool' : 'Online Tool'}
+            />
+            <small onClick={() => navigate(`/search?category=${category}`)}>
               {category}
             </small>
           </div>

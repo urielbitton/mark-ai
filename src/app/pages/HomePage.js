@@ -3,7 +3,7 @@ import './styles/Homepage.css'
 import AIToolsGrid from "app/components/aitools/AIToolsGrid"
 import { useToolsByType } from "app/hooks/aitoolsHooks"
 import AppSearchBar from "app/components/ui/AppSearchBar"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import { useViewportObserver } from "app/hooks/generalHooks"
 import { homeTabSwitcherData, toolsCategoriesData } from "app/data/toolsData"
@@ -11,6 +11,7 @@ import TabSwitcher from "app/components/ui/TabSwitcher"
 import PromptsGrid from "app/components/aitools/PromptsGrid"
 import TypewriteText from "app/components/ui/TypewriteText"
 import { homeTypewriteTexts } from "app/data/general"
+import AppBadge from "app/components/ui/AppBadge"
 
 export default function HomePage() {
 
@@ -54,13 +55,13 @@ export default function HomePage() {
     <div className="homepage">
       <div className="hero-section">
         <h1>
-          Your&nbsp;<br/>
+          Your&nbsp;<br />
           <TypewriteText
             textArray={homeTypewriteTexts}
             maxLoops={4}
             className="gradient-text"
           />
-          <br/>
+          <br />
           &nbsp;in one place
         </h1>
         <h5>Search the latest AI resources and tools</h5>
@@ -80,6 +81,15 @@ export default function HomePage() {
             activeTab={activeType}
             onTabClick={onTabClick}
           />
+          <Link
+            to="/submit-tool"
+            className="submit-text"
+          >
+            Submit Tool
+            <AppBadge
+              label="new"
+            />
+          </Link>
         </div>
       </div>
       <div className="home-grid">

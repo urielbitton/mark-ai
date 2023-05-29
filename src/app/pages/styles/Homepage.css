@@ -51,6 +51,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 20px 15px;
+}
+.homepage .tabs-section .submit-text {
+  font-size: 13px;
+  color: var(--darkGrayText);
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 40px;
+}
+.homepage .tabs-section .submit-text:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.homepage .tabs-section .submit-text:hover .app-badge {
+  background: #fff;
+}
+.homepage .tabs-section .submit-text:hover .app-badge h6 {
+  color: var(--primary);
+}
+.homepage .tabs-section .submit-text .app-badge {
+  display: inline-flex;
+  margin-left: 5px;
+  background: var(--primary);
+}
+.homepage .tabs-section .submit-text .app-badge h6 {
+  color: #fff;
+}
+.homepage .tab-switcher .tab-item.active h6 {
+  color: #fff;
+}
+.homepage .tab-switcher .tab-item:hover {
+  background: var(--primary);
+}
+.homepage .tab-switcher .tab-item:hover h6 {
+  color: #fff;
+}
+.homepage .tab-switcher .tab-indicator {
+  background: var(--primary);
 }
 
 .homepage .home-grid {
@@ -78,5 +118,8 @@
   }
   .homepage .hero-section h1 br {
     display: block
+  }
+  .homepage .tabs-section {
+    flex-direction: column;
   }
 }
