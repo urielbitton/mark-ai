@@ -58,7 +58,14 @@
   min-width: 200px;
 }
 .tools-page .categories-section .right {
-  width: 50%;
+  width: 55%;
+  display: flex;
+  align-items: center;
+}
+.tools-page .categories-section .right hr {
+  height: 35px;
+  border: 1px solid var(--darkGrayBg);
+
 }
 .tools-page .categories-section .right h6 {
   display: flex;

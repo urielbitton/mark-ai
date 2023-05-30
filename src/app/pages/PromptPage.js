@@ -14,13 +14,11 @@ import {
 } from "app/services/aitoolsServices"
 import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
-import { v4 as uuidv4 } from 'uuid'
 import { convertClassicDate } from "app/utils/dateUtils"
 
 export default function PromptPage() {
 
-  const { setToasts, isAdmin, myUserID, isPro,
-    promptsUID, isUserVerified } = useContext(StoreContext)
+  const { setToasts, isAdmin, myUserID, isPro, isUserVerified } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [iconHover, setIconHover] = useState(false)
   const [iconClicked, setIconClicked] = useState(false)

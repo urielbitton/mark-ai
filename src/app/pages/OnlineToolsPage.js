@@ -5,23 +5,27 @@ import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import AIToolsGrid from "app/components/aitools/AIToolsGrid"
-import { useToolsByTypeAndCategory } from "app/hooks/aitoolsHooks"
+import { useToolsByPopularityAndType, useToolsByTypeAndCategory } from "app/hooks/aitoolsHooks"
 import { useViewportObserver } from "app/hooks/generalHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
 import { AppReactSelect } from "app/components/ui/AppInputs"
 import AppScrollSlider from "app/components/ui/AppScrollSlider"
 
-export default function ToolsPage() {
+export default function OnlineToolsPage() {
 
   const limitsNum = 10
   const [toolsLimit, setToolsLimit] = useState(limitsNum)
   const [toolsLoading, setToolsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState(toolsCategoriesData[0].value)
+  const [viewsNum, setViewsNum] = useState(50)
+  const [ratingNum, setRatingNum] = useState(4)
+  const [selectedCategory, setSelectedCategory] = useState('ratings')
   const onlineTools = useToolsByTypeAndCategory('tool', selectedCategory, toolsLimit, setToolsLoading)
+  const popularTools = useToolsByPopularityAndType('tool', selectedCategory, viewsNum, ratingNum, toolsLimit, setToolsLoading)
   const navigate = useNavigate()
   const endRef = useRef(null)
   const reachedEndOfList = useViewportObserver(endRef)
+  const isPopularCategory = selectedCategory === 'ratings' || selectedCategory === 'views'
 
   const toolsCategoriesRender = toolsCategoriesData.map((cat, index) => {
     return <h6
@@ -86,7 +90,7 @@ export default function ToolsPage() {
         </div>
       </div>
       <AIToolsGrid
-        tools={onlineTools}
+        tools={!isPopularCategory ? onlineTools : popularTools}
         loading={toolsLoading}
       />
       <div

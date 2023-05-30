@@ -1,6 +1,18 @@
 
 export const toolsCategoriesData = [
   {
+    label: 'Highest Ratings',
+    value: 'ratings',
+    icon: 'fas fa-star',
+    itemColor: 'var(--primary)'
+  },
+  {
+    label: 'Most Views',
+    value: 'views',
+    icon: 'fas fa-eye',
+    itemColor: 'var(--primary)'
+  },
+  {
     label: 'Business',
     value: 'business',
     icon: 'fas fa-user-tie',

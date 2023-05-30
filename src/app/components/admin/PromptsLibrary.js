@@ -17,7 +17,7 @@ export default function PromptsLibrary() {
         />
       </div>
       <PromptsGrid 
-        categories={toolsCategoriesData} 
+        categories={toolsCategoriesData.slice(2)} 
       />
     </div>
   )

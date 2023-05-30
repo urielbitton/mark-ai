@@ -21,7 +21,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
   const [title, setTitle] = useState("")
   const [tagline, setTagline] = useState("")
   const [shortDescription, setShortDescription] = useState("")
-  const [category, setCategory] = useState(toolsCategoriesData[0].value)
+  const [category, setCategory] = useState(toolsCategoriesData[2].value)
   const [color1, setColor1] = useState("#865DFF")
   const [color2, setColor2] = useState("#E384FF")
   const [type, setType] = useState(toolsTypesData[0].value)
@@ -202,7 +202,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             label="Category"
             value={category}
             onChange={(val) => setCategory(val.value)}
-            options={toolsCategoriesData}
+            options={toolsCategoriesData.slice(2)}
             searchable
             placeholder={
               <div className="input-placeholder">

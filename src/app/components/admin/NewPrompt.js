@@ -15,7 +15,7 @@ export default function NewPrompt() {
 
   const { setToasts } = useContext(StoreContext)
   const [text, setText] = useState("")
-  const [category, setCategory] = useState(toolsCategoriesData[0].value)
+  const [category, setCategory] = useState(toolsCategoriesData[2].value)
   const [short, setShort] = useState('')
   const [tags, setTags] = useState('')
   const [loading, setLoading] = useState(false)
@@ -101,7 +101,7 @@ export default function NewPrompt() {
             label="Category"
             value={category}
             onChange={(val) => setCategory(val.value)}
-            options={toolsCategoriesData}
+            options={toolsCategoriesData.slice(2)}
             searchable
             placeholder={
               <div className="input-placeholder">

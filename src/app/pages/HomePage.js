@@ -106,7 +106,7 @@ export default function HomePage() {
             />
             :
             <PromptsGrid
-              categories={toolsCategoriesData}
+              categories={toolsCategoriesData.slice(2)}
             />
         }
         <div

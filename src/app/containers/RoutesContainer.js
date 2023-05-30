@@ -9,7 +9,6 @@ import RegisterPage from "app/pages/RegisterPage"
 import { StoreContext } from "app/store/store"
 import MyAccountPage from "app/pages/MyAccountPage"
 import AdminPage from "app/pages/AdminPage"
-import MyCollectionPage from "app/pages/BookmarkToolsPage"
 import SearchPage from "app/pages/SearchPage"
 import AIToolPage from "app/pages/AIToolPage"
 import PromptPage from "app/pages/PromptPage"
@@ -17,7 +16,7 @@ import SearchPromptsPage from "app/pages/SearchPromptsPage"
 import PromptsCategoryPage from "app/pages/PromptsCategoryPage"
 import UpgradePage from "app/pages/UpgradePage"
 import AIToolsPage from "app/pages/AIToolsPage"
-import ToolsPage from "app/pages/ToolsPage"
+import OnlineToolsPage from "app/pages/OnlineToolsPage"
 import PromptsPage from "app/pages/PromptsPage"
 import AppLoadingPage from "app/components/ui/AppLoadingPage"
 import BookmarkToolsPage from "app/pages/BookmarkToolsPage"
@@ -58,7 +57,7 @@ export default function RoutesContainer() {
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/ai-tools" element={<AIToolsPage />} />
-          <Route path="/online-tools" element={<ToolsPage />} />
+          <Route path="/online-tools" element={<OnlineToolsPage />} />
           <Route path="/prompts" element={<PromptsPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/search/prompts" element={<SearchPromptsPage />} />

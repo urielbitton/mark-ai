@@ -1,7 +1,7 @@
 import {
   getAITool, getAIToolPreview, getAITools, getAllTools,
   getChatPrompt, getChatPrompts, getNonAITools,
-  getPromptsByCategory, getToolsByType,
+  getPromptsByCategory, getToolsByPopularityAndType, getToolsByType,
   getToolsByTypeAndCategory,
   getToolsSubmissionsByTypeAndStatus,
   getUserToolsSubmissionsDocsCountByStatusAndType
@@ -131,6 +131,24 @@ export const useToolsByTypeAndCategory = (type, category, limit, setLoading) => 
         setLoading(false)
       })
   }, [type, category, limit])
+
+  return tools
+}
+
+export const useToolsByPopularityAndType = (type, category, viewsNum, ratingNum, limit, setLoading) => {
+  const [tools, setTools] = useState([])
+
+  useEffect(() => {
+    getToolsByPopularityAndType(type, category, viewsNum, ratingNum, limit)
+      .then((tools) => {
+        setTools(tools)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [type, category, viewsNum, ratingNum, limit])
 
   return tools
 }

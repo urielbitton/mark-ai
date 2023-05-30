@@ -35,7 +35,7 @@ export default function PromptsPage() {
         />
       </div>
       <PromptsGrid
-        categories={toolsCategoriesData}
+        categories={toolsCategoriesData.slice(2)}
       />
     </div>
   )

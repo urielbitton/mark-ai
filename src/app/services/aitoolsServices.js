@@ -73,6 +73,21 @@ export const getToolsByTypeAndCategory = (type, category, lim) => {
     })
 }
 
+export const getToolsByPopularityAndType = (type, category, viewsNum, ratingNum, lim) => {
+  const toolsRef = collection(db, 'aitools')
+  const q = query(
+    toolsRef,
+    where('type', '==', type),
+    category === 'views' ? where('views', '>=', viewsNum) : where('rating', '>=', ratingNum),
+    category === 'views' ? orderBy('views', 'desc') : orderBy('rating', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
+
 export const getNonAITools = (setTools, lim) => {
   const toolsRef = collection(db, 'aitools')
   const q = query(
@@ -567,9 +582,9 @@ export const guestToolSubmissionService = (submission, setLoading, setToasts) =>
     status: 'in-review',
     cleanedURL: extractDomainFromURL(submission.url)
   })
-  .then(() => {
-    setLoading(false)
-    setToasts(successToast("AI/Online tool submitted for review."))
-  })
-  .catch((err) => catchBlock(err, setLoading, setToasts))
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("AI/Online tool submitted for review."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
 }
