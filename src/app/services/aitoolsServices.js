@@ -153,6 +153,14 @@ export const getAIToolPreview = (toolID) => {
     })
 }
 
+export const getPromptPreview = (promptID) => {
+  const promptRef = doc(db, 'promptsSubmissions', promptID)
+  return getDoc(promptRef)
+    .then((snapshot) => {
+      return snapshot.data()
+    })
+}
+
 export const getToolsSubmissionsByTypeAndStatus = (userID, type, status, lim) => {
   const toolsRef = collection(db, 'toolsSubmissions')
   const q = query(
@@ -661,6 +669,58 @@ export const updateApprovedPromptService = (prompt, promptID, setLoading, setToa
     .then(() => {
       setLoading(false)
       setToasts(successToast("Prompt updated successfully. (Now under review)"))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const deleteToolSubmissionService = (path, toolID, setLoading, setToasts) => {
+  setLoading(true)
+  return updateDB(path, toolID, {
+    requestDelete: true,
+    requestDeleteDate: new Date()
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Tool submitted for deletion. We will notify you when we delete it."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const deletePromptSubmissionService = (path, promptID, setLoading, setToasts) => {
+  setLoading(true)
+  return updateDB(path, promptID, {
+    requestDelete: true,
+    requestDeleteDate: new Date()
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt submitted for deletion. We will notify you when we delete it."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const cancelDeleteToolSubmissionService = (path, toolID, setLoading, setToasts) => {
+  setLoading(true)
+  return updateDB(path, toolID, {
+    requestDelete: false,
+    requestDeleteDate: null
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Tool deletion request cancelled."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const cancelDeletePromptSubmissionService = (path, promptID, setLoading, setToasts) => {
+  setLoading(true)
+  return updateDB(path, promptID, {
+    requestDelete: false,
+    requestDeleteDate: null
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt deletion request cancelled."))
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
 }

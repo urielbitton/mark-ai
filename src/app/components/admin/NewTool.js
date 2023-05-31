@@ -15,9 +15,9 @@ import { useAITool } from "app/hooks/aitoolsHooks"
 import { noWhiteSpaceChars, validateURL } from "app/utils/generalUtils"
 import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
 
-export default function NewTool({ proUser, handleProSubmit, handleProUpdate, proLoading }) {
+export default function NewTool({ proUser, handleProSubmit, handleProUpdate, proLoading, proTool }) {
 
-  const { setToasts, photoPlaceholder } = useContext(StoreContext)
+  const { setToasts, photoPlaceholder, isAdmin } = useContext(StoreContext)
   const [title, setTitle] = useState("")
   const [tagline, setTagline] = useState("")
   const [shortDescription, setShortDescription] = useState("")
@@ -39,7 +39,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
   const [searchParams, setSearchParams] = useSearchParams()
   const editMode = searchParams.get("edit") === "true"
   const editToolID = searchParams.get("toolID")
-  const editTool = useAITool(editToolID, () => { })
+  const editTool = useAITool(editToolID, () => { }) || proTool
   const maxFileSize = 5 * 1024 * 1024
   const maxVideoSize = 10 * 1024 * 1024
   const isOnlineTool = location.pathname.includes("online")
@@ -95,7 +95,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
       setToasts
     )
       .then((res) => {
-        if(res !== 'error')
+        if (res !== 'error')
           navigate("/admin/library")
       })
   }
@@ -104,7 +104,24 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
     if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
     if (!validateForm) return setToasts(errorToast("Please fill all the fields correctly."))
     if (proUser) {
-      return handleProUpdate(editTool)
+      return handleProUpdate(
+        {
+          title,
+          tagline,
+          shortDescription,
+          category,
+          color1, 
+          color2,
+          url,
+          tags: tags.split(",").map((tag) => tag.trim()),
+          type,
+        }, 
+        editToolID,
+        {
+          mainImg, 
+          logo, 
+          images
+        })
     }
     return updateAIToolService(
       {
@@ -129,28 +146,28 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
       setToasts
     )
       .then((res) => {
-        if(res !== 'error')
+        if (res !== 'error')
           navigate(`/ai-tools/${editToolID}`)
       })
   }
 
   const handleCheckURL = () => {
-    if(!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
+    if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
     setCheckLoading(true)
     checkIfURLExists(url)
-    .then((exists) => {
-      if(exists) {
-        setToasts(infoToast(`The url - ${url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
-      } 
-      else {
-        setToasts(successToast("This URL is available."))
-      }
-      setCheckLoading(false)
-    })
-    .catch(() => {
-      setToasts(infoToast("There was an error checking the URL. Please try again."))
-      setCheckLoading(false)
-    })
+      .then((exists) => {
+        if (exists) {
+          setToasts(infoToast(`The url - ${url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
+        }
+        else {
+          setToasts(successToast("This URL is available."))
+        }
+        setCheckLoading(false)
+      })
+      .catch(() => {
+        setToasts(infoToast("There was an error checking the URL. Please try again."))
+        setCheckLoading(false)
+      })
   }
 
   useEffect(() => {
@@ -172,10 +189,10 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
   }, [editTool])
 
   useEffect(() => {
-    if(!editMode) {
-      setType(toolsTypesData[!isOnlineTool ? 0: 1].value)
+    if (!editMode) {
+      setType(toolsTypesData[!isOnlineTool ? 0 : 1].value)
     }
-  },[location])
+  }, [location])
 
   return (
     <div className="new-tool-page">
@@ -189,7 +206,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             onChange={(e) => setTitle(e.target.value)}
           />
           <AppInput
-            label={<>URL &nbsp;{noWhiteSpaceChars(url) ? validateURL(url) ? <i className="fas fa-check-circle"/> : <i className="fas fa-times-circle" /> : ''}</>}
+            label={<>URL &nbsp;{noWhiteSpaceChars(url) ? validateURL(url) ? <i className="fas fa-check-circle" /> : <i className="fas fa-times-circle" /> : ''}</>}
             placeholder="Enter a URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -315,7 +332,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             displayMode={editMode}
           />
           {
-            !proUser &&
+            isAdmin &&
             <FileUploader
               label="Optional Video (BETA)"
               isDragging={isDragging}
@@ -351,11 +368,14 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
                     onClick={handleSaveTool}
                     loading={proLoading || loading}
                   />
-                  <AppButton
-                    label="Cancel"
-                    onClick={() => navigate(`/ai-tools/${editToolID}`)}
-                    buttonType="outlineBtn"
-                  />
+                  {
+                    !proUser &&
+                    <AppButton
+                      label="Cancel"
+                      onClick={() => navigate(`/ai-tools/${editToolID}`)}
+                      buttonType="outlineBtn"
+                    />
+                  }
                 </>
             }
             <AppButton

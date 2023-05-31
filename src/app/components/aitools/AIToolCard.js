@@ -11,12 +11,12 @@ import { toggleBookmarkToolService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
 import { useUserToolsBookmarks } from "app/hooks/userHooks"
 
-export default function AIToolCard(props) {
+export default function AIToolCard(props) { 
 
   const { myUser, myUserID, setToasts, isUserVerified } = useContext(StoreContext)
   const { toolID = '0', title, mainImg, tagline, logo,
     url, category, type, views } = props.tool
-  const { isPreview, submission, submissionStatus, compact } = props
+  const { isPreview, submissionStatus, compact } = props
   const navigate = useNavigate()
   const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
@@ -33,7 +33,7 @@ export default function AIToolCard(props) {
 
   const toolTitle = (
     <h5>
-      <Link to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}>
+      <Link to={!isPreview && !submissionStatus ? `/ai-tools/${toolID}` : submissionStatus ? `/dashboard/tool-preview/${toolID}` : ''}>
         {truncateText(title, 25)}
       </Link>
     </h5>
@@ -62,7 +62,7 @@ export default function AIToolCard(props) {
       key={toolID}
     >
       <Link
-        to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}
+        to={!isPreview && !submissionStatus ? `/ai-tools/${toolID}` : submissionStatus ? `/dashboard/tool-preview/${toolID}` : ''}
         className="img-container"
       >
         <Image />
@@ -102,14 +102,14 @@ export default function AIToolCard(props) {
           </small>
           <div className="right">
             {
-              !submission &&
+              !submissionStatus &&
               <div className="views-container">
                 <small>{formatViewsNumber(views)}</small>
                 <i className="fas fa-eye" />
               </div>
             }
             {
-              submission ?
+              submissionStatus ?
                 <small className="status">Status: <span>{submissionStatus}</span></small> :
                 <i
                   className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}

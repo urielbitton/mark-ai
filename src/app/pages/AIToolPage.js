@@ -138,7 +138,8 @@ export default function AIToolPage({ previewTool = null }) {
     }
   }
 
-  useEffect(() => {
+  const handlePageViews = () => {
+    if (previewTool) return
     const viewedTools = localStorage.getItem('viewedTools')
     const viewedToolsArray = viewedTools ? JSON.parse(viewedTools) : []
     if (!viewedToolsArray.includes(toolID)) {
@@ -147,6 +148,10 @@ export default function AIToolPage({ previewTool = null }) {
           localStorage.setItem('viewedTools', JSON.stringify([...viewedToolsArray, toolID]))
         })
     }
+  }
+
+  useEffect(() => {
+    handlePageViews()
   }, [])
 
   return !loading && aitool ? (
@@ -169,7 +174,7 @@ export default function AIToolPage({ previewTool = null }) {
             </div>
             <div className="ratings-colors row-item">
               {
-                !previewTool &&
+                !previewTool ?
                 <div className="ratings">
                   <big>{toolRating.toFixed(1)}</big>
                   <Ratings rating={toolRating} />
@@ -181,13 +186,17 @@ export default function AIToolPage({ previewTool = null }) {
                       onClick={() => setShowRatingModal(true)}
                     />
                   }
-                </div>
+                </div> :
+                <div />
               }
               <div className="colors">
-                <i
-                  className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
-                  onClick={handleBookmarkTool}
-                />
+                {
+                  !previewTool &&
+                  <i
+                    className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+                    onClick={handleBookmarkTool}
+                  />
+                }
                 <div
                   className="color-item"
                   style={{ backgroundColor: aitool.color1 }}
@@ -282,7 +291,7 @@ export default function AIToolPage({ previewTool = null }) {
         />
       </div>
       {
-        (isAdmin || isToolSubmitter) &&
+        isAdmin &&
         <div className="btn-group">
           <AppButton
             label="Edit Tool"

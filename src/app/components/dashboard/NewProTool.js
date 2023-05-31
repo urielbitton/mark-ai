@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import ProPage from "./ProPage"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import './styles/NewProTool.css'
 import GuideSection from "./GuideSection"
 import NewTool from "../admin/NewTool"
@@ -10,11 +10,15 @@ import {
   updateNonApprovedToolService
 } from "app/services/aitoolsServices"
 import { createNotification } from "app/services/notifServices"
+import { useAIToolPreview } from "app/hooks/aitoolsHooks"
 
 export default function NewProTool() {
 
   const { myUserID, setToasts } = useContext(StoreContext)
   const [loading, setLoading] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const proToolID = searchParams.get("toolID")
+  const proTool = useAIToolPreview(proToolID, setLoading)
   const location = useLocation()
   const isAI = location.pathname.includes("ai")
   const navigate = useNavigate()
@@ -50,15 +54,15 @@ export default function NewProTool() {
       })
   }
 
-  const handleProUpdate = (tool) => {
+  const handleProUpdate = (tool, toolID, images) => {
     if (tool.status !== "approved") {
       return updateNonApprovedToolService(
         tool,
-        tool.toolID,
+        toolID,
         {
-          mainImg: tool.mainImg,
-          logo: tool.logo,
-          images: tool.images,
+          mainImg: images.mainImg,
+          logo: images.logo,
+          images: images.images,
         },
         setLoading,
         setToasts
@@ -98,6 +102,7 @@ export default function NewProTool() {
         handleProSubmit={handleProSubmit}
         handleProUpdate={handleProUpdate}
         proLoading={loading}
+        proTool={proTool}
       />
     </ProPage>
   )

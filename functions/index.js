@@ -40,7 +40,7 @@ exports.deleteFromIndexAitools = functions
 .onDelete((snapshot) => {
   return recursivelyDeleteDocument('aitools', snapshot.id)
   .then(() => {
-    return deleteStorageFolder(`aitools/${snapshot.id}/images`)
+    return deleteStorageFolder(`aitools/${snapshot.id}`)
   })
   .then(() => {
     return aitoolsIndex.deleteObject(snapshot.id)

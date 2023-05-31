@@ -103,7 +103,6 @@ export const ApprovedAITools = ({ limit, viewMode, limitSelect, viewToggle }) =>
     return <AIToolCard
       key={index}
       tool={tool}
-      submission
       submissionStatus="Approved"
       compact={viewMode === 'compact'}
     />
@@ -139,7 +138,6 @@ export const InReviewAITools = ({ limit, viewMode, limitSelect, viewToggle }) =>
     return <AIToolCard
       key={index}
       tool={tool}
-      submission
       submissionStatus="In Review"
       compact={viewMode === 'compact'}
     />
@@ -175,7 +173,6 @@ export const RejectedAITools = ({ limit, viewMode, limitSelect, viewToggle }) =>
     return <AIToolCard
       key={index}
       tool={tool}
-      submission
       submissionStatus="Rejected"
       compact={viewMode === 'compact'}
     />

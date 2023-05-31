@@ -12,7 +12,7 @@ import PromptCard from "../aitools/PromptCard"
 import { addNewPromptService, updatePromptService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
 
-export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, proLoading }) {
+export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, proLoading, proPrompt }) {
 
   const { setToasts } = useContext(StoreContext)
   const [text, setText] = useState("")
@@ -24,7 +24,7 @@ export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, p
   const [searchParams, setSearchParams] = useSearchParams()
   const editMode = searchParams.get("edit") === "true"
   const editPromptID = searchParams.get("promptID")
-  const editPrompt = useChatPrompt(editPromptID, setLoading)
+  const editPrompt = useChatPrompt(editPromptID, () => { }) || proPrompt
 
   const validateForm = () => {
     return text
@@ -65,7 +65,15 @@ export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, p
   const handleSavePrompt = () => {
     if (!validateForm) return setToasts(infoToast("Please fill out all fields correctly"))
     if (proUser) {
-      return handleProUpdate(editPrompt)
+      return handleProUpdate(
+        {
+          text,
+          category,
+          short,
+          tags: tags.split(",").map((tag) => tag.trim()),
+        },
+        editPromptID
+      )
     }
     return updatePromptService(
       {
@@ -78,9 +86,9 @@ export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, p
       setLoading,
       setToasts
     )
-    .then(() => {
-      navigate(`/prompts/${editPromptID}`)
-    })
+      .then(() => {
+        navigate(`/prompts/${editPromptID}`)
+      })
   }
 
   useEffect(() => {
@@ -144,11 +152,14 @@ export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, p
                     onClick={handleSavePrompt}
                     loading={proLoading || loading}
                   />
-                  <AppButton
-                    label="Cancel"
-                    onClick={() => navigate(`/prompts/${editPromptID}`)}
-                    buttonType="outlineBtn"
-                  />
+                  {
+                    !proUser &&
+                    <AppButton
+                      label="Cancel"
+                      onClick={() => navigate(`/prompts/${editPromptID}`)}
+                      buttonType="outlineBtn"
+                    />
+                  }
                 </>
             }
           </div>

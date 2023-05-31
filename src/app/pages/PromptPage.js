@@ -16,14 +16,14 @@ import { useUserPromptsBookmarks } from "app/hooks/userHooks"
 import { toolsCategoriesData } from "app/data/toolsData"
 import { convertClassicDate } from "app/utils/dateUtils"
 
-export default function PromptPage() {
+export default function PromptPage({ previewPrompt = null }) {
 
   const { setToasts, isAdmin, myUserID, isPro, isUserVerified } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [iconHover, setIconHover] = useState(false)
   const [iconClicked, setIconClicked] = useState(false)
   const promptID = useParams().promptID
-  const prompt = useChatPrompt(promptID, setLoading)
+  const prompt = useChatPrompt(promptID, setLoading) || previewPrompt
   const navigate = useNavigate()
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
@@ -79,7 +79,8 @@ export default function PromptPage() {
     toggleBookmarkPromptService(promptID, myUserID, isBookmarked, setToasts)
   }
 
-  useEffect(() => {
+  const handlePageViews = () => {
+    if (previewPrompt) return
     const viewedPrompts = localStorage.getItem('viewedPrompts')
     const viewedPromptsArray = viewedPrompts ? JSON.parse(viewedPrompts) : []
     if (!viewedPromptsArray.includes(promptID)) {
@@ -88,6 +89,10 @@ export default function PromptPage() {
           localStorage.setItem('viewedPrompts', JSON.stringify([...viewedPromptsArray, promptID]))
         })
     }
+  }
+
+  useEffect(() => {
+    handlePageViews()
   }, [])
 
   return prompt && !loading ? (
@@ -114,20 +119,30 @@ export default function PromptPage() {
         <p>{prompt.tags ? tagsList : 'No Tags'}</p>
         <h6 className="views">
           <i className="fas fa-eye" />
-          {prompt.views} views
+          {!previewPrompt ? prompt.views : 0} views
         </h6>
-        <h6 className="date">
-          Added: {convertClassicDate(prompt.dateAdded?.toDate())}
-        </h6>
-        <AppButton
-          label={!isBookmarked ? "Bookmark Prompt" : 'Remove Bookmark'}
-          onClick={toggleBookmarkPrompt}
-          buttonType={!isBookmarked ? "outlineBtn" : "primaryBtn"}
-          rightIcon={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
-        />
+        {
+          !previewPrompt ?
+            <h6 className="date">
+              Added: {convertClassicDate(prompt.dateAdded?.toDate())}
+            </h6>
+            :
+            <h6 className="date">
+              Submitted: {convertClassicDate(prompt.dateSubmitted?.toDate())}
+            </h6>
+        }
+        {
+          !previewPrompt &&
+          <AppButton
+            label={!isBookmarked ? "Bookmark Prompt" : 'Remove Bookmark'}
+            onClick={toggleBookmarkPrompt}
+            buttonType={!isBookmarked ? "outlineBtn" : "primaryBtn"}
+            rightIcon={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+          />
+        }
       </div>
       {
-        (isAdmin || isPromptSubmitter) &&
+        isAdmin &&
         <div className="btn-group">
           <AppButton
             label="Edit Prompt"

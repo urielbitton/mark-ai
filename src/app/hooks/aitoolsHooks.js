@@ -1,6 +1,7 @@
 import {
   getAITool, getAIToolPreview, getAITools, getAllTools,
   getChatPrompt, getChatPrompts, getNonAITools,
+  getPromptPreview,
   getPromptsByCategory, getPromptsSubmissionsByStatus, getToolsByPopularityAndType, getToolsByType,
   getToolsByTypeAndCategory,
   getToolsSubmissionsByTypeAndStatus,
@@ -231,6 +232,28 @@ export const useAIToolPreview = (toolID, setLoading) => {
 
   return tool
 }
+
+export const usePromptPreview = (promptID, setLoading) => {
+
+  const [prompt, setPrompt] = useState(null)
+
+  useEffect(() => {
+    if (!promptID) return
+    getPromptPreview(promptID)
+      .then((prompt) => {
+        setLoading(false)
+        setPrompt(prompt)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [promptID])
+
+  return prompt
+}
+
+
 
 // pro user submissions
 export const useAIToolsSubmissionsByTypeAndStatus = (type, status, limit, setLoading) => {

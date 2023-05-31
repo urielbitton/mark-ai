@@ -3,12 +3,9 @@ import ProPage from "./ProPage"
 import AppTabsBar from "../ui/AppTabsBar"
 import { NavLink, Route, Routes, useLocation } from "react-router-dom"
 import {
-  useAIToolsSubmissionsByTypeAndStatus,
   usePromptsSubmissionsByStatus,
   useUserPromptsSubmissionsDocsCountByStatus,
-  useUserToolsSubmissionsDocsCountByStatusAndType
 } from "app/hooks/aitoolsHooks"
-import AIToolCard from "../aitools/AIToolCard"
 import './styles/MyAITools.css'
 import AILoader from "../ui/AILoader"
 import { AppReactSelect } from "../ui/AppInputs"
@@ -102,13 +99,14 @@ export const ApprovedPrompts = ({ limit, viewMode, limitSelect, viewToggle }) =>
   const prompts = usePromptsSubmissionsByStatus("approved", limit, setLoading)
   const promptsCount = useUserPromptsSubmissionsDocsCountByStatus('promptsSubmissions', 'approved')
 
-  const promptsList = prompts?.map((tool, index) => {
+  const promptsList = prompts?.map((prompt, index) => {
     return <PromptCard
       key={index}
-      tool={tool}
+      prompt={prompt}
       submission
       submissionStatus="Approved"
       compact={viewMode === 'compact'}
+      isPreview
     />
   })
 
@@ -138,13 +136,14 @@ export const InReviewPrompts = ({ limit, viewMode, limitSelect, viewToggle }) =>
   const prompts = usePromptsSubmissionsByStatus("in-review", limit, setLoading)
   const promptsCount = useUserPromptsSubmissionsDocsCountByStatus('promptsSubmissions', 'in-review')
 
-  const promptsList = prompts?.map((tool, index) => {
+  const promptsList = prompts?.map((prompt, index) => {
     return <PromptCard
       key={index}
-      tool={tool}
+      prompt={prompt}
       submission
       submissionStatus="In Review"
       compact={viewMode === 'compact'}
+      isPreview
     />
   })
 
@@ -177,10 +176,11 @@ export const RejectedPrompts = ({ limit, viewMode, limitSelect, viewToggle }) =>
   const promptsList = prompts?.map((prompt, index) => {
     return <PromptCard
       key={index}
-      tool={prompt}
+      prompt={prompt}
       submission
       submissionStatus="Rejected"
       compact={viewMode === 'compact'}
+      isPreview
     />
   })
 

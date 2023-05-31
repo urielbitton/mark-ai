@@ -1,47 +1,44 @@
-import { useAIToolPreview } from "app/hooks/aitoolsHooks"
-import AIToolPage from "app/pages/AIToolPage"
+import { usePromptPreview } from "app/hooks/aitoolsHooks"
 import React, { useContext, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import AILoader from "../ui/AILoader"
 import AppButton from "../ui/AppButton"
-import {
-  cancelDeleteToolSubmissionService,
-  deleteToolSubmissionService
-} from "app/services/aitoolsServices"
+import PromptPage from "app/pages/PromptPage"
+import { cancelDeletePromptSubmissionService, 
+  deletePromptSubmissionService } from "app/services/aitoolsServices"
 import { StoreContext } from "app/store/store"
 
-export default function ToolPreview() {
+export default function PromptPreview() {
 
   const { setToasts } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
-  const toolID = useParams().toolID
-  const previewTool = useAIToolPreview(toolID, setLoading)
+  const promptID = useParams().promptID
+  const previewPrompt = usePromptPreview(promptID, setLoading)
   const navigate = useNavigate()
-  const isApproved = previewTool?.status === "approved"
-  const isRequestedDelete = previewTool?.requestDelete
-  const isAI = previewTool?.type === "ai"
+  const isApproved = previewPrompt?.status === "approved"
+  const isRequestedDelete = previewPrompt?.requestDelete
 
-  const handleDeleteTool = () => {
-    const confirm = window.confirm("Are you sure you want to delete this tool?")
+  const handleDeletePrompt = () => {
+    const confirm = window.confirm("Are you sure you want to delete this prompt?")
     if (!confirm) return
-    const path = isApproved ? 'tools' : 'toolsSubmissions'
-    deleteToolSubmissionService(path, toolID, setLoading, setToasts)
+    const path = isApproved ? 'prompts' : 'promptsSubmissions'
+    deletePromptSubmissionService(path, promptID, setLoading, setToasts)
       .then(() => {
         navigate("/dashboard/my-prompts")
       })
   }
 
-  const handleCancelDeleteTool = () => {
-    const confirm = window.confirm("Are you sure you want to cancel your delete request for this tool?")
+  const handleCancelDeletePrompt = () => {
+    const confirm = window.confirm("Are you sure you want to cancel your delete request for this prompt?")
     if (!confirm) return
-    const path = isApproved ? 'tools' : 'toolsSubmissions'
-    cancelDeleteToolSubmissionService(path, toolID, setLoading, setToasts)
+    const path = isApproved ? 'prompts' : 'promptsSubmissions'
+    cancelDeletePromptSubmissionService(path, promptID, setLoading, setToasts)
   }
 
   return (
     <div
       className="tool-preview-page"
-      key={toolID}
+      key={promptID}
     >
       <div className="title-bar">
         <div className="left-side side">
@@ -51,13 +48,13 @@ export default function ToolPreview() {
             leftIcon="fal fa-arrow-left"
             onClick={() => navigate(-1)}
           />
-          <h3>Tool Preview</h3>
+          <h3>Prompt Preview</h3>
         </div>
         <div className="right-side side">
           <AppButton
             label="Edit"
             leftIcon="fas fa-pen"
-            url={`/dashboard/new-${isAI ? 'ai' : 'online'}-tool?toolID=${toolID}&edit=true`}
+            url={`/dashboard/new-prompt?promptID=${promptID}&edit=true`}
             buttonType="outlineBtn"
           />
           {
@@ -65,13 +62,13 @@ export default function ToolPreview() {
               <AppButton
                 label="Request Delete"
                 leftIcon="fas fa-trash"
-                onClick={handleDeleteTool}
+                onClick={handleDeletePrompt}
                 buttonType="outlineBtn"
               /> :
               <AppButton
                 label="Cancel Delete Request"
                 leftIcon="fas fa-trash-undo"
-                onClick={handleCancelDeleteTool}
+                onClick={handleCancelDeletePrompt}
                 buttonType="outlineBtn"
               />
           }
@@ -79,8 +76,8 @@ export default function ToolPreview() {
       </div>
       {
         !loading ?
-          <AIToolPage
-            previewTool={previewTool}
+          <PromptPage
+            previewPrompt={previewPrompt}
           /> :
           <AILoader />
       }

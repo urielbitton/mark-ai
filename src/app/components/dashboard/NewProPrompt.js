@@ -1,17 +1,21 @@
 import React, { useContext, useState } from 'react'
 import ProPage from "./ProPage"
 import GuideSection from "./GuideSection"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import NewPrompt from "../admin/NewPrompt"
 import { StoreContext } from "app/store/store"
 import { createNotification } from "app/services/notifServices"
 import { submitNewPromptRequestService, updateApprovedPromptService, 
   updateNonApprovedPromptService } from "app/services/aitoolsServices"
+import { usePromptPreview } from "app/hooks/aitoolsHooks"
 
 export default function NewProPrompt() {
 
   const { myUserID, setToasts } = useContext(StoreContext)
   const [loading, setLoading] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const proPromptID = searchParams.get("promptID")
+  const proPrompt = usePromptPreview(proPromptID, setLoading)
   const navigate = useNavigate()
 
   const updateCreateNotification = () => {
@@ -44,11 +48,11 @@ export default function NewProPrompt() {
       })
   }
 
-  const handleProUpdate = (prompt) => {
+  const handleProUpdate = (prompt, promptID) => {
     if(prompt.status !== "approved") {
       return updateNonApprovedPromptService(
         prompt, 
-        prompt.promptID, 
+        promptID, 
         setLoading, 
         setToasts
       )
@@ -82,6 +86,7 @@ export default function NewProPrompt() {
         handleProSubmit={handleProSubmit}
         handleProUpdate={handleProUpdate}
         proLoading={loading}
+        proPrompt={proPrompt}
       />
     </ProPage>
   )

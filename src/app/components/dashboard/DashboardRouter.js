@@ -11,6 +11,7 @@ import NewProPrompt from "./NewProPrompt"
 import ProSettings from "./ProSettings"
 import SubmissionGuide from "./SubmissionGuide"
 import ToolPreview from "./ToolPreview"
+import PromptPreview from "./PromptPreview"
 
 export default function DashboardRouter() {
   return (
@@ -28,6 +29,7 @@ export default function DashboardRouter() {
           <Route path="settings" element={<ProSettings />} />
           <Route path="submission-guide" element={<SubmissionGuide />} />
           <Route path="tool-preview/:toolID" element={<ToolPreview />} />
+          <Route path="prompt-preview/:promptID" element={<PromptPreview />} />
         </Routes>
       </div>
     </div>

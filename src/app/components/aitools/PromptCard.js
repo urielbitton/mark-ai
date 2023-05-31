@@ -10,10 +10,10 @@ import { toolsCategoriesData } from "app/data/toolsData"
 
 export default function PromptCard(props) {
 
-  const { setToasts, myUserID, myUser, isPro, 
+  const { setToasts, myUserID, myUser, isPro,
     isUserVerified } = useContext(StoreContext)
   const { text, category, promptID, short } = props.prompt
-  const { isPreview, submission, submissionStatus, compact } = props
+  const { isPreview, submissionStatus, compact } = props
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
@@ -28,8 +28,11 @@ export default function PromptCard(props) {
   }
 
   const toggleBookmarkPrompt = () => {
-    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark prompts.', true))
-    if(!myUser) {
+    if (!isUserVerified) {
+      setToasts(infoToast('Please verify your account to bookmark prompts.', true))
+      return navigate("/my-account/verify-account")
+    }
+    if (!myUser) {
       setToasts(infoToast('Please login to bookmark prompts.'))
       return navigate('/login')
     }
@@ -42,7 +45,7 @@ export default function PromptCard(props) {
 
   return (
     <div
-      className={`prompt-card ${isPreview ? 'preview' : ''}`}
+      className={`prompt-card ${isPreview ? 'preview' : ''} ${compact ? 'compact' : ''}`}
       key={promptID}
     >
       <div className="left-side">
@@ -54,20 +57,23 @@ export default function PromptCard(props) {
           <i className="fas fa-copy" />
         </div>
         {
-          myUser && !isPreview &&
+          myUser && !isPreview && 
           <i
             className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark bookmark-icon`}
             onClick={toggleBookmarkPrompt}
           />
         }
       </div>
-      <Link
-        to={!isPreview ? `/prompts/${promptID}` : ''}
-        className="text-content"
-      >
-        <h6>{short}</h6>
-        <p>{truncateText(text, 165)}</p>
-      </Link>
+      <div className="main-prompt-content">
+        <Link
+          to={!isPreview && !submissionStatus ? `/prompts/${promptID}` : submissionStatus ? `/dashboard/prompt-preview/${promptID}` : ''}
+          className="text-content"
+        >
+          <h6>{short}</h6>
+          <p>{truncateText(text, !compact ? 165 : 70)}</p>
+        </Link>
+        {submissionStatus && <small className="submission-status">Status: <span>{submissionStatus}</span></small>}
+      </div>
     </div>
   )
 }

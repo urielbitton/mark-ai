@@ -252,13 +252,23 @@
   padding: 20px 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 15px;
+  flex-wrap: wrap;
   position: sticky;
   top: 0;
   z-index: 100;
   background: #fff;
 }
+.tool-preview-page .title-bar .side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.tool-preview-page .title-bar .side.right-side {
+  gap: 10px;
+}
 .tool-preview-page h3 {
   color: var(--ternary);
-  font-size: 20px;
+  font-size: 20px; 
 }
