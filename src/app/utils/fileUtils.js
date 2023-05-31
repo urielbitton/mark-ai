@@ -1,4 +1,4 @@
-import { blobToURL, fromBlob } from 'image-resize-compress'
+import { fromBlob } from 'image-resize-compress'
 import { infoToast } from "app/data/toastsTemplates"
 
 function setLoadingDef(num) { }

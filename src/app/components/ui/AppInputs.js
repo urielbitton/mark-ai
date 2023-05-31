@@ -292,7 +292,7 @@ export const AppReactSelect = (props) => {
   const { options, label, onChange, value, className,
     containerStyles, defaultValue, placeholder, subText,
     menuPlacement="auto", hideDropdownArrow, centerOptions,
-    searchable=false, disabled } = props
+    searchable=false, disabled, selectStyles } = props
   const selectRef = useRef(null)
 
   const formatOptionLabel = ({ label, description, icon, iconColor }) => (
@@ -332,7 +332,7 @@ export const AppReactSelect = (props) => {
         isSearchable={searchable}
         tabSelectsValue
         menuPlacement={menuPlacement}
-        styles={reactSelectStyles}
+        styles={selectStyles || reactSelectStyles}
         hideSelectedOptions
         menuShouldScrollIntoView
         components={{ IndicatorSeparator: () => null, ...hideDropdownArrow && { DropdownIndicator: () => null } }}

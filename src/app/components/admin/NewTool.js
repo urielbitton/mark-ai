@@ -10,7 +10,7 @@ import { addNewToolService, checkIfURLExists, updateAIToolService } from "app/se
 import { StoreContext } from "app/store/store"
 import AIToolCard from "../aitools/AIToolCard"
 import logoImg from "app/assets/images/logo-filled.png"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 import { noWhiteSpaceChars, validateURL } from "app/utils/generalUtils"
 import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
@@ -35,12 +35,14 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
   const [loading, setLoading] = useState(false)
   const [checkLoading, setCheckLoading] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
   const editMode = searchParams.get("edit") === "true"
   const editToolID = searchParams.get("toolID")
   const editTool = useAITool(editToolID, () => { })
   const maxFileSize = 5 * 1024 * 1024
   const maxVideoSize = 10 * 1024 * 1024
+  const isOnlineTool = location.pathname.includes("online")
 
   const validateForm = () => {
     return title
@@ -102,7 +104,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
     if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
     if (!validateForm) return setToasts(errorToast("Please fill all the fields correctly."))
     if (proUser) {
-      return handleProUpdate()
+      return handleProUpdate(editTool)
     }
     return updateAIToolService(
       {
@@ -168,6 +170,12 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
       setVideo([{ src: editTool.video }])
     }
   }, [editTool])
+
+  useEffect(() => {
+    if(!editMode) {
+      setType(toolsTypesData[!isOnlineTool ? 0: 1].value)
+    }
+  },[location])
 
   return (
     <div className="new-tool-page">
@@ -365,6 +373,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             tool={{
               title,
               tagline,
+              type,
               category,
               url,
               mainImg: mainImg[0]?.src || photoPlaceholder,

@@ -6,7 +6,7 @@ export default function Avatar(props) {
 
   const { src, dimensions = "50px", alt = 'avatar', title,
     border, onClick, enableEditing, removeTitle,
-    className = '', round = true } = props
+    className = '', round = true, label } = props
   const [loading, setLoading] = useState(true)
 
   return (
@@ -22,6 +22,7 @@ export default function Avatar(props) {
         alt={alt}
         onLoad={() => setLoading(false)}
       />
+      {label}
       <ImgSkeleton 
         loading={loading} 
         round={round}

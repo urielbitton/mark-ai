@@ -6,7 +6,7 @@
   height: calc(100vh - var(--navbarHeight));
   background: var(--primaryGradient);
   z-index: 90;
-  display: flex;
+  display: none;
   flex-direction: column;
   transition: 0.4s;
   visibility: hidden;
@@ -22,7 +22,7 @@
 }
 .mobile-sidebar .mobile-menu a {
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   padding: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
@@ -30,4 +30,89 @@
 }
 .mobile-sidebar .mobile-menu a:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar .mobile-sidebar .nav-search-bar {
+  display: flex;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  padding: 0 20px;
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput {
+  width: calc(100% - 40px);
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput input,
+.navbar .mobile-sidebar .nav-search-bar .react-select > div  {
+  height: 45px;
+}
+.navbar .mobile-sidebar .nav-search-bar .react-select {
+  width: 45px;
+}
+.navbar .mobile-sidebar .nav-search-bar .css-1fdsijx-ValueContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 16px;
+  z-index: 10;
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput input {
+  font-size: 16px;
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput i.fa-times {
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.navbar .mobile-sidebar .nav-search-bar .appInput i.fa-times:hover {
+  color: #fff;
+}
+
+.mobile-sidebar .mobile-tools {
+  display: none;
+  align-items: center;
+  gap: 20px 15px;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin-top: 10px;
+}
+.mobile-sidebar .mobile-tools .icon-container:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-sidebar .mobile-tools .nav-drop {
+  left: 0;
+  right: auto;
+}
+.mobile-sidebar .mobile-tools .nav-dropdown {
+  width: 95vw;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+
+
+@media (max-width: 1080px) {
+  .mobile-sidebar {
+    display: flex;
+  }
+}
+
+@media (max-width: 400px) {
+  .mobile-sidebar .mobile-tools,
+  .mobile-sidebar .mobile-tools .icon-container,
+  .mobile-sidebar .mobile-tools .nav-drop {
+    display: flex;
+  }
 }

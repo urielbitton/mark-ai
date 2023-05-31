@@ -13,7 +13,7 @@ export default function PromptCard(props) {
   const { setToasts, myUserID, myUser, isPro, 
     isUserVerified } = useContext(StoreContext)
   const { text, category, promptID, short } = props.prompt
-  const { isPreview } = props
+  const { isPreview, submission, submissionStatus, compact } = props
   const userBookmarks = useUserPromptsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(promptID)
   const reachedBookmarkLimit = userBookmarks.length >= 50 && !isPro
@@ -42,7 +42,7 @@ export default function PromptCard(props) {
 
   return (
     <div
-      className="prompt-card"
+      className={`prompt-card ${isPreview ? 'preview' : ''}`}
       key={promptID}
     >
       <div className="left-side">

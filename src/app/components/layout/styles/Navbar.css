@@ -52,6 +52,9 @@
 }
 .navbar .nav-search-bar {
   width: 250px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .navbar .topbar .appInput input {
   border: 1px solid rgba(255,255,255,0.4);
@@ -61,6 +64,9 @@
   font-size: 14px;
   background: none;
   color: #fff;
+}
+.navbar .topbar .appInput input:focus {
+  border-color: #fff;
 }
 .navbar .topbar .appInput i {
   position: absolute;
@@ -83,6 +89,17 @@
 }
 .navbar .topbar .appInput input::placeholder {
   color: rgba(255,255,255,0.6);
+}
+.navbar .search-select .react-select {
+  width: 40px;
+}
+.navbar .search-select .react-select i {
+  color: #fff;
+}
+.navbar .search-select .css-1fdsijx-ValueContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar .topbar .right {
@@ -119,55 +136,6 @@
 }
 .navbar .topbar .right .icon-container:hover {
   background: rgba(255,255,255,0.1);
-}
-
-
-.navbar .shapes-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-}
-.navbar .shape {
-  position: absolute;
-  top: 0;
-  z-index: -1;
-  border-radius: 20px;
-}
-.navbar .shape1 {
-  width: 200px;
-  height: 160px;
-  top: 0;
-  left: 100px;
-  background: rgba(255,255,255,0.05);
-  transform: rotate(30deg);
-}
-.navbar .shape2 {
-  width: 120px;
-  height: 120px;
-  top: -50px;
-  right: 100px;
-  background: rgba(255,255,255,0.08);
-  transform: rotate(-120deg);
-}
-.navbar .shape3 {
-  width: 200px;
-  height: 200px;
-  top: 70px;
-  right: 300px;
-  background: rgba(255,255,255,0.06);
-  transform: rotate(60deg);
-}
-.navbar .shape4 {
-  width: 130px;
-  height: 130px;
-  top: -80px;
-  left: 400px;
-  background: rgba(255,255,255,0.07);
-  transform: rotate(200deg);
 }
 
 .navbar .nav-btn {
@@ -464,6 +432,57 @@
 
 
 
+/* Navbar Shapes */
+.navbar .shapes-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+.navbar .shape {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  border-radius: 20px;
+}
+.navbar .shape1 {
+  width: 200px;
+  height: 160px;
+  top: 0;
+  left: 100px;
+  background: rgba(255,255,255,0.05);
+  transform: rotate(30deg);
+}
+.navbar .shape2 {
+  width: 120px;
+  height: 120px;
+  top: -50px;
+  right: 100px;
+  background: rgba(255,255,255,0.08);
+  transform: rotate(-120deg);
+}
+.navbar .shape3 {
+  width: 200px;
+  height: 200px;
+  top: 70px;
+  right: 300px;
+  background: rgba(255,255,255,0.06);
+  transform: rotate(60deg);
+}
+.navbar .shape4 {
+  width: 130px;
+  height: 130px;
+  top: -80px;
+  left: 400px;
+  background: rgba(255,255,255,0.07);
+  transform: rotate(200deg);
+}
+
+
+
 @media (max-width: 1080px) {
   .navbar .mobile-btn.active i {
     transform: rotate(90deg);
@@ -495,7 +514,11 @@
 }
 
 @media (max-width: 400px) {
-  .navbar .icon-container {
+  .navbar .icon-container,
+  .navbar .nav-drop {
     display: none;
+  }
+  .navbar .icon-container.bookmark-icon {
+    display: flex;
   }
 }

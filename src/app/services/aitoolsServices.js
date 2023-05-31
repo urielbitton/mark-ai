@@ -183,6 +183,34 @@ export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, ty
     })
 }
 
+export const getPromptsSubmissionsByStatus = (userID, status, lim) => {
+  const promptsRef = collection(db, 'promptsSubmissions')
+  const q = query(
+    promptsRef,
+    where('submitterID', '==', userID),
+    where('status', '==', status),
+    orderBy('dateSubmitted', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
+
+export const getUserPromptsSubmissionsDocsCountByStatus = (userID, path, status) => {
+  const docRef = collection(db, path)
+  const q = query(
+    docRef,
+    where('submitterID', '==', userID),
+    where('status', '==', status)
+  )
+  return getCountFromServer(q)
+    .then((count) => {
+      return count.data().count
+    })
+}
+
 
 
 
@@ -585,6 +613,54 @@ export const guestToolSubmissionService = (submission, setLoading, setToasts) =>
     .then(() => {
       setLoading(false)
       setToasts(successToast("AI/Online tool submitted for review."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const submitNewPromptRequestService = (prompt, userID, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'promptsSubmissions'
+  const docID = getRandomDocID(path)
+  return setDB(path, docID, {
+    ...prompt,
+    promptID: docID,
+    submitterID: userID,
+    proUserAdded: true,
+    dateSubmitted: new Date(),
+    status: 'in-review'
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt submitted for review."))
+      return docID
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const updateNonApprovedPromptService = (prompt, promptID, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'promptsSubmissions'
+  return updateDB(path, promptID, {
+    ...prompt,
+    status: 'in-review'
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt updated successfully. (Still in review)"))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const updateApprovedPromptService = (prompt, promptID, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'prompts'
+  return updateDB(path, promptID, {
+    ...prompt,
+    inReview: true
+  })
+    .then(() => {
+      setLoading(false)
+      setToasts(successToast("Prompt updated successfully. (Now under review)"))
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
 }

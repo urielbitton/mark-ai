@@ -32,8 +32,6 @@ export default function GuestSubmissionPage() {
   )
 
   const clearForm = () => {
-    setName('')
-    setEmail('')
     setTitle('')
     setUrl('')
   }
@@ -58,7 +56,7 @@ export default function GuestSubmissionPage() {
       setTimeout(() => {
         doneSectionRef.current.scrollIntoView({ behavior: 'smooth' })
       }, 100)
-      sendGuestSubmissionEmail(email)
+      sendGuestSubmissionEmail(email, name, title, url)
     })
   }
 

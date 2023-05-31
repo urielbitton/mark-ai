@@ -5,7 +5,10 @@ import './styles/NewProTool.css'
 import GuideSection from "./GuideSection"
 import NewTool from "../admin/NewTool"
 import { StoreContext } from "app/store/store"
-import { submitNewToolRequestService } from "app/services/aitoolsServices"
+import {
+  submitNewToolRequestService, updateApprovedToolService,
+  updateNonApprovedToolService
+} from "app/services/aitoolsServices"
 import { createNotification } from "app/services/notifServices"
 
 export default function NewProTool() {
@@ -15,6 +18,18 @@ export default function NewProTool() {
   const location = useLocation()
   const isAI = location.pathname.includes("ai")
   const navigate = useNavigate()
+  const toolsLink = `/dashboard/${isAI ? "my-ai-tools" : "my-online-tools"}`
+
+  const updateCreateNotification = () => {
+    navigate(toolsLink)
+    return createNotification(
+      myUserID,
+      `Tool submission updated`,
+      `We have received your tool submission update and will review it shortly. You will then be notified if it is approved or rejected.`,
+      'fas fa-layer-plus',
+      toolsLink,
+    )
+  }
 
   const handleProSubmit = (tool) => {
     submitNewToolRequestService(
@@ -24,21 +39,44 @@ export default function NewProTool() {
       setToasts,
     )
       .then(() => {
+        navigate(toolsLink)
         return createNotification(
           myUserID,
           `New ${isAI ? "AI" : "Online"} tool submitted for review`,
-          `We have received your ${isAI ? "AI" : "Online"} tool submission and will review it shortly. You will be notified if it is approved or rejected.`,
+          `We have received your ${isAI ? "AI" : "Online"} tool submission and will review it shortly. You will then be notified if it is approved or rejected.`,
           'fas fa-layer-plus',
-          `/dashboard/${isAI ? "my-ai-tools/submissions" : "my-online-tools/submissions"}`,
+          toolsLink,
         )
-      })
-      .then(() => {
-        navigate(`/dashboard/${isAI ? "my-ai-tools" : "my-online-tools"}`)
       })
   }
 
   const handleProUpdate = (tool) => {
-
+    if (tool.status !== "approved") {
+      return updateNonApprovedToolService(
+        tool,
+        tool.toolID,
+        {
+          mainImg: tool.mainImg,
+          logo: tool.logo,
+          images: tool.images,
+        },
+        setLoading,
+        setToasts
+      )
+        .then(() => updateCreateNotification())
+    }
+    return updateApprovedToolService(
+      tool,
+      tool.toolID,
+      {
+        mainImg: tool.mainImg,
+        logo: tool.logo,
+        images: tool.images,
+      },
+      setLoading,
+      setToasts
+    )
+      .then(() => updateCreateNotification())
   }
 
   return (
@@ -46,13 +84,13 @@ export default function NewProTool() {
       title={`New ${isAI ? "AI" : "Online"} Tool Submission`}
       className="new-pro-tool"
     >
-      <GuideSection title={`How to Submit a New ${isAI ? "AI" : "Online"} Tool`}>
+      <GuideSection title={`How to Submit an ${isAI ? "AI" : "Online"} Tool`}>
         <p>
           To submit a new {isAI ? "AI" : "Online"} tool, please fill out the form below.
           Please note that all submissions are reviewed by our team before being published.
-          If you have any questions, please contact us <Link to="/contact">here</Link>.
+          If you have any questions, please use the <Link to="/contact">contact us</Link> page.
           A guideline for what an {isAI ? "AI" : "Online"} tool submission should look like
-          can be found <Link to={`/submission-guide?type=${isAI ? 'ai' : 'online'}`}>here</Link>.
+          can be found on the <Link to={`submission-guide?type=${isAI ? 'ai' : 'online'}`}>Submission Guide</Link> page.
         </p>
       </GuideSection>
       <NewTool

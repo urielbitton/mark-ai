@@ -69,3 +69,10 @@
   color: var(--grayText);
   white-space: nowrap;
 }
+
+
+@media (max-width: 1080px) {
+  .app-pagination {
+    justify-content: center;
+  }
+}

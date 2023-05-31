@@ -109,7 +109,7 @@ input, select, textarea {
   color: var(--darkGrayText);
   outline: none;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: all 0.2s;
   font-family: inherit;
 } 
 input[type="color"] {

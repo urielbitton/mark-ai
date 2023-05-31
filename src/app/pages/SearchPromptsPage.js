@@ -20,8 +20,8 @@ export default function SearchPromptsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const urlQuery = searchParams.get('q')
   const urlTagQuery = searchParams.get('tag')
-  const categoryMode = searchParams.get('category')
-  const filters = categoryMode ? `category: ${categoryMode}` : urlTagQuery ? `tags:${urlTagQuery}` : ''
+  const urlCategoryQuery = searchParams.get('category')
+  const filters = urlCategoryQuery ? `category: ${urlCategoryQuery}` : urlTagQuery ? `tags:${urlTagQuery}` : ''
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
 
   const submitSearch = () => {
@@ -49,6 +49,9 @@ export default function SearchPromptsPage() {
 
   return (
     <div className="search-page search-prompts-page">
+      <div className="titles">
+        <h1 className="gradient-text">Prompts Search</h1>
+      </div>
       <div className="search-section">
         <div className="search-container">
           <AppSearchBar
@@ -62,31 +65,26 @@ export default function SearchPromptsPage() {
           />
         </div>
         {
-          searchQuery.length > 0 &&
+          (searchQuery.length > 0 || urlCategoryQuery || urlTagQuery) &&
           <div className="search-stats">
             <h4>Search: <span>"{searchQuery}"</span></h4>
             <h5>
               {numOfHits} result{numOfHits !== 1 ? 's' : ''} found
               {
-                categoryMode ?
-                  <span> in <span className="category">{categoryMode}</span></span> :
-                  null
+                urlCategoryQuery ?
+                  <span> in <span className="category tag">"{urlCategoryQuery}"</span></span> :
+                  urlTagQuery ?
+                    <span> with tag <span className="tag">"{urlTagQuery}"</span></span> :
+                    null
               }
             </h5>
             {
-              categoryMode &&
+              urlCategoryQuery &&
               <AppButton
                 label="Clear category"
                 onClick={() => clearCategory()}
               />
             }
-          </div>
-        }
-        {
-          urlTagQuery &&
-          <div className="search-tag search-stats">
-            <h4>Tag: <span>"{urlTagQuery}"</span></h4>
-            <h5>{numOfHits} results found</h5>
           </div>
         }
       </div>
@@ -99,7 +97,7 @@ export default function SearchPromptsPage() {
         hitsPerPage={hitsPerPage}
         loading={loading}
         setLoading={setLoading}
-        showAll={urlTagQuery}
+        showAll={urlTagQuery || urlCategoryQuery}
       />
       {
         noResults ?

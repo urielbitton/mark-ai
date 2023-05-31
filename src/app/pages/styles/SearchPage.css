@@ -96,6 +96,14 @@
   font-size: 17px;
   font-weight: 600;
 }
-.search-page .search-stats h5 span.category {
+.search-page .search-stats h5 span.tag {
   color: var(--primary);
+  font-weight: 700;
+}
+
+
+@media (max-width: 450px) {
+  .search-prompts-page .prompts-search-hits {
+    grid-template-columns: auto;
+  }
 }

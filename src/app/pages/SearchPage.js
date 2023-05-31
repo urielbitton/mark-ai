@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom"
 import './styles/SearchPage.css'
 import { noWhiteSpaceChars } from "app/utils/generalUtils"
 import noDataImg from "app/assets/images/no-data.png"
+import AppButton from "app/components/ui/AppButton"
 
 export default function SearchPage() {
 
@@ -19,7 +20,8 @@ export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const urlQuery = searchParams.get('q')
   const urlTagQuery = searchParams.get('tag')
-  const filters = !urlTagQuery ? '' : `tags:${urlTagQuery}`
+  const urlCategoryQuery = searchParams.get('category')
+  const filters = urlCategoryQuery ? `category: ${urlCategoryQuery}` : urlTagQuery ? `tags:${urlTagQuery}` : ''
   const noResults = numOfHits === 0 && noWhiteSpaceChars(searchQuery) > 0
 
   const submitSearch = () => {
@@ -33,6 +35,11 @@ export default function SearchPage() {
     setSearchParams({})
   }
 
+  const clearCategory = () => {
+    setSearchParams({})
+    setSearchQuery(searchString)
+  }
+
   useEffect(() => {
     if (urlQuery) {
       setSearchString(urlQuery)
@@ -43,7 +50,7 @@ export default function SearchPage() {
   return (
     <div className="search-page">
       <div className="titles">
-        <h1 className="gradient-text">Search</h1>
+        <h1 className="gradient-text">Tools Search</h1>
       </div>
       <div className="search-container">
         <AppSearchBar
@@ -58,17 +65,26 @@ export default function SearchPage() {
       </div>
       <div className="search-info">
         {
-          searchQuery.length > 0 &&
+          (searchQuery.length > 0 || urlCategoryQuery || urlTagQuery) &&
           <div className="search-stats">
             <h4>Search: <span>"{searchQuery}"</span></h4>
-            <h5>{numOfHits} results found</h5>
-          </div>
-        }
-        {
-          urlTagQuery &&
-          <div className="search-tag search-stats">
-            <h4>Tag: <span>"{urlTagQuery}"</span></h4>
-            <h5>{numOfHits} results found</h5>
+            <h5>
+              {numOfHits} result{numOfHits !== 1 ? 's' : ''} found
+              {
+                urlCategoryQuery ?
+                  <span> in <span className="category tag">"{urlCategoryQuery}"</span></span> :
+                  urlTagQuery ? 
+                    <span> with tag <span className="tag">"{urlTagQuery}"</span></span> :
+                    null
+              }
+            </h5>
+            {
+              urlCategoryQuery &&
+              <AppButton
+                label="Clear category"
+                onClick={() => clearCategory()}
+              />
+            }
           </div>
         }
       </div>
@@ -81,7 +97,7 @@ export default function SearchPage() {
         hitsPerPage={hitsPerPage}
         loading={loading}
         setLoading={setLoading}
-        showAll={urlTagQuery}
+        showAll={urlTagQuery || urlCategoryQuery}
       />
       {
         noResults ?

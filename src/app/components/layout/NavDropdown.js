@@ -9,7 +9,7 @@ export default function NavDropdown(props) {
 
   return (
     <div 
-      className={`nav-dropdown ${showDropdown == menuName ? 'show' : ''}`}
+      className={`nav-dropdown nav-drop ${showDropdown == menuName ? 'show' : ''}`}
       onClick={(e) => e.stopPropagation()}
       key={menuName}
     >

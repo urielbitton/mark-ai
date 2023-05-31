@@ -27,6 +27,15 @@
   display: flex;
   flex-direction: column;
 }
+.ai-card .info-content .avatar-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}
+.ai-card .info-content .avatar-container h5 {
+  margin: 0;
+}
 .ai-card .info-content .category-container {
   display: flex;
   align-items: center;
@@ -71,6 +80,11 @@
   font-weight: 500;
   height: 40px;
   margin-top: 2px;
+}
+.ai-card.compact .info-content p {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  height: auto;
 }
 .ai-card .bottom-bar {
   display: flex;

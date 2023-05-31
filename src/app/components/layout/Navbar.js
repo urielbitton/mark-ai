@@ -14,7 +14,7 @@ import MobileSidebar from "./MobileSidebar"
 
 export default function Navbar() {
 
-  const { myUser, myUserID, showMobileSidebar, 
+  const { myUser, myUserID, showMobileSidebar,
     setShowMobileSidebar, isAdmin, isPro } = useContext(StoreContext)
   const [showMenu, setShowMenu] = useState(null)
   const unreadNotifications = useUnreadNotifications(myUserID, 50)
@@ -30,12 +30,97 @@ export default function Navbar() {
     />
   })
 
+  const userNavIcons = (
+    myUser &&
+    <>
+      {
+        isAdmin &&
+        <div className="icon-section">
+          <IconContainer
+            icon="fas fa-plus"
+            inverted
+            iconColor="#fff"
+            iconSize="16px"
+            dimensions="30px"
+            tooltip="Add new"
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowMenu(showMenu === 'addNew' ? null : 'addNew')
+            }}
+          />
+          <div className={`add-new-dropdown nav-drop ${showMenu === 'addNew' ? 'show' : ''}`}>
+            <Link to="/admin/add-new/tool">
+              <i className="fas fa-flask" />
+              New Tool
+            </Link>
+            <Link to="/admin/add-new/prompt">
+              <i className="fas fa-comment-dots" />
+              New Prompt
+            </Link>
+          </div>
+        </div>
+      }
+      <div className="icon-section">
+        <IconContainer
+          icon="fas fa-bookmark"
+          inverted
+          iconColor="#fff"
+          iconSize="16px"
+          dimensions="30px"
+          tooltip="Collection"
+          onClick={(e) => {
+            e.stopPropagation()
+            setShowMenu(showMenu === 'bookmarks' ? null : 'bookmarks')
+          }}
+          className="bookmarks-icon"
+        />
+        <div className={`add-new-dropdown nav-drop ${showMenu === 'bookmarks' ? 'show' : ''}`}>
+          <Link to="/my-bookmarks/tools">
+            <i className="fas fa-flask" />
+            My Tools
+          </Link>
+          <Link to="/my-bookmarks/prompts">
+            <i className="fas fa-comment-dots" />
+            My Prompts
+          </Link>
+        </div>
+      </div>
+      <IconContainer
+        icon="fas fa-bell"
+        inverted
+        iconColor="#fff"
+        iconSize="16px"
+        dimensions="30px"
+        tooltip="Notifications"
+        onClick={(e) => {
+          e.stopPropagation()
+          setShowMenu(showMenu === 'notifications' ? null : 'notifications')
+        }}
+        badgeValue={unreadNotifications.length}
+        badgeBgColor="#fff"
+        badgeTextColor="var(--darkGrayText)"
+      />
+      <NavDropdown
+        label="Notifications"
+        viewAllURL="/notifications"
+        menuName="notifications"
+        showDropdown={showMenu}
+        setShowDropdown={setShowMenu}
+        itemsRender={notificationsList}
+      />
+    </>
+  )
+
   useEffect(() => {
     if (showMenu !== null) {
       window.onclick = () => setShowMenu(null)
     }
     return () => window.onclick = null
   }, [showMenu])
+
+  useEffect(() => {
+    setShowMobileSidebar(false)
+  }, [location])
 
   return (
     <nav className={`navbar ${hideNavbar ? 'hide' : ''}`}>
@@ -83,85 +168,7 @@ export default function Navbar() {
               onClick={(e) => navigate('/dashboard/')}
             />
           }
-          {
-            myUser &&
-            <>
-              {
-                isAdmin &&
-                <div>
-                  <IconContainer
-                    icon="fas fa-plus"
-                    inverted
-                    iconColor="#fff"
-                    iconSize="16px"
-                    dimensions="30px"
-                    tooltip="Add new"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setShowMenu(showMenu === 'addNew' ? null : 'addNew')
-                    }}
-                  />
-                  <div className={`add-new-dropdown ${showMenu === 'addNew' ? 'show' : ''}`}>
-                    <Link to="/admin/add-new/tool">
-                      <i className="fas fa-flask" />
-                      New Tool
-                    </Link>
-                    <Link to="/admin/add-new/prompt">
-                      <i className="fas fa-comment-dots" />
-                      New Prompt
-                    </Link>
-                  </div>
-                </div>
-              }
-              <div>
-                <IconContainer
-                  icon="fas fa-bookmark"
-                  inverted
-                  iconColor="#fff"
-                  iconSize="16px"
-                  dimensions="30px"
-                  tooltip="Collection"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowMenu(showMenu === 'bookmarks' ? null : 'bookmarks')
-                  }}
-                />
-                <div className={`add-new-dropdown ${showMenu === 'bookmarks' ? 'show' : ''}`}>
-                  <Link to="/my-bookmarks/tools">
-                    <i className="fas fa-flask" />
-                    My Tools
-                  </Link>
-                  <Link to="/my-bookmarks/prompts">
-                    <i className="fas fa-comment-dots" />
-                    My Prompts
-                  </Link>
-                </div>
-              </div>
-              <IconContainer
-                icon="fas fa-bell"
-                inverted
-                iconColor="#fff"
-                iconSize="16px"
-                dimensions="30px"
-                tooltip="Notifications"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setShowMenu(showMenu === 'notifications' ? null : 'notifications')
-                }}
-                badgeValue={unreadNotifications.length}
-                badgeBgColor="#fff"
-                badgeTextColor="var(--darkGrayText)"
-              />
-              <NavDropdown
-                label="Notifications"
-                viewAllURL="/notifications"
-                menuName="notifications"
-                showDropdown={showMenu}
-                setShowDropdown={setShowMenu}
-                itemsRender={notificationsList}
-              />
-            </>
-          }
+          {userNavIcons}
           <MenuDropdown
             showMenu={showMenu}
             setShowMenu={setShowMenu}
@@ -184,7 +191,7 @@ export default function Navbar() {
         <div className="shape shape3" />
         <div className="shape shape4" />
       </div>
-      <MobileSidebar />
+      <MobileSidebar userNavIcons={userNavIcons} />
     </nav>
   )
 }

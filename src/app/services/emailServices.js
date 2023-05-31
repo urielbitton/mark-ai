@@ -34,11 +34,11 @@ export const sendSgEmail = (to, subject, html, files) => {
     .catch((error) => console.log(error))
 }
 
-export const sendGuestSubmissionEmail = (email) => {
+export const sendGuestSubmissionEmail = (email, name, title, url) => {
   return sendSgEmail(
     email,
     `Thank you for your submission on Mark AI!`,
-    guestSubmissionEmailTemplate(),
+    guestSubmissionEmailTemplate(name, title, url),
     []
   )
 }

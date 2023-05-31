@@ -2,8 +2,10 @@ import React, { useContext } from 'react'
 import './styles/AIToolCard.css'
 import { Link, useNavigate } from "react-router-dom"
 import Avatar from "../ui/Avatar"
-import { extractDomainFromURL, formatViewsNumber, 
-  truncateText } from "app/utils/generalUtils"
+import {
+  extractDomainFromURL, formatViewsNumber,
+  truncateText
+} from "app/utils/generalUtils"
 import { StoreContext } from "app/store/store"
 import { toggleBookmarkToolService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
@@ -29,9 +31,17 @@ export default function AIToolCard(props) {
     />
   })
 
+  const toolTitle = (
+    <h5>
+      <Link to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}>
+        {truncateText(title, 25)}
+      </Link>
+    </h5>
+  )
+
   const handleBookmarkTool = () => {
     if (isPreview) return
-    if(!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark tools.', true))
+    if (!isUserVerified) return setToasts(infoToast('Please verify your account to bookmark tools.', true))
     if (myUser) {
       toggleBookmarkToolService(
         toolID,
@@ -62,23 +72,23 @@ export default function AIToolCard(props) {
           <Avatar
             src={logo}
             dimensions={27}
+            label={compact ? toolTitle : null}
           />
-          <div className="category-container">
-            <i 
-              className={isAIType ? 'fas fa-robot' : 'fas fa-flask'} 
-              title={isAIType ? 'AI Tool' : 'Online Tool'}
-            />
-            <small onClick={() => navigate(`/search?category=${category}`)}>
-              {category}
-            </small>
-          </div>
+          {
+            !compact &&
+            <div className="category-container">
+              <i
+                className={isAIType ? 'fas fa-robot' : 'fas fa-flask'}
+                title={isAIType ? 'AI Tool' : 'Online Tool'}
+              />
+              <small onClick={() => navigate(`/search?category=${category}`)}>
+                {category}
+              </small>
+            </div>
+          }
         </div>
-        <h5>
-          <Link to={!isPreview && !submission ? `/ai-tools/${toolID}` : submission ? `/dashboard/tool-preview/${toolID}` : ''}>
-            {truncateText(title, 25)}
-          </Link>
-        </h5>
-        <p>{truncateText(tagline, 73)}</p>
+        { !compact && toolTitle }
+        <p>{truncateText(tagline, !compact ? 112 : 60)}</p>
         <div className="bottom-bar">
           <small>
             <i className="fas fa-external-link-alt" />
@@ -91,10 +101,13 @@ export default function AIToolCard(props) {
             </a>
           </small>
           <div className="right">
-            <div className="views-container">
-              <small>{formatViewsNumber(views)}</small>
-              <i className="fas fa-eye" />
-            </div>
+            {
+              !submission &&
+              <div className="views-container">
+                <small>{formatViewsNumber(views)}</small>
+                <i className="fas fa-eye" />
+              </div>
+            }
             {
               submission ?
                 <small className="status">Status: <span>{submissionStatus}</span></small> :

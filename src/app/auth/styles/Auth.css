@@ -173,6 +173,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 10px 0;
 }
 .login-container .login-info .login-options label {
@@ -295,6 +297,7 @@
 @media (max-width: 550px) {
   .login-container {
     height: auto;
+    width: 100%;
   }
   .login-container .login-info {
     padding: 10px;
@@ -311,19 +314,13 @@
     margin-bottom: 60px;
     top: 60px;
   }
-}
-
-@media (max-width: 380px) {
-  .login-container .login-info .container {
-    padding: 10px;
+  .login-container .social-logins .btn {
+    flex-basis: 100%;
+    width: 100%;
   }
   .login-container .social-logins {
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 10px;
-  }
-  .login-container .social-logins .btn {
-    flex-basis: 100%;
-    width: 100%;
   }
 }

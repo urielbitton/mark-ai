@@ -1,15 +1,15 @@
 # Mark AI App
 
 ToDos:
-- add a tab for highest rated and highest viewed in aitools page and online tools page
-- make mobile
-- change navbar and homepage searches to multiple queries search
-- add form validation on all inputs and forms, especially new tool creation form.
+- pro dashboard pages
+- admin pages, submissions, users lists and details, table view of tools, prompts, etc.
+- on admin dashboard, when reviewing prompts submissions, add feature to check if prompt has any similar keywowrds (ma already exist or something too similar) by running an algolia search on the prompt text (similar feature as the URL checker in tools submissions)
 - request new account verification email feature in my account page
+- add form validation on all inputs and forms, especially new tool creation form.
+- make mobile
 
 Sites To Add:
 
-Canva - https://www.canva.com/
 Pixlr - https://pixlr.com/
 Remove.bg - https://www.remove.bg/
 Luminar AI - https://skylum.com/luminar-ai

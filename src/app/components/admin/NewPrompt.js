@@ -10,8 +10,9 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { useChatPrompt } from "app/hooks/aitoolsHooks"
 import PromptCard from "../aitools/PromptCard"
 import { addNewPromptService, updatePromptService } from "app/services/aitoolsServices"
+import { infoToast } from "app/data/toastsTemplates"
 
-export default function NewPrompt() {
+export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, proLoading }) {
 
   const { setToasts } = useContext(StoreContext)
   const [text, setText] = useState("")
@@ -37,8 +38,16 @@ export default function NewPrompt() {
   }
 
   const handleAddPrompt = () => {
-    if (!validateForm) return
-    addNewPromptService(
+    if (!validateForm) return setToasts(infoToast("Please fill out all fields correctly"))
+    if (proUser) {
+      return handleProSubmit({
+        text,
+        category,
+        short,
+        tags: tags.split(",").map((tag) => tag.trim()),
+      })
+    }
+    return addNewPromptService(
       {
         text,
         category,
@@ -54,8 +63,11 @@ export default function NewPrompt() {
   }
 
   const handleSavePrompt = () => {
-    if (!validateForm) return
-    updatePromptService(
+    if (!validateForm) return setToasts(infoToast("Please fill out all fields correctly"))
+    if (proUser) {
+      return handleProUpdate(editPrompt)
+    }
+    return updatePromptService(
       {
         text,
         category,
@@ -122,7 +134,7 @@ export default function NewPrompt() {
                 <AppButton
                   label="Add Prompt"
                   onClick={handleAddPrompt}
-                  loading={loading}
+                  loading={proLoading || loading}
                   rightIcon="far fa-arrow-right"
                   disabled={!validateForm()}
                 /> :
@@ -130,7 +142,7 @@ export default function NewPrompt() {
                   <AppButton
                     label="Save Changes"
                     onClick={handleSavePrompt}
-                    loading={loading}
+                    loading={proLoading || loading}
                   />
                   <AppButton
                     label="Cancel"
