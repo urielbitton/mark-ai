@@ -7,7 +7,7 @@ import IconContainer from "../ui/IconContainer"
 
 export default function ProfileDropdown(props) {
 
-  const { isAdmin, myUser, myUserImg, myUserName, 
+  const { isAdmin, myUser, myUserImg, myUserName,
     myUserType, isPro, isUserVerified } = useContext(StoreContext)
   const { showMenu, setShowMenu } = props
   const navigate = useNavigate()
@@ -55,6 +55,16 @@ export default function ProfileDropdown(props) {
               <i className="fas fa-comment-dots" />
               <span>Chat Prompts</span>
             </Link>
+            {
+              !isPro &&
+              <Link
+                to="/submit-tool"
+                className="submit-text"
+              >
+                <i className="fas fa-layer-plus" />
+                Submit Tool
+              </Link>
+            }
           </div>
           <div className="column">
             <h5>Support</h5>

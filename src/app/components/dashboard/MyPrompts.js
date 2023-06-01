@@ -3,7 +3,7 @@ import ProPage from "./ProPage"
 import AppTabsBar from "../ui/AppTabsBar"
 import { NavLink, Route, Routes, useLocation } from "react-router-dom"
 import {
-  usePromptsSubmissionsByStatus,
+  useUserPromptsSubmissionsByStatus,
   useUserPromptsSubmissionsDocsCountByStatus,
 } from "app/hooks/aitoolsHooks"
 import './styles/MyAITools.css'
@@ -96,7 +96,7 @@ export default function MyPrompts() {
 export const ApprovedPrompts = ({ limit, viewMode, limitSelect, viewToggle }) => {
 
   const [loading, setLoading] = useState(true)
-  const prompts = usePromptsSubmissionsByStatus("approved", limit, setLoading)
+  const prompts = useUserPromptsSubmissionsByStatus("approved", limit, setLoading)
   const promptsCount = useUserPromptsSubmissionsDocsCountByStatus('promptsSubmissions', 'approved')
 
   const promptsList = prompts?.map((prompt, index) => {
@@ -133,7 +133,7 @@ export const ApprovedPrompts = ({ limit, viewMode, limitSelect, viewToggle }) =>
 export const InReviewPrompts = ({ limit, viewMode, limitSelect, viewToggle }) => {
 
   const [loading, setLoading] = useState(true)
-  const prompts = usePromptsSubmissionsByStatus("in-review", limit, setLoading)
+  const prompts = useUserPromptsSubmissionsByStatus("in-review", limit, setLoading)
   const promptsCount = useUserPromptsSubmissionsDocsCountByStatus('promptsSubmissions', 'in-review')
 
   const promptsList = prompts?.map((prompt, index) => {
@@ -170,7 +170,7 @@ export const InReviewPrompts = ({ limit, viewMode, limitSelect, viewToggle }) =>
 export const RejectedPrompts = ({ limit, viewMode, limitSelect, viewToggle }) => {
 
   const [loading, setLoading] = useState(true)
-  const prompts = usePromptsSubmissionsByStatus("rejected", limit, setLoading)
+  const prompts = useUserPromptsSubmissionsByStatus("rejected", limit, setLoading)
   const promptsCount = useUserPromptsSubmissionsDocsCountByStatus('promptsSubmissions', 'rejected')
 
   const promptsList = prompts?.map((prompt, index) => {

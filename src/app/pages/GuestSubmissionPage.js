@@ -97,13 +97,19 @@ export default function GuestSubmissionPage() {
           type="text"
           placeholder="Name of the tool or website"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value)
+            setSubmissionDone(false)
+          }}
         />
         <AppInput
           label={<>Tool URL &nbsp;{noWhiteSpaceChars(url) ? validateURL(url) ? <i className="fas fa-check-circle"/> : <i className="fas fa-times-circle" /> : ''}</>}
           placeholder="URL of the website"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => {
+            setUrl(e.target.value)
+            setSubmissionDone(false)
+          }}
           subtext={<small>Accepted formats: <span>https://www.example.com</span>, <span>www.example.com</span>, <span>example.com</span></small>}
         />
         <div className="btn-group">

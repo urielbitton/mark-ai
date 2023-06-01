@@ -14,8 +14,10 @@
 }
 .admin-router .app-tabs-bar a.active:hover {
   background: var(--extraLightPrimary);
+  color: var(--primary);
 }
 .admin-router .app-tabs-bar a:hover,
 .admin-router .app-tabs-bar a.not-active:hover {
-  background: var(--grayBg);
+  background: var(--extraLightPrimary);
+  color: var(--primary);
 }

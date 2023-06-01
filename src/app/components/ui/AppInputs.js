@@ -204,7 +204,8 @@ const reactSelectStyles = {
     padding: '10px 15px',
     color: 'var(--darkGrayText)',
     "&:hover": {
-      background: 'var(--inputBg)'
+      background: 'var(--extraLightPrimary)',
+      color: 'var(--primary)',
     },
   })
 }

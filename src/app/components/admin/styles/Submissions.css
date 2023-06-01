@@ -10,6 +10,7 @@
 }
 .submissions-page .app-tabs-bar {
   background: #fff;
+  top: 49px;
 }
 
 .submissions-page .submissions-content {

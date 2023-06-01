@@ -1,6 +1,6 @@
 import AdminDashboard from "app/components/admin/AdminDashboard"
 import React, { useContext, useState } from 'react'
-import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom"
+import { NavLink, Route, Routes, useLocation } from "react-router-dom"
 import NewTool from "./NewTool"
 import ToolsLibrary from "./ToolsLibrary"
 import NewPrompt from "./NewPrompt"
@@ -12,6 +12,8 @@ import { updateEveryToolWithProps } from "app/services/adminServices"
 import { errorToast, successToast } from "app/data/toastsTemplates"
 import AppButton from "../ui/AppButton"
 import Submissions from "./Submissions"
+import SubmissionsSearch from "./SubmissionsSearch"
+import ToolSubmission from "./ToolSubmission"
 
 export default function AdminRouter() {
 
@@ -30,10 +32,10 @@ export default function AdminRouter() {
         setToasts(successToast('Props added to DB docs'))
         setLoading(false)
       })
-      .catch((error) => {
+      .catch((err) => {
         setLoading(false)
-        setToasts(errorToast(error.message))
-        console.log(error)
+        setToasts(errorToast(err.message))
+        console.log(err)
       })
   }
 
@@ -79,6 +81,8 @@ export default function AdminRouter() {
         <Route path="add-new/tool" element={<NewTool />} />
         <Route path="add-new/prompt" element={<NewPrompt />} />
         <Route path="submissions/*" element={<Submissions />} />
+        <Route path="submissions/tool/:toolID" element={<ToolSubmission />} />
+        <Route path="submissions/search/*" element={<SubmissionsSearch />} />
       </Routes>
     </div>
   )

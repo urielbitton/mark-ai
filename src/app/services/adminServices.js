@@ -1,6 +1,7 @@
 import { db } from "app/firebase/fire"
 import {
-  collection, getCountFromServer, getDocs, limit,
+  collection, doc, getCountFromServer, getDoc, getDocs, limit,
+  orderBy,
   query, where, writeBatch
 } from "firebase/firestore"
 
@@ -21,11 +22,20 @@ export const updateEveryToolWithProps = (path, props) => {
     })
 }
 
+export const getToolSubmissionByID = (toolID) => {
+  const toolRef = doc(db, 'toolsSubmissions', toolID)
+  return getDoc(toolRef)
+    .then((doc) => {
+      return doc.data()
+    })
+}
+
 export const getToolsSubmissionsByStatus = (status, lim) => {
   const subRef = collection(db, 'toolsSubmissions')
   const q = query(
     subRef,
     where('status', '==', status),
+    orderBy('dateSubmitted', 'desc'),
     limit(lim)
   )
   return getDocs(q)
@@ -51,6 +61,7 @@ export const getPromptsSubmissionsByStatus = (status, lim) => {
   const q = query(
     subRef,
     where('status', '==', status),
+    orderBy('dateSubmitted', 'desc'),
     limit(lim)
   )
   return getDocs(q)
@@ -61,6 +72,32 @@ export const getPromptsSubmissionsByStatus = (status, lim) => {
 
 export const getPromptsSubmissionsCountByStatus = (status) => {
   const subRef = collection(db, 'promptsSubmissions')
+  const q = query(
+    subRef,
+    where('status', '==', status)
+  )
+  return getCountFromServer(q)
+  .then((count) => {
+    return count.data().count
+  })
+}
+
+export const getGuestToolsSubmissionsByStatus = (status, lim) => {
+  const subRef = collection(db, 'guestToolsSubmissions')
+  const q = query(
+    subRef,
+    where('status', '==', status),
+    orderBy('dateSubmitted', 'desc'),
+    limit(lim)
+  )
+  return getDocs(q)
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+}
+
+export const getGuestToolsSubmissionsCountByStatus = (status) => {
+  const subRef = collection(db, 'guestToolsSubmissions')
   const q = query(
     subRef,
     where('status', '==', status)

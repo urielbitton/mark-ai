@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 20px 10px;
   flex-wrap: wrap;
   margin-bottom: 40px;
   margin-top: 10px;
@@ -99,6 +99,12 @@
 }
 .submissions-page .app-table-row .row-item .app-badge {
   padding: 7px 8px;
+}
+.submissions-page .app-table-row .row-item .dropdown-icon:hover {
+  background: var(--primary);
+}
+.submissions-page .app-table-row .row-item .dropdown-icon:hover .icon-container i {
+  color: #fff!important;
 }
 
 .submissions-page .show-more-btn {

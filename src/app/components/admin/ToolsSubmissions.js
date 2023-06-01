@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
 import SubmissionsPages from "./SubmissionsPages"
-import { useToolsSubmissionsByStatus, 
-  useToolsSubmissionsCountByStatus } from "app/hooks/adminHooks"
+import {
+  useToolsSubmissionsByStatus,
+  useToolsSubmissionsCountByStatus
+} from "app/hooks/adminHooks"
 import { showXResultsOptions } from "app/data/general"
 import AppTable from "../ui/AppTable"
 import AppTableRow from "../ui/AppTableRow"
 import { convertClassicDate } from "app/utils/dateUtils"
 import AILoader from "../ui/AILoader"
-import { beautifyUrl } from "app/utils/generalUtils"
-import { Link } from "react-router-dom"
+import { beautifyUrl, truncateText } from "app/utils/generalUtils"
+import { Link, useNavigate } from "react-router-dom"
 import useUser from "app/hooks/userHooks"
 import { AppInput, AppReactSelect } from "../ui/AppInputs"
 import AppButton from "../ui/AppButton"
 import TabSwitcher from "../ui/TabSwitcher"
 import { toolsStatusSwitchData } from "app/data/toolsData"
 import AppBadge from "../ui/AppBadge"
+import IconContainer from "../ui/IconContainer"
 
 export default function ToolsSubmissions() {
 
@@ -22,10 +25,10 @@ export default function ToolsSubmissions() {
   const [limit, setLimit] = useState(limitsNum)
   const [loading, setLoading] = useState(false)
   const [searchString, setSearchString] = useState('')
-  const [query, setQuery] = useState('')
-  const [activeStatus, setActiveStatus] = useState({status: toolsStatusSwitchData[0].value, index:0})
+  const [activeStatus, setActiveStatus] = useState({ status: toolsStatusSwitchData[0].value, index: 0 })
   const submissions = useToolsSubmissionsByStatus(activeStatus.status, limit, setLoading)
   const submissionsCount = useToolsSubmissionsCountByStatus(activeStatus.status)
+  const navigate = useNavigate()
 
   const submissionsList = submissions?.map((submission, index) => {
     return <SubmissionRow
@@ -35,12 +38,12 @@ export default function ToolsSubmissions() {
   })
 
   const handleSearch = () => {
-    setQuery(searchString)
+    navigate(`/admin/submissions/search?q=${searchString}&type=tools`)
   }
 
   return (
     <SubmissionsPages
-      title={`${submissionsCount} Tools Submissions`}
+      title={`${submissions?.length} of ${submissionsCount} Tools Submissions`}
       leftComponent={
         <AppInput
           placeholder="Search Submissions"
@@ -61,9 +64,9 @@ export default function ToolsSubmissions() {
         <TabSwitcher
           tabs={toolsStatusSwitchData}
           activeTab={activeStatus}
-          onTabClick={(status, index) => setActiveStatus({status, index})}
+          onTabClick={(status, index) => setActiveStatus({ status: status.value, index })}
           showIcons
-          width={110}
+          width={105}
         />
         <AppReactSelect
           label="Show"
@@ -72,7 +75,7 @@ export default function ToolsSubmissions() {
           options={showXResultsOptions}
           placeholder={
             <div className="input-placeholder">
-              <h5 className="cap">{showXResultsOptions.find(opt => opt.value === limit).label}</h5>
+              <h5 className="cap">{limit} Results</h5>
             </div>
           }
         />
@@ -98,7 +101,7 @@ export default function ToolsSubmissions() {
           <AILoader />
       }
       {
-        submissionsCount > limitsNum &&
+        submissionsCount > limit &&
         <AppButton
           label="Show More"
           onClick={() => setLimit(limit + limitsNum)}
@@ -112,20 +115,35 @@ export default function ToolsSubmissions() {
 export const SubmissionRow = ({ submission }) => {
 
   const submitter = useUser(submission?.submitterID)
+  const navigate = useNavigate()
 
   return submission ? (
     <AppTableRow
       index={submission.submissionID}
       cells={[
         <img className="small" src={submission.logo} />,
-        <h6 className="internal-link"><Link to={`/admin/tool-preview/${submission.toolID}`}>{submission.title}</Link></h6>,
-        <h6><a href={`https://${beautifyUrl(submission.url)}`} rel="noreferrer" target="_blank">{beautifyUrl(submission.url)}</a></h6>,
+        <h6 className="internal-link">
+          <Link to={`/admin/submissions/tool/${submission.toolID}`}>{truncateText(submission.title, 30)}</Link>
+        </h6>,
+        <h6>
+          <a href={`https://${beautifyUrl(submission.url)}`} rel="noreferrer" target="_blank">
+          {truncateText(beautifyUrl(submission.url), 25)}
+          </a>
+        </h6>,
         <h6 className="small cap">{submission.type === 'ai' ? <i className="fas fa-robot" /> : <i className="fas fa-flask" />}</h6>,
         <h6 className="cap">{submission.category}</h6>,
         <h6 className="internal-link"><Link to={`/admin/users/${submitter?.userID}`}>{submitter?.firstName} {submitter?.lastName}</Link></h6>,
         <h6>{convertClassicDate(submission.dateSubmitted.toDate())}</h6>,
         <h6 className="cap"><AppBadge label={submission.status.replace('-', ' ')} /></h6>,
         <div className="actions-row row-item">
+          <IconContainer
+            icon="fas fa-eye"
+            iconColor="var(--primary)"
+            iconSize={14}
+            dimensions={25}
+            onClick={() => navigate(`/admin/tool-preview/${submission.toolID}`)}
+            title="Preview Tool"
+          />
           <AppButton
             label="Approve"
             buttonType="invertedBtn"

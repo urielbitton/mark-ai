@@ -1,31 +1,34 @@
 import React, { useState } from 'react'
 import SubmissionsPages from "./SubmissionsPages"
-import { usePromptsSubmissionsByStatus, 
-  usePromptsSubmissionsCountByStatus } from "app/hooks/adminHooks"
+import {
+  usePromptsSubmissionsByStatus,
+  usePromptsSubmissionsCountByStatus
+} from "app/hooks/adminHooks"
 import { showXResultsOptions } from "app/data/general"
 import AppTable from "../ui/AppTable"
 import AppTableRow from "../ui/AppTableRow"
 import { convertClassicDate } from "app/utils/dateUtils"
 import AILoader from "../ui/AILoader"
 import { truncateText } from "app/utils/generalUtils"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import useUser from "app/hooks/userHooks"
 import { AppInput, AppReactSelect } from "../ui/AppInputs"
 import AppButton from "../ui/AppButton"
 import TabSwitcher from "../ui/TabSwitcher"
 import { toolsStatusSwitchData } from "app/data/toolsData"
 import AppBadge from "../ui/AppBadge"
+import IconContainer from "../ui/IconContainer"
 
-export default function ToolsSubmissions() {
+export default function PromptsSubmissions() {
 
   const limitsNum = 20
   const [limit, setLimit] = useState(limitsNum)
   const [loading, setLoading] = useState(false)
   const [searchString, setSearchString] = useState('')
-  const [query, setQuery] = useState('')
-  const [activeStatus, setActiveStatus] = useState({status: toolsStatusSwitchData[0].value, index:0})
+  const [activeStatus, setActiveStatus] = useState({ status: toolsStatusSwitchData[0].value, index: 0 })
   const submissions = usePromptsSubmissionsByStatus(activeStatus.status, limit, setLoading)
   const submissionsCount = usePromptsSubmissionsCountByStatus(activeStatus.status)
+  const navigate = useNavigate()
 
   const submissionsList = submissions?.map((submission, index) => {
     return <SubmissionRow
@@ -35,12 +38,12 @@ export default function ToolsSubmissions() {
   })
 
   const handleSearch = () => {
-    setQuery(searchString)
+    navigate(`/admin/submissions/search?q=${searchString}&type=prompts`)
   }
 
   return (
     <SubmissionsPages
-      title={`${submissionsCount} Prompts Submissions`}
+      title={`${submissions?.length} of ${submissionsCount} Prompts Submissions`}
       leftComponent={
         <AppInput
           placeholder="Search Submissions"
@@ -61,9 +64,9 @@ export default function ToolsSubmissions() {
         <TabSwitcher
           tabs={toolsStatusSwitchData}
           activeTab={activeStatus}
-          onTabClick={(status, index) => setActiveStatus({status, index})}
+          onTabClick={(status, index) => setActiveStatus({ status: status.value, index })}
           showIcons
-          width={110}
+          width={105}
         />
         <AppReactSelect
           label="Show"
@@ -72,7 +75,7 @@ export default function ToolsSubmissions() {
           options={showXResultsOptions}
           placeholder={
             <div className="input-placeholder">
-              <h5 className="cap">{showXResultsOptions.find(opt => opt.value === limit).label}</h5>
+              <h5 className="cap">{limit} Results</h5>
             </div>
           }
         />
@@ -96,7 +99,7 @@ export default function ToolsSubmissions() {
           <AILoader />
       }
       {
-        submissionsCount > limitsNum &&
+        submissionsCount > limit &&
         <AppButton
           label="Show More"
           onClick={() => setLimit(limit + limitsNum)}
@@ -128,6 +131,14 @@ export const SubmissionRow = ({ submission }) => {
           <AppBadge label={submission.status.replace('-', ' ')} />
         </h6>,
         <div className="actions-row row-item">
+          <IconContainer
+            icon="fas fa-eye"
+            iconColor="var(--primary)"
+            iconSize={14}
+            dimensions={25}
+            onClick={() => { }}
+            title="Preview Tool"
+          />
           <AppButton
             label="Approve"
             buttonType="invertedBtn"

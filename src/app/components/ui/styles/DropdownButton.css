@@ -1,3 +1,8 @@
+.dropdown-button,
+.dropdown-icon {
+  transition: all 0.2s;
+  cursor: pointer;
+}
 .dropdown-button .dropdown-menu {
   position: absolute;
   top: 40px;
@@ -72,13 +77,14 @@
   font-size: 12px;
 }
 .dropdown-button .dropdown-item:hover {
-  background: var(--primary);
+  background: var(--extraLightPrimary);
 }
-.dropdown-button .dropdown-item span,
-.dropdown-button .dropdown-item i {
+.dropdown-button .dropdown-item span {
   color: var(--darkGrayText);
 }
-.dropdown-button .dropdown-item:hover i,
 .dropdown-button .dropdown-item:hover span {
-  color: #fff;
+  color: var(--primary);
+}
+.dropdown-button .dropdown-item span i {
+  margin-right: 10px;
 }

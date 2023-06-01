@@ -56,8 +56,8 @@ export const validatePhone = (phone) => {
 }
 
 export const validateURL = (url) => {
-  var pattern = /^(http:\/\/|https:\/\/)?(www\.)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i;
-  var regex = new RegExp(pattern)
+  const pattern = /^(http:\/\/|https:\/\/)?(www\.)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}(\/)?$/i
+  const regex = new RegExp(pattern)
   return regex.test(url)
 }
 
@@ -250,6 +250,9 @@ export const areArraysEqual = (arr1, arr2) => {
 
 
 export const beautifyUrl = (url) => {
+  if(url.startsWith('www.')) {
+    return url.replace('www.', '')
+  }
   if (url.endsWith('/')) {
     url = url.slice(0, -1)
   }

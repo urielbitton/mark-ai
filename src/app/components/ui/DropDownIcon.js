@@ -5,9 +5,9 @@ import './styles/DropdownButton.css'
 
 export default function DropdownIcon(props) {
 
-  const { items, showMenu, setShowMenu, icon="far fa-ellipsis-v", 
-    iconColor, iconSize="19px", dimensions=32, tooltip, bgColor, 
-    dropdownPosition="place-right-bottom", onClick, round } = props
+  const { items, showMenu, setShowMenu, icon = "far fa-ellipsis-v",
+    iconColor, iconSize = "19px", dimensions = 32, tooltip, bgColor,
+    dropdownPosition = "place-right-bottom", onClick, round } = props
 
   const itemsList = items
     ?.filter(item => item && !item.private)
@@ -19,16 +19,20 @@ export default function DropdownIcon(props) {
             onClick={() => item.onClick()}
             className="dropdown-item"
           >
-            <i className={item.icon} />
-            <span>{item.label}</span>
+            <span>
+              <i className={item.icon} />
+              {item.label}
+            </span>
           </div> :
           <Link
             key={index}
             to={item.url}
             className="dropdown-item"
           >
-            <i className={item.icon} />
-            <span>{item.label}</span>
+            <span>
+              <i className={item.icon} />
+              {item.label}
+            </span>
           </Link>
       )
     })
@@ -43,6 +47,7 @@ export default function DropdownIcon(props) {
   return (
     <div
       className="dropdown-button dropdown-icon"
+      style={{ borderRadius: round ? '100%' : 0 }}
       onClick={(e) => {
         e.stopPropagation()
         onClick(e)

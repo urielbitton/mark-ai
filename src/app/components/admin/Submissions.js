@@ -23,11 +23,11 @@ export default function Submissions() {
           <i className="fas fa-layer-plus" />
           Tools Submissions
         </NavLink>
-        <NavLink to="prompt-submissions">
+        <NavLink to="prompts">
           <i className="fas fa-layer-plus" />
           Prompt Submissions
         </NavLink>
-        <NavLink to="guest-submissions">
+        <NavLink to="guests">
           <i className="fas fa-layer-plus" />
           Guest Submissions
         </NavLink>
@@ -35,8 +35,8 @@ export default function Submissions() {
       <div className="submissions-content">
         <Routes>
           <Route index element={<ToolsSubmissions />} />
-          <Route path="prompt-submissions" element={<PromptSubmissions />} />
-          <Route path="guest-submissions" element={<GuestSubmissions />} />
+          <Route path="prompts" element={<PromptSubmissions />} />
+          <Route path="guests" element={<GuestSubmissions />} />
         </Routes>
       </div>
     </div>

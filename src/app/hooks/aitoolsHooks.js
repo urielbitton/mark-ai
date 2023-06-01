@@ -292,7 +292,7 @@ export const useUserToolsSubmissionsDocsCountByStatusAndType = (path, type, stat
   return count
 }
 
-export const usePromptsSubmissionsByStatus = (status, limit, setLoading) => {
+export const useUserPromptsSubmissionsByStatus = (status, limit, setLoading) => {
 
   const { myUserID } = useContext(StoreContext)
   const [prompts, setPrompts] = useState([])

@@ -1,6 +1,30 @@
-import { getPromptsSubmissionsByStatus, getPromptsSubmissionsCountByStatus, 
-  getToolsSubmissionsByStatus, getToolsSubmissionsDocCountByStatus } from "app/services/adminServices"
+import {
+  getGuestToolsSubmissionsByStatus,
+  getGuestToolsSubmissionsCountByStatus,
+  getPromptsSubmissionsByStatus, getPromptsSubmissionsCountByStatus,
+  getToolSubmissionByID,
+  getToolsSubmissionsByStatus, getToolsSubmissionsDocCountByStatus
+} from "app/services/adminServices"
 import { useEffect, useState } from "react"
+
+export const useToolSubmission = (toolID, setLoading) => {
+
+  const [tool, setTool] = useState(null)
+
+  useEffect(() => {
+    getToolSubmissionByID(toolID)
+      .then((tool) => {
+        setTool(tool)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [toolID])
+
+  return tool
+}
 
 export const useToolsSubmissionsByStatus = (status, limit, setLoading) => {
 
@@ -60,11 +84,48 @@ export const usePromptsSubmissionsByStatus = (status, limit, setLoading) => {
 }
 
 export const usePromptsSubmissionsCountByStatus = (status) => {
+
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    getPromptsSubmissionsCountByStatus(status)
+      .then((count) => {
+        setCount(count)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [status])
+
+  return count
+}
+
+export const useGuestToolsSubmissionsByStatus = (status, limit, setLoading) => {
+
+  const [tools, setTools] = useState([])
+
+  useEffect(() => {
+    setLoading(true)
+    getGuestToolsSubmissionsByStatus(status, limit)
+      .then((tools) => {
+        setTools(tools)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [status, limit])
+
+  return tools
+}
+
+export const useGuestToolsSubmissionsCountByStatus = (status) => {
   
     const [count, setCount] = useState(0)
   
     useEffect(() => {
-      getPromptsSubmissionsCountByStatus(status)
+      getGuestToolsSubmissionsCountByStatus(status)
         .then((count) => {
           setCount(count)
         })

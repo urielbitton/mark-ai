@@ -37,7 +37,7 @@ export const sendSgEmail = (to, subject, html, files) => {
 export const sendGuestSubmissionEmail = (email, name, title, url) => {
   return sendSgEmail(
     email,
-    `Thank you for your submission on Mark AI!`,
+    `Thank you for your submission on Mark AI`,
     guestSubmissionEmailTemplate(name, title, url),
     []
   )
@@ -46,7 +46,7 @@ export const sendGuestSubmissionEmail = (email, name, title, url) => {
 export const sendWelcomeEmail = (name, email) => {
   return sendSgEmail(
     email,
-    `Welcome to Mark AI!`,
+    `Welcome to Mark AI`,
     welcomeEmailTemplate(name),
     []
   )

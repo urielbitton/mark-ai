@@ -145,7 +145,7 @@ hr {
 .uppercase, .upper {
   text-transform: uppercase
 }
-.lowercase {
+.lowercase, .lower {
   text-transform: lowercase
 }
 .underline {
