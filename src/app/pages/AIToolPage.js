@@ -28,7 +28,7 @@ import { formatViewsNumber } from "app/utils/generalUtils"
 export default function AIToolPage({ previewTool = null }) {
 
   const { myUser, myUserID, setToasts, isAdmin,
-    setPageLoading, toolsUID, isUserVerified } = useContext(StoreContext)
+    setPageLoading, isUserVerified } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
   const [showRatingModal, setShowRatingModal] = useState(false)
@@ -40,7 +40,6 @@ export default function AIToolPage({ previewTool = null }) {
   const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
   const navigate = useNavigate()
-  const isToolSubmitter = myUserID && myUserID === aitool?.submitterID
   const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
 
@@ -268,6 +267,8 @@ export default function AIToolPage({ previewTool = null }) {
         img={selectedImg}
         onClose={() => setSelectedImg(null)}
         showModal={selectedImg !== null}
+        slideshow={[aitool.mainImg, ...aitool.images]}
+        slideShowIndex={[aitool.mainImg, ...aitool.images].indexOf(selectedImg)}
       />
       <div className={`ratings-modal ${showRatingModal ? 'show' : ''}`}>
         <i
