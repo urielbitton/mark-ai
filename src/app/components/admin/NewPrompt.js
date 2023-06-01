@@ -12,9 +12,11 @@ import PromptCard from "../aitools/PromptCard"
 import { addNewPromptService, updatePromptService } from "app/services/aitoolsServices"
 import { infoToast } from "app/data/toastsTemplates"
 
-export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, proLoading, proPrompt }) {
+export default function NewPrompt(props) {
 
   const { setToasts } = useContext(StoreContext)
+  const { proUser, handleProSubmit, handleProUpdate, 
+    proLoading, proPrompt } = props
   const [text, setText] = useState("")
   const [category, setCategory] = useState(toolsCategoriesData[2].value)
   const [short, setShort] = useState('')
@@ -125,7 +127,7 @@ export default function NewPrompt({ proUser, handleProSubmit, handleProUpdate, p
             searchable
             placeholder={
               <div className="input-placeholder">
-                <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon}></i>
+                <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon} />
                 <h5 className="cap">{category}</h5>
               </div>
             }

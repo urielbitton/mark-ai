@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
           <h6>Don't worry we're working on fixing this bug so it doesn't happen again.</h6>
           <a href="https://markai.pro">
             <button>
-              <i className="fal fa-home"></i>
+              <i className="fal fa-home" />
               Back Home
             </button>
           </a>

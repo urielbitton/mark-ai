@@ -1,19 +1,23 @@
 import { getDocsCount } from "app/services/CrudDB"
-import { doGetUserByID, getPromptsBookmarksByUserID, getToolsBookmarksByUserID, getUserByID } from "app/services/userServices"
-import React, { useEffect, useState } from 'react'
+import { doGetUserByID, getNotifsDocsCountByReadStatus, 
+  getPromptsBookmarksByUserID, getToolsBookmarksByUserID, 
+  getUserByID } from "app/services/userServices"
+import { StoreContext } from "app/store/store"
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation } from "react-router-dom"
 
 export default function useUser(userID) {
 
   const [appUser, setAppUser] = useState(null)
 
   useEffect(() => {
-    if(userID) {
+    if (userID) {
       getUserByID(userID, setAppUser)
     }
     else {
       setAppUser(null)
     }
-  },[userID])
+  }, [userID])
 
   return appUser
 }
@@ -23,17 +27,17 @@ export function useUsers(userIDs) {
   const [appUsers, setAppUsers] = useState([])
 
   useEffect(() => {
-    if(userIDs?.length) {
+    if (userIDs?.length) {
       const promises = userIDs.map(userID => doGetUserByID(userID))
       Promise.all(promises)
-      .then(users => {
-        setAppUsers(users)
-      })
+        .then(users => {
+          setAppUsers(users)
+        })
     }
     else {
       setAppUsers([])
     }
-  },[userIDs])
+  }, [userIDs])
 
   return appUsers
 }
@@ -44,7 +48,7 @@ export const useDocsCount = (path, updateTrigger) => {
 
   useEffect(() => {
     getDocsCount(path)
-    .then(count => setCount(count))
+      .then(count => setCount(count))
   }, [path, updateTrigger])
 
   return count
@@ -55,23 +59,40 @@ export const useUserToolsBookmarks = (userID) => {
   const [bookmarks, setBookmarks] = useState([])
 
   useEffect(() => {
-    if(userID) {
+    if (userID) {
       getToolsBookmarksByUserID(userID, setBookmarks)
     }
-  },[userID])
+  }, [userID])
 
   return bookmarks
 }
 
 export const useUserPromptsBookmarks = (userID) => {
-  
-    const [bookmarks, setBookmarks] = useState([])
-  
-    useEffect(() => {
-      if(userID) {
-        getPromptsBookmarksByUserID(userID, setBookmarks)
-      }
-    },[userID])
-  
-    return bookmarks
-  }
+
+  const [bookmarks, setBookmarks] = useState([])
+
+  useEffect(() => {
+    if (userID) {
+      getPromptsBookmarksByUserID(userID, setBookmarks)
+    }
+  }, [userID])
+
+  return bookmarks
+}
+
+export const useNotifsDocsCountByReadStatus = (status, retrigger) => {
+
+  const { myUserID } = useContext(StoreContext)
+  const [count, setCount] = useState(0)
+  const location = useLocation()
+
+  useEffect(() => {
+    getNotifsDocsCountByReadStatus(myUserID, status)
+      .then((count) => {
+        setCount(count)
+      })
+      .catch((err) => console.log(err))
+  }, [myUserID, status, location, retrigger])
+
+  return count
+}

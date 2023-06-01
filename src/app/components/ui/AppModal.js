@@ -35,7 +35,7 @@ export default function AppModal(props) {
                   setShowModal(false)
                 }}
               >
-                <i className="fal fa-times"></i>
+                <i className="fal fa-times" />
               </div>
             </header>
           }

@@ -181,7 +181,7 @@ export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, ty
   const docRef = collection(db, path)
   const q = query(
     docRef,
-    where('submitterID', '==', userID),
+    where('submitterID', '==', userID), 
     where('status', '==', status),
     where('type', '==', type)
   )

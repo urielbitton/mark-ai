@@ -1,6 +1,6 @@
 import { updateDB } from "app/services/CrudDB"
 import { StoreContext } from "app/store/store"
-import { convertClassicDate, convertClassicTime } from "app/utils/dateUtils"
+import { convertClassicDate, convertClassicTime, getTimeAgo } from "app/utils/dateUtils"
 import { truncateText } from "app/utils/generalUtils"
 import React, { useContext, useState } from 'react'
 import { Link } from "react-router-dom"
@@ -11,11 +11,12 @@ export default function NotificationCard(props) {
   const { myUserID } = useContext(StoreContext)
   const { dateCreated, icon, isRead, notificationID, text,
     title, url } = props.notification
+  const { onReadClick } = props
   const [expandID, setExpandID] = useState(null)
   const isExpanded = expandID === notificationID
 
   const toggleRead = (e) => {
-    e && e.stopPropagation()
+    onReadClick()
     updateDB(`users/${myUserID}/notifications`, notificationID, {
       isRead: !isRead
     })
@@ -31,15 +32,14 @@ export default function NotificationCard(props) {
         <div className="texts">
           <h5>{title}</h5>
           <p>
-            {truncateText(text, !isExpanded ? 65 : Infinity)}&nbsp;
+            {truncateText(text, !isExpanded ? 125 : Infinity)}&nbsp;
             {
-              !isExpanded && text.length > 65 &&
+              !isExpanded && text.length > 150 &&
               <small>Read more</small>
             }
           </p>
           <h6>
-            {convertClassicDate(dateCreated?.toDate())}
-            {isExpanded && `, ${convertClassicTime(dateCreated?.toDate())}`}
+            {getTimeAgo(dateCreated?.toDate())}
           </h6>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.nav-dropdown {
+.notifications-dropdown {
   position: absolute;
   top: 65px;
   right: 0px;
@@ -15,55 +15,60 @@
   opacity: 0;
   transition: all 0.2s;
 }
-.nav-dropdown.show {
+.notifications-dropdown.show {
   top: 55px;
   visibility: visible;
   opacity: 1;
 }
-.nav-dropdown > header {
+.notifications-dropdown > header {
   padding: 10px 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
 }
-.nav-dropdown > header h5 {
+.notifications-dropdown > header h5 {
   color: var(--darkGrayText);
   font-weight: 600;
   font-size: 14px;
 }
-.nav-dropdown > header .right {
+.notifications-dropdown > header .right {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.nav-dropdown > header small {
+.notifications-dropdown > header small {
   font-size: 11px;
   color: #aaa;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
 }
-.nav-dropdown > header small:hover a {
+.notifications-dropdown > header small:hover {
+  color: #555;
+}
+.notifications-dropdown > header small:hover a {
   color: var(--primary);
 }
-.nav-dropdown > section {
+.notifications-dropdown > section {
   height: 100%;
   overflow-y: overlay;
 }
-.nav-dropdown > section::-webkit-scrollbar {
+.notifications-dropdown > section::-webkit-scrollbar {
   width: 4px;
 }
-.nav-dropdown > section::-webkit-scrollbar-thumb {
+.notifications-dropdown > section::-webkit-scrollbar-thumb {
   background: var(--primary);
   border-radius: 5px;
   display: none;
 }
-.nav-dropdown > section:hover::-webkit-scrollbar-thumb {
+.notifications-dropdown > section:hover::-webkit-scrollbar-thumb {
   display: block;
 }
 
 
 @media (max-width: 450px) {
-  .nav-dropdown {
+  .notifications-dropdown {
     width: 90vw;
     max-height: 70vh;
     right: 0;

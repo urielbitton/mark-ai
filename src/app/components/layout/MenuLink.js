@@ -15,10 +15,10 @@ export default function MenuLink(props) {
       >
         <div className={`menu-item ${link.sublinks ? "expands" : ''}`}>
           <div className="titles">
-            <i className={link.icon}></i>
+            <i className={link.icon} />
             <h6>{link.name}</h6>
           </div>
-          {link.sublinks && <i className={`fal fa-angle-up ${tabOpen ? "open" : ''}`}></i>}
+          {link.sublinks && <i className={`fal fa-angle-up ${tabOpen ? "open" : ''}`} />}
         </div>
       </NavLink>
       {
@@ -33,7 +33,7 @@ export default function MenuLink(props) {
               >
                 <div className={`menu-item ${link.sublinks && "expands"}`}>
                   <div className="titles">
-                    <i className={sublink.icon}></i>
+                    <i className={sublink.icon} />
                     <h6>{sublink.name}</h6>
                   </div>
                   <hr />

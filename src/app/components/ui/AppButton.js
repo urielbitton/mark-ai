@@ -22,10 +22,10 @@ export default function AppButton(props) {
     title={title}
     ref={btnRef}
   >
-    { leftIcon && <i className={`${leftIcon} leftIcon  ${!label?.length && 'no-text'}`}></i> }
+    { leftIcon && <i className={`${leftIcon} leftIcon  ${!label?.length && 'no-text'}`} /> }
     {label}
-    { rightIcon && <i className={`${rightIcon} rightIcon ${!label?.length && 'no-text'}`}></i> }
-    { loading && <i className="fas fa-spinner fa-spin rightIcon"></i> }
+    { rightIcon && <i className={`${rightIcon} rightIcon ${!label?.length && 'no-text'}`} /> }
+    { loading && <i className="fas fa-spinner fa-spin rightIcon" /> }
   </button>
 
   return (

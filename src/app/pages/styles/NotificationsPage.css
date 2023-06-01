@@ -1,3 +1,54 @@
 .notifications-page {
-  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.notifications-page h1 {
+  font-size: 50px;
+  background: var(--primaryGradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.notifications-page .notifications-list {
+  width: 600px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notifications-page .toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 600px;
+}
+.notifications-page .toolbar .texts {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.notifications-page .toolbar h6 {
+  font-size: 15px;
+  color: var(--darkGrayText);
+  font-weight: 600;
+}
+.notifications-page .toolbar h6 span {
+  color: var(--primary);
+}
+.notifications-page .toolbar .reactSelect {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+
+.notifications-page .load-more-btn {
+  margin-top: 10px;
 }

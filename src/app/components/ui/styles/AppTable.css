@@ -21,7 +21,15 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 0 10px;
+  padding: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--tableBorder);
+}
+.app-table .headers .header-item {
+  flex-basis: 25%;
+}
+.app-table .headers .header-item.small {
+  flex-basis: 100px;
 }
 .app-table .headers h5 {
   color: var(--darkGrayText);

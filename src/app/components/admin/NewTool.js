@@ -15,9 +15,11 @@ import { useAITool } from "app/hooks/aitoolsHooks"
 import { noWhiteSpaceChars, validateURL } from "app/utils/generalUtils"
 import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
 
-export default function NewTool({ proUser, handleProSubmit, handleProUpdate, proLoading, proTool }) {
+export default function NewTool(props) {
 
   const { setToasts, photoPlaceholder, isAdmin } = useContext(StoreContext)
+  const { proUser, handleProSubmit, handleProUpdate, 
+    proLoading, proTool } = props
   const [title, setTitle] = useState("")
   const [tagline, setTagline] = useState("")
   const [shortDescription, setShortDescription] = useState("")
@@ -231,7 +233,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             searchable
             placeholder={
               <div className="input-placeholder">
-                <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon}></i>
+                <i className={toolsCategoriesData.find((cat) => cat.value === category)?.icon} />
                 <h5 className="cap">{category}</h5>
               </div>
             }
@@ -281,7 +283,7 @@ export default function NewTool({ proUser, handleProSubmit, handleProUpdate, pro
             options={toolsTypesData.slice(0, 2)}
             placeholder={
               <div className="input-placeholder">
-                <i className={toolsTypesData.find((cat) => cat.value === type)?.icon}></i>
+                <i className={toolsTypesData.find((cat) => cat.value === type)?.icon} />
                 <h5 className="cap">{toolsTypesData.find((cat) => cat.value === type)?.label}</h5>
               </div>
             }

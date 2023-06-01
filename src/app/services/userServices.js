@@ -1,6 +1,6 @@
 import { db } from "app/firebase/fire"
-import { collection, doc, getDoc, limit, 
-  onSnapshot, orderBy, query, where } from "firebase/firestore"
+import { collection, doc, getCountFromServer, getDoc, getDocs, limit, 
+  onSnapshot, orderBy, query, where, writeBatch } from "firebase/firestore"
 import { setDB, updateDB } from "./CrudDB"
 import { createNotification } from "./notifServices"
 import { uploadMultipleFilesToFireStorage } from "./storageServices"
@@ -112,4 +112,35 @@ export const getPromptsBookmarksByUserID = (userID, setBookmarks) => {
   onSnapshot(query, (doc) => {
     setBookmarks(doc.data()?.bookmarks || [])
   })
+}
+
+export const markAllNotifsAsReadService = (userID) => {
+  const batch = writeBatch(db)
+  const path = `users/${userID}/notifications`
+  const notifsRef = collection(db, path)
+  const q = query(
+    notifsRef,
+    where('isRead', '==', false)
+  )
+  return getDocs(q)
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        batch.update(doc.ref, { isRead: true })
+      })
+      return batch.commit()
+    })
+    .catch(err => console.log(err))
+}
+
+export const getNotifsDocsCountByReadStatus = (userID, status) => {
+  const path = `users/${userID}/notifications`
+  const docRef = collection(db, path)
+  const q = query(
+    docRef,
+    status !== null ? where('isRead', '==', status) : null,
+  )
+  return getCountFromServer(q)
+    .then((count) => {
+      return count.data().count
+    })
 }

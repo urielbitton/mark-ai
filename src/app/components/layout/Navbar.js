@@ -2,7 +2,7 @@ import { useAllNotifications, useUnreadNotifications } from "app/hooks/notificat
 import { StoreContext } from "app/store/store"
 import React, { useContext, useEffect, useState } from 'react'
 import IconContainer from "../ui/IconContainer"
-import NavDropdown from "./NavDropdown"
+import NotificationsDropdown from "./NotificationsDropdown"
 import NavSearch from "./NavSearch"
 import NotificationElement from "./NotificationElement"
 import MenuDropdown from "./MenuDropdown"
@@ -100,7 +100,7 @@ export default function Navbar() {
         badgeBgColor="#fff"
         badgeTextColor="var(--darkGrayText)"
       />
-      <NavDropdown
+      <NotificationsDropdown
         label="Notifications"
         viewAllURL="/notifications"
         menuName="notifications"

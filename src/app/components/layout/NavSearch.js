@@ -44,7 +44,7 @@ export default function NavSearch() {
           hideDropdownArrow
           placeholder={
             <div className="input-placeholder">
-              <i className={searchTypes.find((cat) => cat.value === selectedType)?.icon}></i>
+              <i className={searchTypes.find((cat) => cat.value === selectedType)?.icon} />
             </div>
           }
           selectStyles={{

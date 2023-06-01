@@ -156,3 +156,21 @@ export const toolsSubmissionModes = [
     value: 'compact'
   }
 ]
+
+export const toolsStatusSwitchData = [
+  {
+    label: 'In Review',
+    value: 'in-review',
+    icon: 'fas fa-clock'
+  },
+  {
+    label: 'Approved',
+    value: 'approved',
+    icon: 'fas fa-check-circle'
+  },
+  {
+    label: 'Rejected',
+    value: 'rejected',
+    icon: 'fas fa-times-circle'
+  }
+]

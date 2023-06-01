@@ -6,7 +6,7 @@
   padding: 15px;
   background: #fff;
   box-shadow: var(--newCardShadow);
-  border-radius: 5px;
+  border-radius: 10px;
   transition: all 0.2s;
   cursor: pointer;
 }
@@ -19,25 +19,27 @@
 }
 .notification-card .left i {
   top: 3px;
-  color: var(--darkGrayText);
+  color: var(--primary);
 }
 .notification-card .left .texts {
   display: flex;
   flex-direction: column;
 }
 .notification-card .left .texts h5 {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--darkGrayText);
 }
 .notification-card .left .texts p {
-  font-size: 13px;
+  font-size: 14px;
   color: #555;
   font-weight: 500;
+  margin-top: 5px;
+  line-height: 1.4;
 }
 .notification-card .left .texts h6 {
   font-size: 11px;
   color: var(--grayText);
-  font-weight: 500;
+  font-weight: 600;
 }
 .notification-card .right {
   display: flex;

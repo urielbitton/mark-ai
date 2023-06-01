@@ -1,0 +1,21 @@
+.admin-router {
+  display: flex;
+  flex-direction: column;
+}
+.admin-router .app-tabs-bar {
+  background: var(--bg);
+  padding: 10px 0;
+}
+.admin-router .app-tabs-bar .appButton {
+  margin-left: 20px;
+}
+.admin-router .app-tabs-bar a {
+  border-radius: 7px;
+}
+.admin-router .app-tabs-bar a.active:hover {
+  background: var(--extraLightPrimary);
+}
+.admin-router .app-tabs-bar a:hover,
+.admin-router .app-tabs-bar a.not-active:hover {
+  background: var(--grayBg);
+}

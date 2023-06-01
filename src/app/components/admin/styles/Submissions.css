@@ -1,0 +1,17 @@
+.submissions-page {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 7px;
+  box-shadow: var(--cardShadow);
+  padding-bottom: 40px;
+}
+.submissions-page .app-tabs-bar {
+  background: #fff;
+}
+
+.submissions-page .submissions-content {
+  margin-top: 10px;
+}

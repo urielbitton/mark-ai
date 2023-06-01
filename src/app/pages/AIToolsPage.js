@@ -33,7 +33,7 @@ export default function AIToolsPage() {
       className={selectedCategory === cat.value ? 'selected' : ''}
       onClick={() => setSelectedCategory(cat.value)}
     >
-      <i className={cat.icon}></i>
+      <i className={cat.icon} />
       {cat.label}
     </h6>
   })

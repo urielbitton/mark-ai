@@ -7,14 +7,14 @@ export default function Ratings(props) {
  
   return ( 
     <div className="ratings-container" title={`Rating: ${rating}/${highestRate} stars`}>
-      { Array.apply(null, { length: Math.floor(rating) }).map((el,i) => <i className="fas fa-star" style={{color}} key={i}></i> ) } 
+      { Array.apply(null, { length: Math.floor(rating) }).map((el,i) => <i className="fas fa-star" style={{color}} key={i} /> ) } 
       { 
         rating % 1 > 0?
         <>
-        <i className="fas fa-star-half-alt" style={{color}}></i>
-        { Array.apply(null, { length: (highestRate-1)-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i}></i> )) }
+        <i className="fas fa-star-half-alt" style={{color}} />
+        { Array.apply(null, { length: (highestRate-1)-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i} /> )) }
         </>:
-        Array.apply(null, { length: highestRate-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i}></i> ))
+        Array.apply(null, { length: highestRate-Math.floor(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i} /> ))
       }
       { 
         ratingNumber ?

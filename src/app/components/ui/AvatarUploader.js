@@ -31,7 +31,7 @@ export default function AvatarUploader(props) {
         editRights &&
         <>
           <label>
-            <i className="fas fa-camera"></i>
+            <i className="fas fa-camera" />
             <input 
               type="file" 
               accept="image/*"

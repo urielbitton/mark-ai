@@ -1,0 +1,106 @@
+.submissions-page {
+  display: flex;
+  flex-direction: column;
+}
+.submissions-page .tools-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+.submissions-page .tools-bar .side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.submissions-page .tools-bar .side .reactSelect {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.submissions-page .tools-bar .side .reactSelect h6 {
+  color: var(--darkGrayText);
+  font-size: 15px;
+  font-weight: 600;
+}
+.submissions-page .tools-bar h5 {
+  color: var(--darkGrayText);
+  font-size: 15px;
+  font-weight: 600;
+}
+.submissions-page .tools-bar .appInput {
+  width: 280px;
+}
+.submissions-page .tools-bar .appInput input {
+  height: 40px;
+  padding-right: 45px;
+  border-radius: 5px;
+}
+.submissions-page .tools-bar .appInput .icon-container {
+  height: 40px;
+  width: 40px;
+  border-radius: 0 5px 5px 0;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.submissions-page .tools-bar .appInput .icon-container i {
+  color: #fff;
+}
+.submissions-page .tools-bar .tab-switcher h6 {
+  font-size: 13px;
+  color: var(--darkGrayText);
+}
+.submissions-page .tools-bar .tab-switcher .tab-indicator,
+.submissions-page .tools-bar .tab-switcher .tab-item {
+  height: 35px;
+}
+.submissions-page .tools-bar .tab-switcher .tab-item:hover {
+  background: var(--primary);
+}
+.submissions-page .tools-bar .tab-switcher .tab-item:hover h6,
+.submissions-page .tools-bar .tab-switcher .tab-item:hover i,
+.submissions-page .tools-bar .tab-switcher .tab-item.active h6,
+.submissions-page .tools-bar .tab-switcher .tab-item.active i {
+  color: #fff;
+}
+.submissions-page .tools-bar .tab-switcher .tab-item.active,
+.submissions-page .tools-bar .tab-switcher .tab-indicator {
+  background: var(--primary);
+}
+
+.submissions-page .app-table-row .row-item, 
+.submissions-page .app-table .headers .header-item {
+  flex-basis: 20%;
+}
+.app-table-row .row-item .internal-link a {
+  color: var(--darkGrayText);
+}
+.app-table-row .row-item i {
+  color: var(--primary);
+}
+.submissions-page .app-table-row .row-item .appButton {
+  font-size: 13px;
+  padding: 5px 10px;
+  color: var(--primary);
+}
+.submissions-page .app-table-row .row-item .appButton:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.submissions-page .app-table-row .row-item .app-badge {
+  padding: 7px 8px;
+}
+
+.submissions-page .show-more-btn {
+  margin-top: 40px;
+}

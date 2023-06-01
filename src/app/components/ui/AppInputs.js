@@ -79,7 +79,7 @@ export function AppSwitch(props) {
   return (
     <div className={`appSwitch commonInput ${className ?? ""} ${size}`}>
       <h6>
-        <i className={iconclass}></i>
+        <i className={iconclass} />
         {label}
       </h6>
       <label className="form-switch">
@@ -89,7 +89,7 @@ export function AppSwitch(props) {
           checked={checked}
           disabled={disabled}
         />
-        <i></i>
+        <i />
       </label>
     </div>
   )

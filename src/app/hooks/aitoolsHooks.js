@@ -283,7 +283,7 @@ export const useUserToolsSubmissionsDocsCountByStatusAndType = (path, type, stat
 
   useEffect(() => {
     getUserToolsSubmissionsDocsCountByStatusAndType(myUserID, path, type, status)
-      .then((count) => {
+      .then((count) => { 
         setCount(count)
       })
       .catch((err) => console.log(err))

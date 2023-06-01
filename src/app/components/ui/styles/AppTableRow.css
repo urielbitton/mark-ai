@@ -1,0 +1,53 @@
+.app-table-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  height: 55px;
+  border-radius: 5px;
+  width: 100%;
+  transition: all 0.2s;
+}
+.app-table-row:hover {
+  background: var(--lightGrayBg);
+}
+.app-table-row .row-item {
+  font-size: 14px;
+  font-weight: 600;
+  flex-basis: 25%;
+  display: flex;
+  align-items: center;
+}
+.app-table-row .row-item.small,
+.app-table-row .row-item:has(.small) {
+  flex-basis: 100px;
+}
+.app-table-row .row-item h6 {
+  font-size: 13px;
+  font-weight: 600;
+}
+.app-table-row .row-item img {
+  width: 25px;
+}
+.app-table-row .row-item input {
+  width: 13px;
+}
+.app-table-row .row-item a {
+  color: var(--primary);
+}
+.app-table-row .row-item a:hover {
+  text-decoration: underline;
+}
+
+.app-table-row .actions-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.app-table-row .actions-row i {
+  color: var(--primary);
+}
+.app-table-row .avatar-row-item .avatar-container {
+  min-width: 25px;
+}

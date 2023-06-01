@@ -19,7 +19,7 @@ export default function DropdownIcon(props) {
             onClick={() => item.onClick()}
             className="dropdown-item"
           >
-            <i className={item.icon}></i>
+            <i className={item.icon} />
             <span>{item.label}</span>
           </div> :
           <Link
@@ -27,7 +27,7 @@ export default function DropdownIcon(props) {
             to={item.url}
             className="dropdown-item"
           >
-            <i className={item.icon}></i>
+            <i className={item.icon} />
             <span>{item.label}</span>
           </Link>
       )
