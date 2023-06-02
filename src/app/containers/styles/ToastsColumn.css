@@ -8,3 +8,12 @@
   flex-direction: column-reverse;
   gap: 10px;
 }
+
+
+@media (max-width: 500px) {
+  .toasts-column {
+    width: 100%;
+    left: 10px;
+    right: 10px;
+  }
+}

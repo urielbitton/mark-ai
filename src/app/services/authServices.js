@@ -6,7 +6,7 @@ import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword, onAuthStateChanged,
-  signInWithPopup, updateProfile, fetchSignInMethodsForEmail
+  updateProfile, fetchSignInMethodsForEmail, signInWithRedirect, getRedirectResult
 } from "firebase/auth"
 
 export const completeRegistrationService = (user, authMode, res, userName, photoURL, setLoading) => {
@@ -58,26 +58,15 @@ export const plainAuthService = (firstName, lastName, email, password, photoURL,
 
 export const googleAuthService = (photoURL, setMyUser, setLoading, setToasts) => {
   setLoading(true)
-  const provider = new GoogleAuthProvider()
+  const provider = new GoogleAuthProvider() 
   provider.addScope('email')
-  return signInWithPopup(auth, provider)
-    .then((res) => {
-      return fetchSignInMethodsForEmail(auth, res.user.email)
-        .then((signInMethods) => {
-          if (signInMethods.includes(provider.providerId)) {
-            doGetUserByID(res.user.uid)
-              .then((user) => {
-                setMyUser(user)
-                return setLoading(false)
-              })
-              .catch((err) => {
-                console.log(err)
-                return setLoading(false)
-              })
-          }
-          else {
-            return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
-              .then(() => {
+  return signInWithRedirect(auth, provider)
+    .then(() => {
+      return getRedirectResult(auth)
+        .then((res) => {
+          return fetchSignInMethodsForEmail(auth, res.user.email)
+            .then((signInMethods) => {
+              if (signInMethods.includes(provider.providerId)) {
                 doGetUserByID(res.user.uid)
                   .then((user) => {
                     setMyUser(user)
@@ -87,62 +76,79 @@ export const googleAuthService = (photoURL, setMyUser, setLoading, setToasts) =>
                     console.log(err)
                     return setLoading(false)
                   })
-                setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
-              })
-          }
+              }
+              else {
+                return completeRegistrationService(res.user, 'google', res, null, photoURL, setLoading)
+                  .then(() => {
+                    doGetUserByID(res.user.uid)
+                      .then((user) => {
+                        setMyUser(user)
+                        return setLoading(false)
+                      })
+                      .catch((err) => {
+                        console.log(err)
+                        return setLoading(false)
+                      })
+                    setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+                  })
+              }
+            })
         })
-    })
-    .catch((error) => {
-      setLoading(false)
-      console.log(error)
-      if (error.code === 'auth/account-exists-with-different-credential')
-        setToasts(errorToast('You have already signed up with a different provider for that email. Please sign in with that provider.'))
-      if (error.code === 'auth/popup-closed-by-user')
-        setToasts(errorToast('Popup closed by user. Please try again.'))
-      if (error.code === 'auth/popup-blocked')
-        setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
-      else
-        setToasts(errorToast('An errror occurred with the google login. Please try again.'))
-      return 'error'
+        .catch((error) => {
+          setLoading(false)
+          console.log(error)
+          if (error.code === 'auth/account-exists-with-different-credential')
+            setToasts(errorToast('You have already signed up with a different provider for that email. Please sign in with that provider.'))
+          if (error.code === 'auth/popup-closed-by-user')
+            setToasts(errorToast('Popup closed by user. Please try again.'))
+          if (error.code === 'auth/popup-blocked')
+            setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
+          else
+            setToasts(errorToast('An errror occurred with the google login. Please try again.'))
+          return 'error'
+        })
     })
 }
 
 export const facebookAuthService = (photoURL, setLoading, setToasts) => {
   setLoading(true)
   const provider = new FacebookAuthProvider()
-  return signInWithPopup(auth, provider)
-    .then((res) => {
-      console.log(res)
-      // @ts-ignore
-      const credential = res.credential
-      const user = res.user
-      const accessToken = credential.accessToken
-      return fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=name,first_name,last_name,email,picture.width(720).height(720)`)
-        .then(fbRes => fbRes.json())
-        .then(fbRes => {
-          console.log(fbRes)
-          return completeRegistrationService(user, 'facebook', fbRes, null, photoURL, setLoading)
-            .then(() => {
-              setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+  return signInWithRedirect(auth, provider)
+    .then(() => {
+      return getRedirectResult(auth)
+        .then((res) => {
+          console.log(res)
+          // @ts-ignore
+          const credential = res.credential
+          const user = res.user
+          const accessToken = credential.accessToken
+          return fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=name,first_name,last_name,email,picture.width(720).height(720)`)
+            .then(fbRes => fbRes.json())
+            .then(fbRes => {
+              console.log(fbRes)
+              return completeRegistrationService(user, 'facebook', fbRes, null, photoURL, setLoading)
+                .then(() => {
+                  setToasts(successToast('Your account was created successfully. Welcome to MarkAI'))
+                })
+            })
+            .catch(err => {
+              console.log(err)
+              setLoading(false)
             })
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
           setLoading(false)
+          console.log(err)
+          if (err.code === 'auth/account-exists-with-different-credential')
+            setToasts(errorToast('You have already signed up with a different provider. Please sign in with that provider.'))
+          if (err.code === 'auth/popup-blocked')
+            setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
+          if (err.code === 'auth/popup-closed-by-user')
+            setToasts(errorToast('Popup closed by user. Please try again.'))
+          else
+            setToasts(errorToast('An error with facebook has occured. Please try again later.'))
+          return 'error'
         })
-    })
-    .catch((err) => {
-      setLoading(false)
-      console.log(err)
-      if (err.code === 'auth/account-exists-with-different-credential')
-        setToasts(errorToast('You have already signed up with a different provider. Please sign in with that provider.'))
-      if (err.code === 'auth/popup-blocked')
-        setToasts(errorToast('Popup blocked. Please allow popups for this site.'))
-      if (err.code === 'auth/popup-closed-by-user')
-        setToasts(errorToast('Popup closed by user. Please try again.'))
-      else
-        setToasts(errorToast('An error with facebook has occured. Please try again later.'))
-      return 'error'
     })
 }
 

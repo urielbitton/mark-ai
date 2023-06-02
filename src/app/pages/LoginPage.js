@@ -1,10 +1,21 @@
 import Login from "app/auth/Login"
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import logo from 'app/assets/images/logo.png'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { StoreContext } from "app/store/store"
 
 export default function LoginPage() {
-  return (
+
+  const { myUser } = useContext(StoreContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(myUser) {
+      navigate('/')
+    }
+  }, [myUser])
+
+  return myUser !== null ? (
     <div className="auth-page">
       <Link 
         to="/" 
@@ -15,5 +26,6 @@ export default function LoginPage() {
       </Link>
       <Login />
     </div>
-  )
+  ) :
+  null
 }

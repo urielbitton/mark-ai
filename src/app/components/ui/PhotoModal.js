@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import './styles/PhotoModal.css'
 
-export default function PhotoModal({ img, onClose, showModal, slideshow, slideShowIndex }) {
+export default function PhotoModal({ img, onClose, showModal, slideshow=null, slideShowIndex=0 }) {
 
   const [activeImgIndex, setActiveImgIndex] = useState(slideShowIndex)
+
+  const slideLeft = () => {
+    if (activeImgIndex === 0) {
+      return setActiveImgIndex(slideshow.length - 1)
+    }
+    return setActiveImgIndex(prev => prev - 1)
+  }
+
+  const slideRight = () => {
+    if (activeImgIndex === (slideshow.length - 1)) {
+      return setActiveImgIndex(0)
+    }
+    return setActiveImgIndex(prev => prev + 1)
+  }
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose()
     }
     const handleArrowKeys = (e) => {
-      if(!slideshow) return
-      if (e.key === 'ArrowRight') {
-        activeImgIndex === (slideshow.length - 1) ? 
-        setActiveImgIndex(0)
-        : setActiveImgIndex(prev => prev + 1)
-      }
-      if (e.key === 'ArrowLeft') {
-        (activeImgIndex === 0) ? 
-        setActiveImgIndex(slideshow.length - 1)
-        : setActiveImgIndex(prev => prev - 1)
-      }
+      if (!slideshow) return
+      if (e.key === 'ArrowRight')
+        slideRight()
+      if (e.key === 'ArrowLeft')
+        slideLeft()
     }
+
     window.addEventListener('keyup', handleKeyDown)
     window.addEventListener('keyup', handleArrowKeys)
     return () => {
@@ -49,10 +58,26 @@ export default function PhotoModal({ img, onClose, showModal, slideshow, slideSh
       >
         {
           !slideshow ?
-          <img src={img} alt="modal img" /> :
-          <img src={slideshow[activeImgIndex]} alt="slide img" />
+            <img src={img} alt="modal img" /> :
+            <img src={slideshow[activeImgIndex]} alt="slide img" />
         }
       </div>
+      {
+        slideshow &&
+        <div 
+          className="slideshow-controls"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <i
+            className="far fa-chevron-left"
+            onClick={slideLeft}
+          />
+          <i
+            className="far fa-chevron-right"
+            onClick={slideRight}
+          />
+        </div>
+      }
     </div>
   )
 }

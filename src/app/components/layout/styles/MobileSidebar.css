@@ -101,6 +101,20 @@
   right: 0;
 }
 
+.mobile-sidebar .notifications-dropdown {
+  position: fixed;
+  top: var(--navbarHeight);
+  width: 100%;
+}
+
+.mobile-sidebar .mobile-tools .icon-container {
+  width: 35px!important;
+  height: 35px!important;
+}
+.mobile-sidebar .mobile-tools i {
+  font-size: 18px!important;
+}
+
 
 
 @media (max-width: 1080px) {

@@ -17,6 +17,7 @@ export default function ToolSubmission() {
 
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
+  const [coverImg, setCoverImg] = useState(null)
   const toolID = useParams().toolID
   const tool = useToolSubmission(toolID, setLoading)
   const submitter = useUser(tool?.submitterID)
@@ -146,10 +147,13 @@ export default function ToolSubmission() {
           </div>
           <div className="grid-item images cover">
             <h6>Cover Image</h6>
-            <img src={tool.mainImg} />
+            <img 
+              src={tool.mainImg} 
+              onClick={() => setCoverImg(tool.mainImg)}
+            />
           </div>
           <div className="grid-item images">
-            <h6>Additional Images</h6>
+            <h6>Additional Images ({tool.images?.length})</h6>
             <AppScrollSlider gap={10}>
               {additionalImagesList}
             </AppScrollSlider>
@@ -162,6 +166,11 @@ export default function ToolSubmission() {
           buttonType="outlineBtn"
         />
       </div>
+      <PhotoModal
+        img={coverImg}
+        onClose={() => setCoverImg(null)}
+        showModal={coverImg !== null}
+      />
       <PhotoModal
         img={selectedImg}
         onClose={() => setSelectedImg(null)}

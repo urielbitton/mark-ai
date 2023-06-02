@@ -131,6 +131,9 @@
   .prompt-card .left-side .bookmark-icon {
     font-size: 22px;
   }
+  .prompt-card .main-prompt-content {
+    width: 100%;
+  }
   .prompt-card .text-content {
     width: 100%;
     align-items: center;

@@ -43,3 +43,16 @@
   color: var(--darkGrayText);
   font-weight: 500;
 }
+
+
+@media (max-width: 450px) {
+  .prompts-grid .content {
+    grid-template-columns: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 80px 50px;
+  } 
+  .prompts-grid .content .main-prompt-content {
+    width: 100%;
+  }
+}

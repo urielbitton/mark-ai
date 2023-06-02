@@ -42,11 +42,11 @@ export default function RoutesContainer() {
   }, [location])
 
   useEffect(() => {
-    if(!isUserVerified && myUser && !verifyAccountPage) {
-      setToasts(infoToast(`Please verify your account. Check your email for the verification link. `+
-      `If you didn't receive an email, you can request a new one in your account page.`, true))
+    if (!isUserVerified && myUser && !verifyAccountPage) {
+      setToasts(infoToast(`Please verify your account. Check your email for the verification link. ` +
+        `If you didn't receive an email, you can request a new one in your account page.`, true))
     }
-  },[isUserVerified])
+  }, [isUserVerified])
 
   return (
     <div
@@ -78,14 +78,12 @@ export default function RoutesContainer() {
                 <Route path="my-bookmarks/prompts" element={<BookmarkPromptsPage />} />
                 <Route path="notifications" element={<NotificationsPage />} />
               </> :
-              myUser === null ? 
-              <Route path="*" element={<AppLoadingPage />} />
-              :
-              <>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-              </>
+              myUser === null ?
+                <Route path="*" element={<AppLoadingPage />} />
+                : null
           }
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>

@@ -7,6 +7,7 @@ ToDos:
 - request new account verification email feature in my account page
 - add form validation on all inputs and forms, especially new tool creation form.
 - make mobile
+- add delete account request feature in account page
 
 Sites To Add:
 
