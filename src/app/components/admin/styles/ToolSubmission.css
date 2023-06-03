@@ -23,6 +23,10 @@
   gap: 10px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--inputBorder);
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  z-index: 100;
 }
 .tool-submission .tool-submission-card .toolbar h4 {
   font-size: 22px;
@@ -39,6 +43,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 50px 30px;
+  margin-top: 10px;
 }
 .tool-submission .grid-content .grid-item {
   display: flex;

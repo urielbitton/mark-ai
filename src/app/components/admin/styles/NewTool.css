@@ -39,7 +39,7 @@
 
 .new-tool-page .right .ai-card {
   position: sticky;
-  top: 10px;
+  top: 60px;
 }
 .new-tool-page .right h4 {
   color: var(--ternary);

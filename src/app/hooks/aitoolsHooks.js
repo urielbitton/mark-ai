@@ -123,6 +123,7 @@ export const useToolsByTypeAndCategory = (type, category, limit, setLoading) => 
   const [tools, setTools] = useState([])
 
   useEffect(() => {
+    if(!type || !category) return
     getToolsByTypeAndCategory(type, category, limit)
       .then((tools) => {
         setTools(tools)

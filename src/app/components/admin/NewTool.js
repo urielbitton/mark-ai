@@ -29,6 +29,7 @@ export default function NewTool(props) {
   const [type, setType] = useState(toolsTypesData[0].value)
   const [url, setUrl] = useState("")
   const [tags, setTags] = useState('')
+  const [isPaid, setIsPaid] = useState(false)
   const [mainImg, setMainImg] = useState([])
   const [logo, setLogo] = useState([])
   const [images, setImages] = useState([])
@@ -72,6 +73,7 @@ export default function NewTool(props) {
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
+        isPaid,
         mainImg,
         logo,
         images,
@@ -88,6 +90,7 @@ export default function NewTool(props) {
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
+        isPaid,
         mainImg,
         logo,
         images,
@@ -117,6 +120,7 @@ export default function NewTool(props) {
           url,
           tags: tags.split(",").map((tag) => tag.trim()),
           type,
+          isPaid,
         }, 
         editToolID,
         {
@@ -136,6 +140,7 @@ export default function NewTool(props) {
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
+        isPaid,
       },
       editToolID,
       {

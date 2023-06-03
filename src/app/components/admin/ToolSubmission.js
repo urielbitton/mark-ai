@@ -59,6 +59,11 @@ export default function ToolSubmission() {
               leftIcon="fas fa-eye"
             />
             <AppButton
+              label="Check URL"
+              buttonType="outlineBtn"
+              leftIcon="fas fa-check-circle"
+            />
+            <AppButton
               label="Edit"
               onClick={handleEdit}
               buttonType="outlineBtn"
@@ -147,8 +152,8 @@ export default function ToolSubmission() {
           </div>
           <div className="grid-item images cover">
             <h6>Cover Image</h6>
-            <img 
-              src={tool.mainImg} 
+            <img
+              src={tool.mainImg}
               onClick={() => setCoverImg(tool.mainImg)}
             />
           </div>
@@ -159,12 +164,6 @@ export default function ToolSubmission() {
             </AppScrollSlider>
           </div>
         </div>
-      </div>
-      <div className="btn-group">
-        <AppButton
-          label="Check URL"
-          buttonType="outlineBtn"
-        />
       </div>
       <PhotoModal
         img={coverImg}

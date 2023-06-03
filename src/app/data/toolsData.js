@@ -85,6 +85,12 @@ export const toolsCategoriesData = [
     iconColor: 'var(--primary)'
   },
   {
+    label: 'Photo Editing',
+    value: 'photo-editing',
+    icon: 'fas fa-camera-retro',
+    iconColor: 'var(--primary)'
+  },
+  {
     label: 'Social',
     value: 'social',
     icon: 'fas fa-users',

@@ -106,7 +106,7 @@ export default function PromptPage({ previewPrompt = null }) {
         onClick={handleCopyText}
         onHover={(value) => setIconHover(value)}
       />
-      <h4>{prompt.category}</h4>
+      <h4>{prompt.category.replaceAll('-', ' ')}</h4>
       <h5 className="short">{prompt.short}</h5>
       <div
         className="prompt-bubble"

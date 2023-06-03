@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/AIToolPage.css'
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useAITool } from "app/hooks/aitoolsHooks"
+import { useAITool, useToolsByTypeAndCategory } from "app/hooks/aitoolsHooks"
 import AILoader from "app/components/ui/AILoader"
 import { convertClassicDate } from "app/utils/dateUtils"
 import { extractDomainFromURL } from "app/utils/generalUtils"
@@ -22,8 +22,10 @@ import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
 import { useDocsCount, useUserToolsBookmarks } from "app/hooks/userHooks"
 import ItemNotFound from "app/components/ui/ItemNotFound"
 import notFoundImg from "app/assets/images/item-not-found.png"
-import { toolsTypesData } from "app/data/toolsData"
+import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import { formatViewsNumber } from "app/utils/generalUtils"
+import AppScrollSlider from "app/components/ui/AppScrollSlider"
+import AIToolCard from "app/components/aitools/AIToolCard"
 
 export default function AIToolPage({ previewTool = null }) {
 
@@ -34,8 +36,10 @@ export default function AIToolPage({ previewTool = null }) {
   const [showRatingModal, setShowRatingModal] = useState(false)
   const [selectedRating, setSelectedRating] = useState(0)
   const [ratingLoading, setRatingLoading] = useState(false)
+  const [similarsLimit, setSimilarsLimit] = useState(5)
   const toolID = useParams().toolID
   const aitool = useAITool(toolID, setLoading) || previewTool
+  const similarTools = useToolsByTypeAndCategory(aitool?.type, aitool?.category, similarsLimit, setLoading)
   const ratingsCount = useDocsCount(`aitools/${toolID}/ratings`)
   const toolRating = ratingsCount ? (aitool?.rating / ratingsCount) : 0
   const allImages = aitool ? [aitool?.mainImg, ...aitool?.images] : []
@@ -61,6 +65,15 @@ export default function AIToolPage({ previewTool = null }) {
         {index === 0 ? tag : `, ${tag}`}
       </Link>
     </small>
+  })
+
+  const similarToolsList = similarTools
+  ?.filter((tool) => tool?.toolID !== toolID)
+  .map((tool, index) => {
+    return <AIToolCard 
+      key={index}
+      tool={tool}
+    />
   })
 
   const submitRating = () => {
@@ -161,105 +174,122 @@ export default function AIToolPage({ previewTool = null }) {
           style={{ backgroundImage: `url(${aitool.mainImg})` }}
         />
         <div className="tool-content">
-          <div className="row">
-            <div className="row-item">
+          <div className="row header">
+            <div className="row-item left-row">
               <img
                 src={aitool.logo}
                 alt="logo"
                 className="logo"
               />
-              <h1>{aitool.title}</h1>
-              <h5>{aitool.tagline}</h5>
-            </div>
-            <div className="ratings-colors row-item">
-              {
-                !previewTool ?
-                <div className="ratings">
-                  <big>{toolRating.toFixed(1)}</big>
-                  <Ratings rating={toolRating} />
-                  {
-                    myUser &&
-                    <AppButton
-                      label="Rate"
-                      buttonType="lightBtn"
-                      onClick={() => setShowRatingModal(true)}
-                    />
-                  }
-                </div> :
-                <div />
-              }
-              <div className="colors">
+              <div className="texts">
+                <h1>{aitool.title}</h1>
+                <h5>{aitool.tagline}</h5>
                 {
-                  !previewTool &&
-                  <i
-                    className={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
-                    onClick={handleBookmarkTool}
+                  <AppButton
+                    label={isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
+                    leftIcon={`fa${isBookmarked ? 's' : 'r'} fa-bookmark`}
+                    onClick={!previewTool ? handleBookmarkTool : null}
                   />
                 }
-                <div
-                  className="color-item"
-                  style={{ backgroundColor: aitool.color1 }}
-                />
-                <div
-                  className="color-item"
-                  style={{ backgroundColor: aitool.color2 }}
-                />
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="row-item">
-              <h6>Views</h6>
-              <p>{formatViewsNumber(aitool.views)}</p>
-            </div>
-            <div className="row-item">
-              <h6>Description</h6>
-              <p>{aitool.shortDescription}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="row-item">
-              <h6>Category</h6>
-              <p className="cap">{aitool.category}</p>
-            </div>
-            <div className="row-item">
-              <h6>Website URL</h6>
+            <div className="right-row">
               <a
                 href={`https://${extractDomainFromURL(aitool.url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="url-link"
               >
                 <i className="far fa-external-link" />
                 {extractDomainFromURL(aitool.url)}
               </a>
+              <div className="btns">
+                <AppButton
+                  label="Share"
+                  leftIcon="far fa-share-alt"
+                  buttonType="invertedBtn"
+                />
+                {
+                  myUser &&
+                  <AppButton
+                    label="Rate"
+                    onClick={() => setShowRatingModal(true)}
+                    leftIcon="far fa-star"
+                  />
+                }
+              </div>
             </div>
           </div>
-          <div className="row">
-            <div className="row-item">
+          <div className="stats-section section">
+            <div className="stats-item">
+              <h6>{ratingsCount} Ratings</h6>
+              <big>{toolRating.toFixed(1)}</big>
+              <Ratings rating={toolRating} />
+            </div>
+            <div className="stats-item">
+              <h6>Views</h6>
+              <big>{formatViewsNumber(aitool.views)}</big>
+              <small>Page Views</small>
+            </div>
+            <div className="stats-item">
               <h6>Type</h6>
-              <p className="cap">
-                <i className={toolsTypesData.find((type) => type.value === aitool.type).icon} />&nbsp;&nbsp;
-                {aitool.type === 'ai' ? 'AI' : aitool.type}
-              </p>
+              <big>
+                <i className={toolsTypesData.find((type) => type.value === aitool.type).icon} />
+              </big>
+              <small className="cap">{aitool.type === 'ai' ? 'AI' : aitool.type}</small>
             </div>
-            <div className="row-item">
-              <h6>Tags</h6>
-              <p>{tagsList}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="row-item">
-              <h6>{!previewTool ? 'Date Added' : 'Date Submitted'}</h6>
-              <p>{convertClassicDate(!previewTool ? aitool.dateAdded.toDate() : aitool.dateSubmitted.toDate())}</p>
-            </div>
-            <div className="row-item">
-              <h6>Date Created</h6>
-              <p>{convertClassicDate(aitool.dateCreated.toDate())}</p>
+            <div className="stats-item">
+              <h6>Category</h6>
+              <big>
+                <i className={toolsCategoriesData.find((category) => category.value === aitool.category).icon} />
+              </big>
+              <small className="cap">{aitool.category.replaceAll('-', ' ')}</small>
             </div>
           </div>
-          <div className="imgs-flex">
-            <h4>Images</h4>
-            {imgsList}
+          <div className="preview-section section">
+            <h4 className="section-title">Preview</h4>
+            <AppScrollSlider gap={10}>
+              {imgsList}
+            </AppScrollSlider>
+          </div>
+          <div className="description-section section">
+            <h4 className="section-title">Description</h4>
+            <p>{aitool.shortDescription}</p>
+          </div>
+          {
+            aitool.features &&
+            <div className="features-section section">
+              <h4 className="section-title">Features</h4>
+            </div>
+          }
+          <div className="information-section section">
+            <h4 className="section-title">Information</h4>
+            <div className="row">
+              <div className="row-item">
+                <h6>Tags</h6>
+                <p className="tags">{tagsList}</p>
+              </div>
+              <div className="row-item">
+                <h6>Paid</h6>
+                <p>{aitool.isPaid ? 'Yes' : 'No'}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="row-item">
+                <h6>Date Created</h6>
+                <p>{convertClassicDate(aitool.dateCreated.toDate())}</p>
+              </div>
+              <div className="row-item">
+                <h6>{!previewTool ? 'Date Added' : 'Date Submitted'}</h6>
+                <p>{convertClassicDate(!previewTool ? aitool.dateAdded.toDate() : aitool.dateSubmitted.toDate())}</p>
+              </div>
+            </div>
+          </div>
+          <div className="similar-section section">
+            <h4 className="section-title">Similar Tools</h4>
+            <AppScrollSlider gap={15}>
+              {similarToolsList}
+            </AppScrollSlider>
           </div>
         </div>
       </div>
@@ -289,6 +319,7 @@ export default function AIToolPage({ previewTool = null }) {
           label="Submit"
           onClick={submitRating}
           loading={ratingLoading}
+          buttonType="outlineWhiteBtn"
         />
       </div>
       {

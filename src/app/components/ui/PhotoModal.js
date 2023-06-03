@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './styles/PhotoModal.css'
+import { useLocation } from "react-router-dom"
 
 export default function PhotoModal({ img, onClose, showModal, slideshow=null, slideShowIndex=0 }) {
 
   const [activeImgIndex, setActiveImgIndex] = useState(slideShowIndex)
+  const location = useLocation()
 
   const slideLeft = () => {
     if (activeImgIndex === 0) {
@@ -42,6 +44,11 @@ export default function PhotoModal({ img, onClose, showModal, slideshow=null, sl
   useEffect(() => {
     setActiveImgIndex(slideShowIndex)
   }, [slideShowIndex])
+
+  useEffect(() => {
+    setActiveImgIndex(0)
+    onClose()
+  },[location])
 
   return (
     <div

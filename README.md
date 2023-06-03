@@ -1,6 +1,10 @@
 # Mark AI App
 
 ToDos:
+- add share feature to aitool page (share tool on social medias, email, etc.)
+- add features list (e.g. this tool lets you remove backgrounds from images) to tool creation (optional)
+- add "has app" to tool creation (optional) (in dropdown select menu. Options: 'Web App', 'Mobile App', 'No App')
+- add above 2 to aitool page
 - pro dashboard pages
 - admin pages, submissions, users lists and details, table view of tools, prompts, etc.
 - on admin dashboard, when reviewing prompts submissions, add feature to check if prompt has any similar keywowrds (ma already exist or something too similar) by running an algolia search on the prompt text (similar feature as the URL checker in tools submissions)

@@ -91,7 +91,7 @@
   color: rgba(255,255,255,0.6);
 }
 .navbar .search-select .react-select {
-  width: 40px;
+  width: 36px;
 }
 .navbar .search-select .react-select i {
   color: #fff;
@@ -100,6 +100,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
 }
 
 .navbar .topbar .right {
