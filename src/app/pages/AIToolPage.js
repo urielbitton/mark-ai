@@ -215,6 +215,7 @@ export default function AIToolPage({ previewTool = null }) {
                     label="Rate"
                     onClick={() => setShowRatingModal(true)}
                     leftIcon="far fa-star"
+                    buttonType="invertedBtn"
                   />
                 }
               </div>
@@ -224,7 +225,9 @@ export default function AIToolPage({ previewTool = null }) {
             <div className="stats-item">
               <h6>{ratingsCount} Ratings</h6>
               <big>{toolRating.toFixed(1)}</big>
-              <Ratings rating={toolRating} />
+              <div onClick={() => setShowRatingModal(true)}>
+                <Ratings rating={toolRating} />
+              </div>
             </div>
             <div className="stats-item">
               <h6>Views</h6>
@@ -307,7 +310,7 @@ export default function AIToolPage({ previewTool = null }) {
         />
         <div className="big-star">
           <i className="fas fa-star" />
-          <big>{selectedRating}</big>
+          <big>{selectedRating?.toFixed(1)}</big>
         </div>
         <h4>Rate {aitool.title}</h4>
         <StarRate

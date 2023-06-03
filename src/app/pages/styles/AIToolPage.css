@@ -40,7 +40,7 @@
   align-items: flex-start;
   flex-direction: row;
   justify-content: space-between;
-  gap: 20px;
+  gap: 40px 20px;
   flex-wrap: wrap;
   margin-bottom: 30px;
   width: 100%;
@@ -127,11 +127,9 @@
 
 .aitool-page .tool-container .stats-section {
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px 20px;
   margin-top: 40px;
   border-top: 1px solid var(--inputBorder);
 }
@@ -182,6 +180,7 @@
   line-height: 1.5;
   font-weight: 600;
   width: 600px;
+  max-width: 100%;
 }
 
 .aitool-page .tool-container .information-section {
@@ -329,4 +328,33 @@
 .tool-preview-page h3 {
   color: var(--ternary);
   font-size: 20px; 
+}
+
+
+
+@media (max-width: 700px) {
+  .aitool-page .tool-container .tool-content .row.header {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .aitool-page .tool-container .tool-content .row.header .left-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .aitool-page .tool-container .tool-content .row.header .left-row .texts {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .aitool-page .tool-container h4.section-title {
+    text-align: center;
+  }
+  .aitool-page .tool-container .description-section p {
+    text-align: center;
+  }
+  .aitool-page .tool-container .information-section .row {
+    display: flex;
+    flex-direction: column;
+  }
 }
