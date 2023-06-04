@@ -3,7 +3,7 @@ import './styles/NewTool.css'
 import {
   AppInput, AppReactSelect, AppTextarea
 } from "../ui/AppInputs"
-import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
+import { toolsCategoriesData, toolsHasAppOptions, toolsTypesData } from "app/data/toolsData"
 import FileUploader from "../ui/FileUploader"
 import AppButton from "../ui/AppButton"
 import { addNewToolService, checkIfURLExists, updateAIToolService } from "app/services/aitoolsServices"
@@ -14,22 +14,25 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { useAITool } from "app/hooks/aitoolsHooks"
 import { noWhiteSpaceChars, validateURL } from "app/utils/generalUtils"
 import { errorToast, infoToast, successToast } from "app/data/toastsTemplates"
+import { toolsIsPaidOptions } from "app/data/toolsData"
+import IconContainer from "../ui/IconContainer"
 
 export default function NewTool(props) {
 
   const { setToasts, photoPlaceholder, isAdmin } = useContext(StoreContext)
-  const { proUser, handleProSubmit, handleProUpdate, 
+  const { proUser, handleProSubmit, handleProUpdate,
     proLoading, proTool } = props
   const [title, setTitle] = useState("")
   const [tagline, setTagline] = useState("")
   const [shortDescription, setShortDescription] = useState("")
   const [category, setCategory] = useState(toolsCategoriesData[2].value)
-  const [color1, setColor1] = useState("#865DFF")
-  const [color2, setColor2] = useState("#E384FF")
   const [type, setType] = useState(toolsTypesData[0].value)
   const [url, setUrl] = useState("")
   const [tags, setTags] = useState('')
-  const [isPaid, setIsPaid] = useState(false)
+  const [isPaid, setIsPaid] = useState(toolsIsPaidOptions[0].value)
+  const [hasApp, setHasApp] = useState(toolsHasAppOptions[0].value)
+  const [features, setFeatures] = useState([])
+  const [featureText, setFeatureText] = useState("")
   const [mainImg, setMainImg] = useState([])
   const [logo, setLogo] = useState([])
   const [images, setImages] = useState([])
@@ -68,12 +71,12 @@ export default function NewTool(props) {
         tagline,
         shortDescription,
         category,
-        color1,
-        color2,
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
         isPaid,
+        hasApp,
+        features,
         mainImg,
         logo,
         images,
@@ -85,12 +88,12 @@ export default function NewTool(props) {
         tagline,
         shortDescription,
         category,
-        color1,
-        color2,
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
         isPaid,
+        hasApp,
+        features,
         mainImg,
         logo,
         images,
@@ -115,17 +118,17 @@ export default function NewTool(props) {
           tagline,
           shortDescription,
           category,
-          color1, 
-          color2,
           url,
           tags: tags.split(",").map((tag) => tag.trim()),
           type,
           isPaid,
-        }, 
+          hasApp,
+          features,
+        },
         editToolID,
         {
-          mainImg, 
-          logo, 
+          mainImg,
+          logo,
           images
         })
     }
@@ -135,12 +138,12 @@ export default function NewTool(props) {
         tagline,
         shortDescription,
         category,
-        color1,
-        color2,
         url,
         tags: tags.split(",").map((tag) => tag.trim()),
         type,
         isPaid,
+        hasApp,
+        features,
       },
       editToolID,
       {
@@ -177,17 +180,41 @@ export default function NewTool(props) {
       })
   }
 
+  const handleAddFeature = () => {
+    if (noWhiteSpaceChars(featureText) > 0) {
+      setFeatures([...features, featureText])
+      setFeatureText("")
+    }
+  }
+
+  const featuresList = features?.map((feature, index) => {
+    return <div 
+      className="feature-item"
+      key={index}
+    >
+      <h6>{feature}</h6>
+      <IconContainer
+        icon="fal fa-times"
+        onClick={() => setFeatures(features.filter((_, i) => i !== index))}
+        iconSize={18}
+        dimensions={25}
+        iconColor="var(--ternary)"
+      />
+    </div>
+  })
+
   useEffect(() => {
     if (editTool && editMode) {
       setTitle(editTool.title)
       setTagline(editTool.tagline)
       setShortDescription(editTool.shortDescription)
       setCategory(editTool.category)
-      setColor1(editTool.color1)
-      setColor2(editTool.color2)
       setUrl(editTool.url)
       setTags(editTool.tags.join(", "))
       setType(editTool.type)
+      setIsPaid(editTool.isPaid)
+      setHasApp(editTool.hasApp)
+      setFeatures(editTool.features)
       setMainImg([{ src: editTool.mainImg }])
       setLogo([{ src: editTool.logo }])
       setImages(editTool.images.map((img) => ({ src: img })))
@@ -230,6 +257,27 @@ export default function NewTool(props) {
             value={shortDescription}
             onChange={(e) => setShortDescription(e.target.value)}
           />
+          <div className="add-features-section">
+            <h6>Features</h6>
+            <div className="feature-adder">
+              <input
+                placeholder="Enter a feature description"
+                value={featureText}
+                onChange={(e) => setFeatureText(e.target.value)}
+                onKeyUp={(e) => e.key === "Enter" && handleAddFeature()}
+              />
+              <AppButton
+                iconBtn
+                rightIcon="far fa-plus"
+                onClick={handleAddFeature}
+                buttonType="outlineBtn"
+                disabled={noWhiteSpaceChars(featureText) < 1}
+              />  
+            </div>
+            <div className="features-list">
+              {featuresList}
+            </div>
+          </div>
           <AppReactSelect
             label="Category"
             value={category}
@@ -243,44 +291,38 @@ export default function NewTool(props) {
               </div>
             }
           />
-          <div className="split-row">
-            <div className="split-row">
-              <AppInput
-                label="Color 1"
-                placeholder="Enter a color"
-                value={color1}
-                onChange={(e) => setColor1(e.target.value)}
-                type="color"
-              />
-              <AppInput
-                label="Hex Code"
-                placeholder="Enter hex code"
-                value={color1}
-                onChange={(e) => setColor1(e.target.value)}
-              />
-            </div>
-            <div className="split-row">
-              <AppInput
-                label="Color 2"
-                placeholder="Enter a color"
-                value={color2}
-                onChange={(e) => setColor2(e.target.value)}
-                type="color"
-              />
-              <AppInput
-                label="Hex Code"
-                placeholder="Enter hex code"
-                value={color2}
-                onChange={(e) => setColor2(e.target.value)}
-              />
-            </div>
-          </div>
           <AppInput
             label="Tags"
             placeholder="Enter tags separated by commas"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
           />
+          <div className="split-row">
+            <AppReactSelect
+              label="Has App"
+              value={hasApp}
+              onChange={(val) => setHasApp(val.value)}
+              options={toolsHasAppOptions}
+              placeholder={
+                <div className="input-placeholder">
+                  <i className={toolsHasAppOptions.find((has) => has.value === hasApp)?.icon} />
+                  <h5 className="cap">{toolsHasAppOptions.find((has) => has.value === hasApp)?.label}</h5>
+                </div>
+              }
+            />
+            <AppReactSelect
+            label="Tool Type"
+            value={isPaid}
+            onChange={(val) => setIsPaid(val.value)}
+            options={toolsIsPaidOptions.slice(0, 2)}
+            placeholder={
+              <div className="input-placeholder">
+                <i className={toolsIsPaidOptions.find((paid) => paid.value === isPaid)?.icon} />
+                <h5 className="cap">{toolsIsPaidOptions.find((paid) => paid.value === isPaid)?.label}</h5>
+              </div>
+            }
+          />
+          </div>
           <AppReactSelect
             label="Tool Type"
             value={type}

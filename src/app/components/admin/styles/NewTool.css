@@ -54,6 +54,64 @@
   box-shadow: none;
 }
 
+.new-tool-page .add-features-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.new-tool-page .add-features-section > h6 {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--ternary);
+  cursor: auto;
+  color: var(--darkGrayText);
+}
+.new-tool-page .add-features-section .feature-adder {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.new-tool-page .add-features-section .feature-adder input {
+  width: calc(100% - 40px);
+}
+.new-tool-page .add-features-section .feature-adder .appButton {
+  border-radius: 7px;
+}
+.new-tool-page .add-features-section .features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.new-tool-page .add-features-section .feature-item {
+  padding: 10px;
+  border-radius: 7px;
+  background: var(--grayBg);
+}
+.new-tool-page .add-features-section .feature-item h6 {
+  font-size: 13px;
+  color: var(--grayText);
+  font-weight: 600;
+}
+.new-tool-page .add-features-section .feature-item .icon-container {
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.new-tool-page .add-features-section .feature-item .icon-container:hover {
+  background: var(--darkGrayBg);
+}
+.new-tool-page .add-features-section .feature-item:hover .icon-container {
+  opacity: 1;
+  visibility: visible;
+}
+
+
 .new-tool-page .btn-group {
   margin-top: 30px;
   grid-column: 1/-1;

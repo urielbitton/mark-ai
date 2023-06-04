@@ -2,7 +2,6 @@
 
 ToDos:
 - add features list (e.g. this tool lets you remove backgrounds from images) to tool creation (optional)
-- add "has app" to tool creation (optional) (in dropdown select menu. Options: 'Web App', 'Mobile App', 'No App')
 - add above 2 to aitool page
 - pro dashboard pages
 - admin pages, submissions, users lists and details, table view of tools, prompts, etc.

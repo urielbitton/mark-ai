@@ -180,3 +180,39 @@ export const toolsStatusSwitchData = [
     icon: 'fas fa-times-circle'
   }
 ]
+
+export const toolsHasAppOptions = [
+  {
+    label: 'No App',
+    value: 'none',
+    icon: 'far fa-window-close'
+  },
+  {
+    label: 'Mobile App',
+    value: 'mobile',
+    icon: 'far fa-mobile'
+  },
+  {
+    label: 'Web App',
+    value: 'web',
+    icon: 'fas fa-browser'
+  },
+]
+
+export const toolsIsPaidOptions = [
+  {
+    label: 'Free',
+    value: 'free',
+    icon: 'fas fa-gift'
+  },
+  {
+    label: 'Paid',
+    value: 'paid',
+    icon: 'fas fa-dollar-sign'
+  },
+  {
+    label: 'Free Trial',
+    value: 'trial',
+    icon: 'fas fa-hourglass-half'
+  },
+]
