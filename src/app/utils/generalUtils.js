@@ -106,7 +106,7 @@ export const scrapeTitleFromLink = (fetchedLink) => {
 
 //keep only the domain from a link (google.com)
 export const extractDomainFromURL = (url) => {
-  return url.replace(/(https?:\/\/)?(www\.)?([^\/]*)(.*)/g, '$3')
+  return url?.replace(/(https?:\/\/)?(www\.)?([^\/]*)(.*)/g, '$3')
 }
 
 export const scrapeImgFromLink = (fetchedLink, link) => {

@@ -1,7 +1,6 @@
 # Mark AI App
 
 ToDos:
-- add share feature to aitool page (share tool on social medias, email, etc.)
 - add features list (e.g. this tool lets you remove backgrounds from images) to tool creation (optional)
 - add "has app" to tool creation (optional) (in dropdown select menu. Options: 'Web App', 'Mobile App', 'No App')
 - add above 2 to aitool page

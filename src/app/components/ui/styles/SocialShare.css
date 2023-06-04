@@ -1,0 +1,30 @@
+.social-share-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.social-share-container h4 {
+  font-size: 20px;
+  color: var(--ternary);
+  font-weight: 600;
+}
+.social-share-container .share-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.social-share-container .share-flex button {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.social-share-container .share-flex button:hover {
+  filter: brightness(1.1);
+}
+.social-share-container .share-flex button i {
+  font-size: 20px;
+  color: #fff;
+}

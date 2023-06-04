@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useAITool, useToolsByTypeAndCategory } from "app/hooks/aitoolsHooks"
 import AILoader from "app/components/ui/AILoader"
 import { convertClassicDate } from "app/utils/dateUtils"
-import { extractDomainFromURL } from "app/utils/generalUtils"
+import { copyToClipboard, extractDomainFromURL } from "app/utils/generalUtils"
 import PhotoModal from "app/components/ui/PhotoModal"
 import Ratings from "app/components/ui/Ratings"
 import { StoreContext } from "app/store/store"
@@ -26,6 +26,8 @@ import { toolsCategoriesData, toolsTypesData } from "app/data/toolsData"
 import { formatViewsNumber } from "app/utils/generalUtils"
 import AppScrollSlider from "app/components/ui/AppScrollSlider"
 import AIToolCard from "app/components/aitools/AIToolCard"
+import AppModal from "app/components/ui/AppModal"
+import SocialShare from "app/components/ui/SocialShare"
 
 export default function AIToolPage({ previewTool = null }) {
 
@@ -37,6 +39,7 @@ export default function AIToolPage({ previewTool = null }) {
   const [selectedRating, setSelectedRating] = useState(0)
   const [ratingLoading, setRatingLoading] = useState(false)
   const [similarsLimit, setSimilarsLimit] = useState(5)
+  const [showShareModal, setShowShareModal] = useState(false)
   const toolID = useParams().toolID
   const aitool = useAITool(toolID, setLoading) || previewTool
   const similarTools = useToolsByTypeAndCategory(aitool?.type, aitool?.category, similarsLimit, setLoading)
@@ -46,6 +49,7 @@ export default function AIToolPage({ previewTool = null }) {
   const navigate = useNavigate()
   const userBookmarks = useUserToolsBookmarks(myUserID)
   const isBookmarked = userBookmarks.includes(toolID)
+  const constructedURL = `https://${extractDomainFromURL(aitool?.url)}`
 
   const imgsList = allImages?.map((img, index) => {
     return <img
@@ -68,13 +72,13 @@ export default function AIToolPage({ previewTool = null }) {
   })
 
   const similarToolsList = similarTools
-  ?.filter((tool) => tool?.toolID !== toolID)
-  .map((tool, index) => {
-    return <AIToolCard 
-      key={index}
-      tool={tool}
-    />
-  })
+    ?.filter((tool) => tool?.toolID !== toolID)
+    .map((tool, index) => {
+      return <AIToolCard
+        key={index}
+        tool={tool}
+      />
+    })
 
   const submitRating = () => {
     if (previewTool) return setToasts(errorToast("You can't rate a non approved tool."))
@@ -195,7 +199,7 @@ export default function AIToolPage({ previewTool = null }) {
             </div>
             <div className="right-row">
               <a
-                href={`https://${extractDomainFromURL(aitool.url)}`}
+                href={constructedURL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="url-link"
@@ -208,6 +212,7 @@ export default function AIToolPage({ previewTool = null }) {
                   label="Share"
                   leftIcon="far fa-share-alt"
                   buttonType="invertedBtn"
+                  onClick={() => setShowShareModal(true)}
                 />
                 {
                   myUser &&
@@ -296,6 +301,20 @@ export default function AIToolPage({ previewTool = null }) {
           </div>
         </div>
       </div>
+      {
+        isAdmin &&
+        <div className="btn-group">
+          <AppButton
+            label="Edit Tool"
+            onClick={handleEditTool}
+          />
+          <AppButton
+            label="Delete Tool"
+            buttonType="outlineRedBtn"
+            onClick={handleDeleteTool}
+          />
+        </div>
+      }
       <PhotoModal
         img={selectedImg}
         onClose={() => setSelectedImg(null)}
@@ -325,20 +344,28 @@ export default function AIToolPage({ previewTool = null }) {
           buttonType="outlineWhiteBtn"
         />
       </div>
-      {
-        isAdmin &&
-        <div className="btn-group">
-          <AppButton
-            label="Edit Tool"
-            onClick={handleEditTool}
+      <AppModal
+        showModal={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        label={`Share ${aitool.title}`}
+        actions={<>
+          <AppButton  
+            label="Done"
+            onClick={() => setShowShareModal(false)}
           />
           <AppButton
-            label="Delete Tool"
-            buttonType="outlineRedBtn"
-            onClick={handleDeleteTool}
+            label="Copy Link"
+            onClick={copyToClipboard(constructedURL)}
+            buttonType="outlineBtn"
           />
-        </div>
-      }
+          </>
+        }
+      >
+        <SocialShare 
+          title="Share On:"
+          url={constructedURL} 
+        />
+      </AppModal>
     </div>
   ) :
     loading ?
