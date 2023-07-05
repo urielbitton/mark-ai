@@ -164,7 +164,7 @@ export default function NewTool(props) {
   const handleCheckURL = () => {
     if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
     setCheckLoading(true)
-    checkIfURLExists(url)
+    checkIfURLExists(url, editToolID)
       .then((exists) => {
         if (exists) {
           setToasts(infoToast(`The url - ${url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
@@ -174,9 +174,10 @@ export default function NewTool(props) {
         }
         setCheckLoading(false)
       })
-      .catch(() => {
+      .catch((err) => {
         setToasts(infoToast("There was an error checking the URL. Please try again."))
         setCheckLoading(false)
+        console.log(err)
       })
   }
 

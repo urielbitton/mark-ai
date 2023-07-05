@@ -203,6 +203,9 @@
   color: var(--grayText);
   font-weight: 600;
 }
+.aitool-page .tool-container .information-section .row-item h6 i {
+  margin-right: 7px;
+}
 .aitool-page .tool-container .information-section .row-item p {
   font-size: 15px;
   font-weight: 600;
@@ -218,6 +221,16 @@
 
 .aitool-page .tool-container .similar-section {
   border-bottom: none;
+}
+
+.aitool-page .features-section ul {
+  list-style-type: none;
+  padding-left: 20px;
+  line-height: 1.8;
+}
+.aitool-page .features-section ul li::before {
+  content: "-";
+  margin-right: 5px;
 }
 
 .aitool-page .ratings-modal {

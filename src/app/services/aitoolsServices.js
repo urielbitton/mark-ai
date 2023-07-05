@@ -231,12 +231,13 @@ const catchBlock = (err, setLoading, setToasts) => {
   return 'error'
 }
 
-export const checkIfURLExists = (url) => {
+export const checkIfURLExists = (url, toolID) => {
   const cleanedURL = extractDomainFromURL(url)
   const toolsRef = collection(db, 'aitools')
   const q = query(
     toolsRef,
-    where('cleanedURL', '==', cleanedURL)
+    where('cleanedURL', '==', cleanedURL),
+    toolID && where('toolID', '!=', toolID)
   )
   return getDocs(q)
     .then((snapshot) => {
@@ -246,7 +247,7 @@ export const checkIfURLExists = (url) => {
 
 export const addNewToolService = async (tool, setLoading, setToasts) => {
   setLoading(true)
-  const urlExists = await checkIfURLExists(tool.url)
+  const urlExists = await checkIfURLExists(tool.url, null)
   if (urlExists) {
     setLoading(false)
     setToasts(errorToast(`The url - ${tool.url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
@@ -293,7 +294,7 @@ export const addNewToolService = async (tool, setLoading, setToasts) => {
 
 export const updateAIToolService = async (tool, toolID, images, setLoading, setToasts) => {
   setLoading(true)
-  const urlExists = await checkIfURLExists(tool.url)
+  const urlExists = await checkIfURLExists(tool.url, toolID)
   if (urlExists) {
     setLoading(false)
     setToasts(errorToast(`The url - ${tool.url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))

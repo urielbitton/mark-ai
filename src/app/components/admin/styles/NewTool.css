@@ -85,7 +85,7 @@
 .new-tool-page .add-features-section .feature-item {
   padding: 10px;
   border-radius: 7px;
-  background: var(--grayBg);
+  background: var(--inputBg);
 }
 .new-tool-page .add-features-section .feature-item h6 {
   font-size: 13px;

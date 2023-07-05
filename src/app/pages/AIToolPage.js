@@ -72,13 +72,17 @@ export default function AIToolPage({ previewTool = null }) {
   })
 
   const similarToolsList = similarTools
-    ?.filter((tool) => tool?.toolID !== toolID)
-    .map((tool, index) => {
-      return <AIToolCard
-        key={index}
-        tool={tool}
-      />
-    })
+  ?.filter((tool) => tool?.toolID !== toolID)
+  .map((tool, index) => {
+    return <AIToolCard
+      key={index}
+      tool={tool}
+    />
+  })
+
+  const featuresList = aitool?.features?.map((feature, index) => {
+    return <li key={index}>{feature}</li>
+  })
 
   const submitRating = () => {
     if (previewTool) return setToasts(errorToast("You can't rate a non approved tool."))
@@ -268,27 +272,36 @@ export default function AIToolPage({ previewTool = null }) {
             aitool.features &&
             <div className="features-section section">
               <h4 className="section-title">Features</h4>
+              <ul>
+                {featuresList}
+              </ul>
             </div>
           }
           <div className="information-section section">
             <h4 className="section-title">Information</h4>
             <div className="row">
               <div className="row-item">
-                <h6>Tags</h6>
+                <h6><i className="fas fa-hashtag"/>Tags</h6>
                 <p className="tags">{tagsList}</p>
               </div>
               <div className="row-item">
-                <h6>Paid</h6>
+                <h6><i className="fas fa-dollar-sign"/>Paid</h6>
                 <p>{aitool.isPaid ? 'Yes' : 'No'}</p>
               </div>
             </div>
             <div className="row">
               <div className="row-item">
-                <h6>Date Created</h6>
+                <h6><i className="fas fa-mobile"/>Has App</h6>
+                <p>{aitool.hasApp ? 'Yes' : 'No'}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="row-item">
+                <h6><i className="fas fa-calendar-alt"/>Date Created</h6>
                 <p>{convertClassicDate(aitool.dateCreated.toDate())}</p>
               </div>
               <div className="row-item">
-                <h6>{!previewTool ? 'Date Added' : 'Date Submitted'}</h6>
+                <h6><i className="fas fa-calendar-alt"/>{!previewTool ? 'Date Added' : 'Date Submitted'}</h6>
                 <p>{convertClassicDate(!previewTool ? aitool.dateAdded.toDate() : aitool.dateSubmitted.toDate())}</p>
               </div>
             </div>
