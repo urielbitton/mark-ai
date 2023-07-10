@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/ToolSubmission.css'
 import AppButton from "../ui/AppButton"
 import { Link, useParams } from "react-router-dom"
@@ -12,15 +12,25 @@ import useUser from "app/hooks/userHooks"
 import Avatar from "../ui/Avatar"
 import AppScrollSlider from "../ui/AppScrollSlider"
 import PhotoModal from "../ui/PhotoModal"
+import { adminApproveToolSubmissionService, 
+  adminDeleteToolSubmissionService, 
+  adminRejectToolSubmissionService, 
+  checkIfURLExists } from "app/services/aitoolsServices"
+import { infoToast, successToast } from "app/data/toastsTemplates"
+import { useContext } from "react"
+import { StoreContext } from "app/store/store"
 
 export default function ToolSubmission() {
 
+  const { setToasts, setPageLoading } = useContext(StoreContext)
   const [loading, setLoading] = useState(true)
   const [selectedImg, setSelectedImg] = useState(null)
   const [coverImg, setCoverImg] = useState(null)
   const toolID = useParams().toolID
   const tool = useToolSubmission(toolID, setLoading)
   const submitter = useUser(tool?.submitterID)
+  const [reviewMode, setReviewMode] = useState(true)
+  const isRejected = tool?.status === 'rejected'
 
   const additionalImagesList = tool?.images?.map((img, index) => {
     return <img
@@ -30,12 +40,27 @@ export default function ToolSubmission() {
     />
   })
 
-  const handleApprove = () => {
+  const handleCheckURL = async () => {
+    const result = await checkIfURLExists(tool.url, toolID)
+    if (result) {
+      return setToasts(infoToast("URL already exists in the database."))
+    }
+    return setToasts(successToast("URL does not exist in the database yet."))
+  }
 
+  const handleApprove = () => {
+    const confirm = window.confirm("Are you sure you want to approve this tool? This will notify the submitter.")
+    if (!confirm) return
+    adminApproveToolSubmissionService(tool, setPageLoading, setToasts)
+      .then(() => setReviewMode(false))
   }
 
   const handleReject = () => {
-
+    if (isRejected) return
+    const confirm = window.confirm("Are you sure you want to reject this tool? This will notify the submitter.")
+    if (!confirm) return
+    adminRejectToolSubmissionService(tool, setPageLoading, setToasts)
+      .then(() => window.location.reload())
   }
 
   const handleEdit = () => {
@@ -43,51 +68,66 @@ export default function ToolSubmission() {
   }
 
   const handleDelete = () => {
-
+    const confirm = window.confirm("Are you sure you want to delete this tool?")
+    if (!confirm) return
+    adminDeleteToolSubmissionService(toolID, setPageLoading, setToasts)
   }
+
+  useEffect(() => {
+    if (tool?.status === 'approved') {
+      setReviewMode(false)
+    }
+  }, [tool])
 
   return tool && !loading ? (
     <div className="tool-submission">
       <div className="tool-submission-card">
         <div className="toolbar">
           <h4>{tool.title}</h4>
-          <div className="actions">
-            <AppButton
-              label="Preview"
-              url=""
-              buttonType="outlineBtn"
-              leftIcon="fas fa-eye"
-            />
-            <AppButton
-              label="Check URL"
-              buttonType="outlineBtn"
-              leftIcon="fas fa-check-circle"
-            />
-            <AppButton
-              label="Edit"
-              onClick={handleEdit}
-              buttonType="outlineBtn"
-              leftIcon="fas fa-pen"
-            />
-            <AppButton
-              label="Delete"
-              onClick={handleDelete}
-              buttonType="outlineBtn"
-              leftIcon="fas fa-trash"
-            />
-            <AppButton
-              label="Approve"
-              onClick={handleApprove}
-              buttonType="outlineBtn"
-              leftIcon="far fa-check"
-            />
-            <AppButton
-              label="Reject"
-              onClick={handleReject}
-              buttonType="outlineBtn"
-              leftIcon="fal fa-times"
-            />
-          </div>
+          {
+            reviewMode ? (
+              <div className="actions">
+                {
+                  isRejected &&
+                  <h3 className="rejected-title">Tool Rejected</h3>
+                }
+                <AppButton
+                  label="Check URL"
+                  onClick={handleCheckURL}
+                  buttonType="outlineBtn"
+                  leftIcon="fas fa-check-circle"
+                />
+                <AppButton
+                  label="Edit"
+                  onClick={handleEdit}
+                  buttonType="outlineBtn"
+                  leftIcon="fas fa-pen"
+                />
+                <AppButton
+                  label="Delete"
+                  onClick={handleDelete}
+                  buttonType="outlineBtn"
+                  leftIcon="fas fa-trash"
+                />
+                <AppButton
+                  label="Approve"
+                  onClick={handleApprove}
+                  buttonType="outlineBtn"
+                  leftIcon="fas fa-check"
+                />
+                {
+                  !isRejected &&
+                  <AppButton
+                    label="Reject"
+                    onClick={handleReject}
+                    buttonType="outlineBtn"
+                    leftIcon="fas fa-times"
+                  />
+                }
+              </div>
+            ) :
+              <h3 className="approved-title">Tool Approved</h3>
+          }
         </div>
         <div className="grid-content">
           <div className="grid-item logo">

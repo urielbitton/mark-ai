@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SubmissionsPages from "./SubmissionsPages"
 import {
   useToolsSubmissionsByStatus,
@@ -10,22 +10,24 @@ import AppTableRow from "../ui/AppTableRow"
 import { convertClassicDate } from "app/utils/dateUtils"
 import AILoader from "../ui/AILoader"
 import { beautifyUrl, truncateText } from "app/utils/generalUtils"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import useUser from "app/hooks/userHooks"
 import { AppInput, AppReactSelect } from "../ui/AppInputs"
 import AppButton from "../ui/AppButton"
 import TabSwitcher from "../ui/TabSwitcher"
 import { toolsStatusSwitchData } from "app/data/toolsData"
 import AppBadge from "../ui/AppBadge"
-import IconContainer from "../ui/IconContainer"
+import { adminApproveToolSubmissionService, adminRejectToolSubmissionService } from "app/services/aitoolsServices"
+import { StoreContext } from "app/store/store"
 
 export default function ToolsSubmissions() {
 
-  const limitsNum = 20
+  const limitsNum = 10
   const [limit, setLimit] = useState(limitsNum)
   const [loading, setLoading] = useState(false)
   const [searchString, setSearchString] = useState('')
   const [activeStatus, setActiveStatus] = useState({ status: toolsStatusSwitchData[0].value, index: 0 })
+  const [searchParams, setSearchParams] = useSearchParams()
   const submissions = useToolsSubmissionsByStatus(activeStatus.status, limit, setLoading)
   const submissionsCount = useToolsSubmissionsCountByStatus(activeStatus.status)
   const navigate = useNavigate()
@@ -40,6 +42,15 @@ export default function ToolsSubmissions() {
   const handleSearch = () => {
     navigate(`/admin/submissions/search?q=${searchString}&type=tools`)
   }
+
+  useEffect(() => {
+    if(searchParams.get('status') === 'approved') 
+      setActiveStatus({ status: 'approved', index: 1 })
+    else if (searchParams.get('status') === 'rejected') 
+      setActiveStatus({ status: 'rejected', index: 2 })
+    else 
+      setActiveStatus({ status: 'in-review', index: 0 })
+  }, [searchParams])
 
   return (
     <SubmissionsPages
@@ -64,7 +75,10 @@ export default function ToolsSubmissions() {
         <TabSwitcher
           tabs={toolsStatusSwitchData}
           activeTab={activeStatus}
-          onTabClick={(status, index) => setActiveStatus({ status: status.value, index })}
+          onTabClick={(status, index) => {
+            setActiveStatus({ status: status.value, index })
+            setSearchParams({ status: status.value })
+          }}
           showIcons
           width={105}
         />
@@ -96,7 +110,7 @@ export default function ToolsSubmissions() {
               { label: 'Status' },
               { label: 'Actions' }
             ]}
-            rows={submissionsList}
+            rows={submissionsCount > 0 ? submissionsList : <h5 className="no-tools-text">No tools found.</h5>}
           /> :
           <AILoader />
       }
@@ -114,8 +128,26 @@ export default function ToolsSubmissions() {
 
 export const SubmissionRow = ({ submission }) => {
 
+  const { setPageLoading, setToasts } = useContext(StoreContext)
   const submitter = useUser(submission?.submitterID)
-  const navigate = useNavigate()
+
+  const handleApprove = () => {
+    const confirm = window.confirm("Are you sure you want to approve this tool? This will notify the submitter.")
+    if (!confirm) return
+    adminApproveToolSubmissionService(submission, setPageLoading, setToasts)
+      .then(() => {
+        window.location.reload()
+      })
+  }
+
+  const handleReject = () => {
+    const confirm = window.confirm("Are you sure you want to reject this tool? This will notify the submitter.")
+    if (!confirm) return
+    adminRejectToolSubmissionService(submission, setPageLoading, setToasts)
+      .then(() => {
+        window.location.reload()
+      })
+  }
 
   return submission ? (
     <AppTableRow
@@ -127,31 +159,39 @@ export const SubmissionRow = ({ submission }) => {
         </h6>,
         <h6>
           <a href={`https://${beautifyUrl(submission.url)}`} rel="noreferrer" target="_blank">
-          {truncateText(beautifyUrl(submission.url), 25)}
+            {truncateText(beautifyUrl(submission.url), 25)}
           </a>
         </h6>,
         <h6 className="small cap">{submission.type === 'ai' ? <i className="fas fa-robot" /> : <i className="fas fa-flask" />}</h6>,
         <h6 className="cap">{submission.category}</h6>,
         <h6 className="internal-link"><Link to={`/admin/users/${submitter?.userID}`}>{submitter?.firstName} {submitter?.lastName}</Link></h6>,
         <h6>{convertClassicDate(submission.dateSubmitted.toDate())}</h6>,
-        <h6 className="cap"><AppBadge label={submission.status.replace('-', ' ')} /></h6>,
+        <h6 className="cap">
+          <AppBadge
+            label={submission.status.replace('-', ' ')}
+            bgColor={submission.status === 'rejected' && 'var(--lightRed)'}
+            color={submission.status === 'rejected' && 'var(--red)'}
+          />
+        </h6>,
         <div className="actions-row row-item">
-          <IconContainer
-            icon="fas fa-eye"
-            iconColor="var(--primary)"
-            iconSize={14}
-            dimensions={25}
-            onClick={() => navigate(`/admin/tool-preview/${submission.toolID}`)}
-            title="Preview Tool"
-          />
-          <AppButton
-            label="Approve"
-            buttonType="invertedBtn"
-          />
-          <AppButton
-            label="Reject"
-            buttonType="invertedBtn"
-          />
+          {
+            submission.status !== 'approved' &&
+            <>
+              <AppButton
+                label="Approve"
+                buttonType="invertedBtn"
+                onClick={handleApprove}
+              />
+              {
+                submission.status !== 'rejected' &&
+                <AppButton
+                  label="Reject"
+                  buttonType="invertedBtn"
+                  onClick={handleReject}
+                />
+              }
+            </>
+          }
         </div>
       ]}
     />

@@ -110,3 +110,9 @@
 .submissions-page .show-more-btn {
   margin-top: 40px;
 }
+
+.submissions-page .no-tools-text {
+  font-size: 15px;
+  text-align: center;
+  padding-top: 20px;
+}

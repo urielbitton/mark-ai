@@ -21,7 +21,8 @@ export default function NewTool(props) {
 
   const { setToasts, photoPlaceholder, isAdmin } = useContext(StoreContext)
   const { proUser, handleProSubmit, handleProUpdate,
-    proLoading, proTool } = props
+    proLoading, proTool, createTitle, createUrl,
+    createFromSubmission, setExternalAddTool } = props
   const [title, setTitle] = useState("")
   const [tagline, setTagline] = useState("")
   const [shortDescription, setShortDescription] = useState("")
@@ -164,7 +165,7 @@ export default function NewTool(props) {
   const handleCheckURL = () => {
     if (!validateURL(url)) return setToasts(errorToast("Please enter a valid URL."))
     setCheckLoading(true)
-    checkIfURLExists(url, editToolID)
+    checkIfURLExists(url, editMode ? editToolID : null)
       .then((exists) => {
         if (exists) {
           setToasts(infoToast(`The url - ${url} - already belongs to an existing tool on MarkAI. Please choose another url and make sure the tool is not a duplicate.`, true))
@@ -228,6 +229,36 @@ export default function NewTool(props) {
       setType(toolsTypesData[!isOnlineTool ? 0 : 1].value)
     }
   }, [location])
+
+  useEffect(() => {
+    if(createTitle) {
+      setTitle(createTitle)
+      setUrl(createUrl)
+    }
+  },[createTitle])
+
+  useEffect(() => {
+    if(setExternalAddTool) {
+      setExternalAddTool({
+        title,
+        tagline,
+        shortDescription,
+        category,
+        url,
+        tags: tags.split(",").map((tag) => tag.trim()),
+        type,
+        isPaid,
+        hasApp,
+        features,
+        mainImg,
+        logo,
+        images,
+        video,
+      })
+    }
+  },[title, tagline, shortDescription, category, 
+    url, tags, type, isPaid, hasApp, features, 
+    mainImg, logo, images, video])
 
   return (
     <div className="new-tool-page">
@@ -399,7 +430,10 @@ export default function NewTool(props) {
               overwrite
             />
           }
-          <div className="btn-group">
+          <div 
+            className="btn-group"
+            style={{ display: createFromSubmission ? "none" : "flex"}}
+          >
             {
               !editMode ?
                 <>

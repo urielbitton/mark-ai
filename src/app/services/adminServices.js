@@ -4,6 +4,10 @@ import {
   orderBy,
   query, where, writeBatch
 } from "firebase/firestore"
+import { addNewToolService } from "./aitoolsServices"
+import { updateDB } from "./CrudDB"
+import { sendSgEmail } from "./emailServices"
+import { approvedGuestSubmissionEmailTemplate } from "app/data/emailTemplates"
 
 export const updateEveryToolWithProps = (path, props) => {
   if (!props) return
@@ -30,6 +34,14 @@ export const getToolSubmissionByID = (toolID) => {
     })
 }
 
+export const getPromptSubmissionByID = (promptID) => {
+  const promptRef = doc(db, 'promptsSubmissions', promptID)
+  return getDoc(promptRef)
+    .then((doc) => {
+      return doc.data()
+    })
+}
+
 export const getToolsSubmissionsByStatus = (status, lim) => {
   const subRef = collection(db, 'toolsSubmissions')
   const q = query(
@@ -49,11 +61,11 @@ export const getToolsSubmissionsDocCountByStatus = (status) => {
   const q = query(
     subRef,
     where('status', '==', status)
-    )
+  )
   return getCountFromServer(q)
-  .then((count) => {
-    return count.data().count
-  })
+    .then((count) => {
+      return count.data().count
+    })
 }
 
 export const getPromptsSubmissionsByStatus = (status, lim) => {
@@ -77,9 +89,9 @@ export const getPromptsSubmissionsCountByStatus = (status) => {
     where('status', '==', status)
   )
   return getCountFromServer(q)
-  .then((count) => {
-    return count.data().count
-  })
+    .then((count) => {
+      return count.data().count
+    })
 }
 
 export const getGuestToolsSubmissionsByStatus = (status, lim) => {
@@ -103,7 +115,55 @@ export const getGuestToolsSubmissionsCountByStatus = (status) => {
     where('status', '==', status)
   )
   return getCountFromServer(q)
-  .then((count) => {
-    return count.data().count
-  })
+    .then((count) => {
+      return count.data().count
+    })
+}
+
+//create tool from guest submission
+export const adminCreateToolFromGuestSubmission = (tool, submitter, setLoading, setToasts) => {
+  return addNewToolService(
+    {
+      title: tool.title,
+      tagline: tool.tagline,
+      shortDescription: tool.shortDescription,
+      category: tool.category,
+      url: tool.url,
+      tags: tool.tags,
+      type: tool.type,
+      isPaid: tool.isPaid,
+      hasApp: tool.hasApp,
+      features: tool.features,
+      mainImg: tool.mainImg,
+      logo: tool.logo,
+      images: tool.images,
+    },
+    setLoading,
+    setToasts
+  )
+    .then((res) => {
+      if (res !== 'error') {
+        return updateDB('aitools', res, {
+          status: 'approved',
+          dateApproved: new Date(),
+        })
+      }
+    })
+    .then(() => {
+      return updateDB('guestToolsSubmissions', submitter.submissionID, {
+        status: 'approved',
+        dateApproved: new Date(),
+      })
+    })
+    .then(() => {
+      return sendSgEmail(
+        submitter.email,
+        `Thank you for your submission on Mark AI`,
+        approvedGuestSubmissionEmailTemplate(submitter.name, tool.title, tool.url),
+        []
+      )
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }

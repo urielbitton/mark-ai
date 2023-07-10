@@ -1,15 +1,16 @@
 # Mark AI App
 
 ToDos:
-- add features list (e.g. this tool lets you remove backgrounds from images) to tool creation (optional)
-- add above 2 to aitool page
+- admin pages, submissions, users lists and details, table view of tools library and prompts library, etc.
+- on admin dashboard, when reviewing prompts submissions, add feature to check if prompt has any similar keywowrds (may already exist or something too similar) by running an algolia search on the prompt text (similar feature as the URL checker in tools submissions)
 - pro dashboard pages
-- admin pages, submissions, users lists and details, table view of tools, prompts, etc.
-- on admin dashboard, when reviewing prompts submissions, add feature to check if prompt has any similar keywowrds (ma already exist or something too similar) by running an algolia search on the prompt text (similar feature as the URL checker in tools submissions)
 - request new account verification email feature in my account page
 - add form validation on all inputs and forms, especially new tool creation form.
 - make mobile
 - add delete account request feature in account page
+- My account page
+- send out email newsletter with new top 10 added tools each week.
+
 
 Sites To Add:
 

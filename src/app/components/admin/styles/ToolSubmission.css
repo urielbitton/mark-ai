@@ -24,7 +24,8 @@
   padding-bottom: 20px;
   border-bottom: 1px solid var(--inputBorder);
   position: sticky;
-  top: 80px;
+  top: 49px;
+  padding-top: 20px;
   background: #fff;
   z-index: 100;
 }
@@ -37,6 +38,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.tool-submission .tool-submission-card .toolbar .approved-title {
+  color: var(--primary);
+}
+.tool-submission .tool-submission-card .toolbar .rejected-title {
+  color: var(--red);
 }
 
 .tool-submission .grid-content {
@@ -108,6 +115,9 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+}
+.tool-submission .grid-content .grid-item .avatar-container img {
+  min-width: 30px;
 }
 .tool-submission .grid-content .grid-item .avatar-container a {
   white-space: nowrap;

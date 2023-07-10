@@ -1,6 +1,7 @@
 import {
   getGuestToolsSubmissionsByStatus,
   getGuestToolsSubmissionsCountByStatus,
+  getPromptSubmissionByID,
   getPromptsSubmissionsByStatus, getPromptsSubmissionsCountByStatus,
   getToolSubmissionByID,
   getToolsSubmissionsByStatus, getToolsSubmissionsDocCountByStatus
@@ -24,6 +25,25 @@ export const useToolSubmission = (toolID, setLoading) => {
   }, [toolID])
 
   return tool
+}
+
+export const usePromptSubmission = (promptID, setLoading) => {
+
+  const [prompt, setPrompt] = useState(null)
+
+  useEffect(() => {
+    getPromptSubmissionByID(promptID)
+      .then((prompt) => {
+        setPrompt(prompt)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [promptID])  
+
+  return prompt
 }
 
 export const useToolsSubmissionsByStatus = (status, limit, setLoading) => {

@@ -14,6 +14,7 @@ import AppButton from "../ui/AppButton"
 import Submissions from "./Submissions"
 import SubmissionsSearch from "./SubmissionsSearch"
 import ToolSubmission from "./ToolSubmission"
+import PromptSubmission from "./PromptSubmission"
 
 export default function AdminRouter() {
 
@@ -72,6 +73,7 @@ export default function AdminRouter() {
           onClick={handleAddProps}
           loading={loading}
           leftIcon="far fa-plus"
+          buttonType="outlineBtn"
         />
       </AppTabsBar>
       <Routes>
@@ -82,6 +84,7 @@ export default function AdminRouter() {
         <Route path="add-new/prompt" element={<NewPrompt />} />
         <Route path="submissions/*" element={<Submissions />} />
         <Route path="submissions/tool/:toolID" element={<ToolSubmission />} />
+        <Route path="submissions/prompt/:promptID" element={<PromptSubmission />} />
         <Route path="submissions/search/*" element={<SubmissionsSearch />} />
       </Routes>
     </div>

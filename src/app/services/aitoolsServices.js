@@ -8,6 +8,7 @@ import { errorToast, successToast } from "app/data/toastsTemplates"
 import { uploadMultipleFilesToFireStorage } from "./storageServices"
 import { extractDomainFromURL, removeNullOrUndefined } from "app/utils/generalUtils"
 import { compressImagesService } from "app/utils/fileUtils"
+import { createNotification } from "./notifServices"
 
 // Get operations
 export const getAiToolByID = (toolID, setTool) => {
@@ -181,7 +182,7 @@ export const getUserToolsSubmissionsDocsCountByStatusAndType = (userID, path, ty
   const docRef = collection(db, path)
   const q = query(
     docRef,
-    where('submitterID', '==', userID), 
+    where('submitterID', '==', userID),
     where('status', '==', status),
     where('type', '==', type)
   )
@@ -237,11 +238,15 @@ export const checkIfURLExists = (url, toolID) => {
   const q = query(
     toolsRef,
     where('cleanedURL', '==', cleanedURL),
-    toolID && where('toolID', '!=', toolID)
+    where('toolID', '!=', toolID)
   )
   return getDocs(q)
     .then((snapshot) => {
       return snapshot.docs.length > 0
+    })
+    .catch((err) => {
+      console.log(err)
+      return false
     })
 }
 
@@ -316,6 +321,7 @@ export const updateAIToolService = async (tool, toolID, images, setLoading, setT
             .then((imagesURLs) => {
               return updateDB(path, toolID, {
                 ...tool,
+                cleanedURL: extractDomainFromURL(tool.url),
                 ...(mainImgs.length > 0 && { mainImg: mainImgURLs[mainImgURLs.length - 1]?.downloadURL }),
                 ...(logos.length > 0 && { logo: logoURLs[logoURLs.length - 1]?.downloadURL }),
                 ...(toolImages.length > 0 && { images: firebaseArrayAdd(imagesURLs.map(img => img?.downloadURL)) }),
@@ -725,3 +731,145 @@ export const cancelDeletePromptSubmissionService = (path, promptID, setLoading, 
     })
     .catch((err) => catchBlock(err, setLoading, setToasts))
 }
+
+//admin aitools submissions actions
+
+// admin approve tool submission service
+export const adminApproveToolSubmissionService = (tool, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'aitools'
+  return setDB(path, tool.toolID, {
+    ...tool,
+    views: 0
+  })
+    .then(() => {
+      return updateDB('toolsSubmissions', tool.toolID, {
+        status: 'approved',
+        dateApproved: new Date()
+      })
+    })
+    .then(() => {
+      createNotification(
+        tool.submitterID,
+        `Your tool submission has been approved!`,
+        `We are happy to inform you that your tool submission was approved by our team. You can view it here: ${tool.title}`,
+        'fas fa-check-circle',
+        `/ai-tools/${tool.toolID}`,
+      )
+      setLoading(false)
+      setToasts(successToast("Tool submission approved successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+// admin reject tool submission service
+export const adminRejectToolSubmissionService = (tool, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'toolsSubmissions'
+  return updateDB(path, tool.toolID, {
+    status: 'rejected',
+    dateRejected: new Date()
+  })
+    .then(() => {
+      createNotification(
+        tool.submitterID,
+        `Your tool submission has been rejected!`,
+        `We are sorry to inform you that your tool submission was rejected by our team. You can make a new submission if you wish.`,
+        'fas fa-times-circle',
+        `/dashboard/my-${tool.type === 'ai' ? 'ai' : 'online'}-tools/rejected`,
+      )
+      setLoading(false)
+      setToasts(successToast("Tool submission rejected successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const adminDeleteToolSubmissionService = (tool, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'toolsSubmissions'
+  return deleteDB(path, tool.toolID)
+    .then(() => {
+      createNotification(
+        tool.submitterID,
+        `Your tool submission has been deleted`,
+        `We would like to inform you that your tool submission was deleted by our team. If you think this was a mistake, please contact us.`,
+        'fas fa-trash',
+        `/dashboard/my-${tool.type === 'ai' ? 'ai' : 'online'}-tools`,
+      )
+      setLoading(false)
+      setToasts(successToast("Tool submission deleted successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+//admin prompts submissions actions
+
+// admin approve prompt submission service
+export const adminApprovePromptSubmissionService = (prompt, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'prompts'
+  return setDB(path, prompt.promptID, {
+    ...prompt,
+    dateAdded: new Date(),
+    views: 0
+  })
+    .then(() => {
+      return updateDB('promptsSubmissions', prompt.promptID, {
+        status: 'approved',
+        dateApproved: new Date()
+      })
+    })
+    .then(() => {
+      createNotification(
+        prompt.submitterID,
+        `Your prompt submission has been approved!`,
+        `We are happy to inform you that your prompt submission was approved by our team. You can view it here: ${prompt.short}`,
+        'fas fa-check-circle',
+        `/prompts/${prompt.promptID}`,
+      )
+      setLoading(false)
+      setToasts(successToast("Prompt submission approved successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+// admin reject prompt submission service
+export const adminRejectPromptSubmissionService = (prompt, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'promptsSubmissions'
+  return updateDB(path, prompt.promptID, {
+    status: 'rejected',
+    dateRejected: new Date()
+  })
+    .then(() => {
+      createNotification(
+        prompt.submitterID,
+        `Your prompt submission has been rejected!`,
+        `We are sorry to inform you that your prompt submission was rejected by our team. You can make a new submission if you wish.`,
+        'fas fa-times-circle',
+        `/dashboard/my-prompts/rejected`,
+      )
+      setLoading(false)
+      setToasts(successToast("Prompt submission rejected successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
+export const adminDeletePromptSubmissionService = (prompt, setLoading, setToasts) => {
+  setLoading(true)
+  const path = 'promptsSubmissions'
+  return deleteDB(path, prompt.promptID)
+    .then(() => {
+      createNotification(
+        prompt.submitterID,
+        `Your prompt submission has been deleted`,
+        `We would like to inform you that your prompt submission was deleted by our team. If you think this was a mistake, please contact us.`,
+        'fas fa-trash',
+        `/dashboard/my-prompts`,
+      )
+      setLoading(false)
+      setToasts(successToast("Prompt submission deleted successfully."))
+    })
+    .catch((err) => catchBlock(err, setLoading, setToasts))
+}
+
